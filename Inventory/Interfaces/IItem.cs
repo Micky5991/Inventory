@@ -24,6 +24,10 @@ namespace Micky5991.Inventory.Interfaces
 
         bool Stackable { get; }
 
+        IInventory? CurrentInventory { get; }
+
+        void SetCurrentInventory(IInventory? inventory);
+
         void SetAmount(int newAmount);
 
         void SetDisplayName(string displayName);

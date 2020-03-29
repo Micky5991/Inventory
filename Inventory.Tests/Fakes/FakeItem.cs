@@ -24,6 +24,7 @@ namespace Micky5991.Inventory.Tests.Fakes
         public int TotalWeight => Meta.DefaultWeight;
 
         public bool Stackable { get; } = false;
+        public IInventory? CurrentInventory { get; }
 
         public FakeItem(ItemMeta meta)
         {
@@ -38,6 +39,11 @@ namespace Micky5991.Inventory.Tests.Fakes
             RuntimeId = Guid.NewGuid();
 
             Meta = new ItemMeta(handle, typeof(FakeItem), displayName, defaultWeight, flags);
+        }
+
+        public void SetCurrentInventory(IInventory? inventory)
+        {
+            throw new NotImplementedException();
         }
 
         public void SetAmount(int newAmount)
