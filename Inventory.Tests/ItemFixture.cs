@@ -134,6 +134,18 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        public void NonStackableTargetWillNotBeMergable()
+        {
+            var fakeItem = new FakeItem(_item.SingleWeight, ItemHandle, flags: ItemFlags.NotStackable);
+
+            var newMeta = new ItemMeta(_meta.Handle, _meta.Type, _meta.DisplayName, _meta.DefaultWeight, ItemFlags.NotStackable);
+
+            _item = new RealItem(newMeta);
+
+            _item.CanMergeWith(fakeItem).Should().BeFalse();
+        }
+
+        [TestMethod]
         [DataRow(0)]
         [DataRow(-1)]
         public void ItemWithZeroAmountWillNotBeMergable(int itemAmount)

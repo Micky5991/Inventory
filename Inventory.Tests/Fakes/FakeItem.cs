@@ -47,6 +47,7 @@ namespace Micky5991.Inventory.Tests.Fakes
             Meta = new ItemMeta(handle, typeof(FakeItem), displayName, defaultWeight, flags);
             Stackable = (Meta.Flags & ItemFlags.NotStackable) == 0;
             SingleWeight = defaultWeight;
+            Amount = 1;
         }
 
         public void SetCurrentInventory(IInventory? inventory)
