@@ -7,9 +7,10 @@ namespace Micky5991.Inventory.Extensions
     public static class InventoryDependencyExtensions
     {
 
-        public static IServiceCollection AddInventory(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddInventoryServices(this IServiceCollection serviceCollection)
         {
-            return serviceCollection.AddTransient<IInventory, Inventory>();
+            return serviceCollection
+                .AddTransient<IInventoryFactory, InventoryFactory>();
         }
 
         public static IServiceCollection AddItemTypes(this IServiceCollection serviceCollection, IItemRegistry itemRegistry)
