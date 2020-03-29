@@ -15,7 +15,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public string DisplayName { get; set; }
 
-        public int Amount { get; }
+        public int Amount { get; private set; }
 
         public int SingleWeight { get; }
 
@@ -24,7 +24,10 @@ namespace Micky5991.Inventory.Tests.Fakes
         public int TotalWeight => Meta.DefaultWeight;
 
         public bool Stackable { get; } = false;
+
         public IInventory? CurrentInventory { get; private set; }
+
+        public Func<IItem, bool> IsMergableCheck { get; }
 
         public FakeItem(ItemMeta meta)
         {
@@ -32,6 +35,7 @@ namespace Micky5991.Inventory.Tests.Fakes
             Meta = meta;
 
             DisplayName = meta.DisplayName;
+            Amount = 1;
         }
 
         public FakeItem(int defaultWeight, string handle = "testitem", string displayName = "FakeItem", ItemFlags flags = ItemFlags.None)
@@ -48,7 +52,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public void SetAmount(int newAmount)
         {
-            throw new NotImplementedException();
+            Amount = newAmount;
         }
 
         public void SetDisplayName(string displayName)
@@ -58,7 +62,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public bool CanMergeWith(IItem sourceItem)
         {
-            throw new NotImplementedException();
+            return IsMergableCheck == null || IsMergableCheck(sourceItem);
         }
 
         public Task MergeItemAsync(IItem sourceItem)
