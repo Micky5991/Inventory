@@ -118,6 +118,14 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        public async Task RemovingItemFromInventoryThatWasNotAddedWillReturnFalse()
+        {
+            var item = new FakeItem(10);
+
+            (await _inventory.RemoveItemAsync(item)).Should().BeFalse();
+        }
+
+        [TestMethod]
         public async Task AddingItemWithHigherWeightThanCapacityWillThrowException()
         {
             var item = new FakeItem(InventoryCapacity + 1);
