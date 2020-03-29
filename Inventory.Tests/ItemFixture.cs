@@ -42,7 +42,7 @@ namespace Micky5991.Inventory.Tests
 
             item.Meta.Should().Be(_meta);
             item.Handle.Should().Be(_meta.Handle);
-            item.Weight.Should().Be(_meta.DefaultWeight);
+            item.TotalWeight.Should().Be(_meta.DefaultWeight);
             item.DisplayName.Should().Be(_meta.DisplayName);
             item.DefaultDisplayName.Should().Be(_meta.DisplayName);
             item.Stackable.Should().BeTrue();

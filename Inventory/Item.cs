@@ -18,7 +18,7 @@ namespace Micky5991.Inventory
 
         public string DisplayName { get; private set; }
 
-        public int Weight { get; }
+        public int TotalWeight { get; }
 
         public bool Stackable { get; }
 
@@ -32,7 +32,7 @@ namespace Micky5991.Inventory
             RuntimeId = Guid.NewGuid();
             Meta = meta;
 
-            Weight = Meta.DefaultWeight;
+            TotalWeight = Meta.DefaultWeight;
             Handle = Meta.Handle;
             DefaultDisplayName = Meta.DisplayName;
             Stackable = (Meta.Flags & ItemFlags.NotStackable) == 0;

@@ -36,12 +36,12 @@ namespace Micky5991.Inventory
 
         private void RecalculateWeight()
         {
-            UsedCapacity = _items.Values.Sum(x => x.Weight);
+            UsedCapacity = _items.Values.Sum(x => x.TotalWeight);
         }
 
         public bool DoesItemFit(IItem item)
         {
-            return AvailableCapacity >= item.Weight;
+            return AvailableCapacity >= item.TotalWeight;
         }
 
         public bool SetCapacity(int capacity)
