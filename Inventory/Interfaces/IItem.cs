@@ -16,7 +16,7 @@ namespace Micky5991.Inventory.Interfaces
 
         string DisplayName { get; }
 
-        int Weight { get; }
+        int TotalWeight { get; }
 
         bool Stackable { get; }
 

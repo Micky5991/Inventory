@@ -17,7 +17,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public string Handle => Meta.Handle;
 
-        public int Weight => Meta.DefaultWeight;
+        public int TotalWeight => Meta.DefaultWeight;
 
         public bool Stackable { get; } = false;
 
