@@ -13,9 +13,11 @@ namespace Micky5991.Inventory.Interfaces
 
         string DefaultDisplayName { get; }
 
-        string DisplayName { get; set; }
+        string DisplayName { get; }
 
         int Weight { get; }
+
+        void SetDisplayName(string displayName);
 
     }
 }

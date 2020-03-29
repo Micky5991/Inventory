@@ -13,7 +13,7 @@ namespace Micky5991.Inventory
 
         public string DefaultDisplayName { get; }
 
-        public string DisplayName { get; set; }
+        public string DisplayName { get; private set; }
 
         public int Weight { get; }
 
@@ -32,6 +32,16 @@ namespace Micky5991.Inventory
             DefaultDisplayName = Meta.DisplayName;
 
             DisplayName = DefaultDisplayName;
+        }
+
+        public void SetDisplayName(string displayName)
+        {
+            if (string.IsNullOrWhiteSpace(displayName))
+            {
+                throw new ArgumentNullException(nameof(displayName));
+            }
+
+            DisplayName = displayName;
         }
     }
 }
