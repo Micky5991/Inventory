@@ -11,6 +11,7 @@ namespace Micky5991.Inventory.Tests
     public class ItemFixture
     {
         private const string ItemHandle = "testhandle";
+        private const string ItemDisplayName = "FakeItem";
         private const int ItemWeight = 50;
         private const ItemFlags ItemFlags = Enums.ItemFlags.None;
 
@@ -20,7 +21,7 @@ namespace Micky5991.Inventory.Tests
         [TestInitialize]
         public void Setup()
         {
-            _meta = new ItemMeta(ItemHandle, typeof(RealItem), ItemWeight, ItemFlags);
+            _meta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
             _item = new RealItem(_meta);
         }
 
@@ -42,6 +43,8 @@ namespace Micky5991.Inventory.Tests
             item.Meta.Should().Be(_meta);
             item.Handle.Should().Be(_meta.Handle);
             item.Weight.Should().Be(_meta.DefaultWeight);
+            item.DisplayName.Should().Be(_meta.DisplayName);
+            item.DefaultDisplayName.Should().Be(_meta.DisplayName);
 
             item.RuntimeId.Should().NotBe(Guid.Empty);
         }
@@ -54,6 +57,23 @@ namespace Micky5991.Inventory.Tests
             act.Should().Throw<ArgumentNullException>();
         }
 
+        [TestMethod]
+        public void ChangingDisplayNameUpdatesValueCorrecly()
+        {
+            _item.DisplayName = "Cool";
+
+            _item.DisplayName.Should().Be("Cool");
+        }
+
+        [TestMethod]
+        public void ChangingDisplayNameKeepsValueInDefaultDisplayNameSame()
+        {
+            _item.DisplayName = "Other";
+
+            var oldName = _item.DefaultDisplayName;
+
+            _item.DefaultDisplayName.Should().Be(oldName);
+        }
 
     }
 }

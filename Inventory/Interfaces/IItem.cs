@@ -11,6 +11,10 @@ namespace Micky5991.Inventory.Interfaces
 
         ItemMeta Meta { get; }
 
+        string DefaultDisplayName { get; }
+
+        string DisplayName { get; set; }
+
         int Weight { get; }
 
     }

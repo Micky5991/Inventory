@@ -14,10 +14,11 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ItemMetaConstructorSetsProperties()
         {
-            var meta = new ItemMeta("testhandle", typeof(FakeItem), 5, ItemFlags.NotStackable);
+            var meta = new ItemMeta("testhandle", typeof(FakeItem), "FakeItem", 5, ItemFlags.NotStackable);
 
             meta.Handle.Should().Be("testhandle");
             meta.Type.Should().Be(typeof(FakeItem));
+            meta.DisplayName.Should().Be("FakeItem");
             meta.DefaultWeight.Should().Be(5);
             meta.Flags.Should().Be(ItemFlags.NotStackable);
         }
@@ -25,7 +26,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ItemMetaWithTypeThatDoesNotImplementItemInterfaceWillThrowException()
         {
-            Action act = () => new ItemMeta("testhandle", typeof(int), 5);
+            Action act = () => new ItemMeta("testhandle", typeof(int), "FakeItem", 5);
 
             act.Should().Throw<ArgumentException>()
                 .Where(x => x.Message.Contains(typeof(IItem).ToString()));
@@ -34,7 +35,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ItemMetaWithNullTypeWillThrowException()
         {
-            Action act = () => new ItemMeta("testhandle", null, 1);
+            Action act = () => new ItemMeta("testhandle", null, "FakeItem", 1);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -46,7 +47,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(int.MinValue)]
         public void ItemMetaWithInvalidDefaultWeightTypeWillThrowException(int weight)
         {
-            Action act = () => new ItemMeta("testhandle", typeof(FakeItem), weight);
+            Action act = () => new ItemMeta("testhandle", typeof(FakeItem), "FakeItem", weight);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("1 or higher"));
@@ -58,7 +59,18 @@ namespace Micky5991.Inventory.Tests
         [DataRow(new string[] { " " })]
         public void ItemMetaWithInvalidItemHandleWillThrowException(string[] handles)
         {
-            Action act = () => new ItemMeta(handles[0], typeof(FakeItem), 1);
+            Action act = () => new ItemMeta(handles[0], typeof(FakeItem), "FakeItem", 1);
+
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [TestMethod]
+        [DataRow(new string[] { null })]
+        [DataRow(new string[] { "" })]
+        [DataRow(new string[] { " " })]
+        public void ItemMetaWithInvalidDisplayNameWillThrowException(string[] displayNames)
+        {
+            Action act = () => new ItemMeta("fakehandle", typeof(FakeItem), displayNames[0], 1);
 
             act.Should().Throw<ArgumentException>();
         }

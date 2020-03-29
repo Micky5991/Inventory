@@ -9,6 +9,10 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public ItemMeta Meta { get; }
 
+        public string DefaultDisplayName => Meta.DisplayName;
+
+        public string DisplayName { get; set; }
+
         public string Handle => Meta.Handle;
         public int Weight => Meta.DefaultWeight;
 
@@ -16,13 +20,15 @@ namespace Micky5991.Inventory.Tests.Fakes
         {
             RuntimeId = Guid.NewGuid();
             Meta = meta;
+
+            DisplayName = meta.DisplayName;
         }
 
-        public FakeItem(int defaultWeight, string handle = "testitem")
+        public FakeItem(int defaultWeight, string handle = "testitem", string displayName = "FakeItem")
         {
             RuntimeId = Guid.NewGuid();
 
-            Meta = new ItemMeta(handle, typeof(FakeItem), defaultWeight);
+            Meta = new ItemMeta(handle, typeof(FakeItem), displayName, defaultWeight);
         }
     }
 }
