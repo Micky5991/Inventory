@@ -7,7 +7,7 @@ namespace Micky5991.Inventory
 {
     public abstract class Item : IItem
     {
-        internal const int MinimalItemAmount = 0;
+        internal static int MinimalItemAmount { get; set; } = 0;
 
         public string Handle { get; }
 
@@ -55,7 +55,9 @@ namespace Micky5991.Inventory
 
         public void SetAmount(int newAmount)
         {
-            var minAmount = Math.Max(MinimalItemAmount, 0);
+            const int hardAmountMinimum = 0;
+
+            var minAmount = Math.Max(MinimalItemAmount, hardAmountMinimum);
 
             if (newAmount < minAmount)
             {
