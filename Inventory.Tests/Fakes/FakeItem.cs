@@ -25,7 +25,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public bool Stackable { get; set; } = true;
 
-        public IInventory? CurrentInventory { get; private set; }
+        public IInventory CurrentInventory { get; private set; }
 
         public Func<IItem, bool> IsMergableCheck { get; }
 
@@ -45,12 +45,14 @@ namespace Micky5991.Inventory.Tests.Fakes
             RuntimeId = Guid.NewGuid();
 
             Meta = new ItemMeta(handle, typeof(FakeItem), displayName, defaultWeight, flags);
+
             Stackable = (Meta.Flags & ItemFlags.NotStackable) == 0;
+            DisplayName = Meta.DisplayName;
             SingleWeight = defaultWeight;
             Amount = 1;
         }
 
-        public void SetCurrentInventory(IInventory? inventory)
+        public void SetCurrentInventory(IInventory inventory)
         {
             CurrentInventory = inventory;
         }

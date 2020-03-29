@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 
@@ -41,7 +42,7 @@ namespace Micky5991.Inventory
             return true;
         }
 
-        public async Task<bool> RemoveItemAsync(IItem item)
+        public async Task<bool> RemoveItemAsync([NotNull] IItem item)
         {
             if (item == null)
             {

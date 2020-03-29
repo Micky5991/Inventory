@@ -34,8 +34,8 @@ namespace Micky5991.Inventory.Interfaces
 
         void SetDisplayName(string displayName);
 
-        bool CanMergeWith(IItem sourceItem);
-        Task MergeItemAsync(IItem sourceItem);
+        bool CanMergeWith([NotNull] IItem sourceItem);
+        Task MergeItemAsync([NotNull] IItem sourceItem);
 
     }
 }
