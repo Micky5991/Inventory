@@ -8,6 +8,8 @@ namespace Micky5991.Inventory
 {
     public abstract class Item : IItem
     {
+        internal const int MinimalItemAmount = 1;
+
         public string Handle { get; }
 
         public Guid RuntimeId { get; }
@@ -18,7 +20,11 @@ namespace Micky5991.Inventory
 
         public string DisplayName { get; private set; }
 
-        public int TotalWeight { get; }
+        public int Amount { get; private set; }
+
+        public int SingleWeight { get; }
+
+        public int TotalWeight => SingleWeight * Amount;
 
         public bool Stackable { get; }
 
@@ -32,12 +38,23 @@ namespace Micky5991.Inventory
             RuntimeId = Guid.NewGuid();
             Meta = meta;
 
-            TotalWeight = Meta.DefaultWeight;
+            SingleWeight = Meta.DefaultWeight;
             Handle = Meta.Handle;
             DefaultDisplayName = Meta.DisplayName;
             Stackable = (Meta.Flags & ItemFlags.NotStackable) == 0;
 
             DisplayName = DefaultDisplayName;
+            Amount = MinimalItemAmount;
+        }
+
+        public void SetAmount(int newAmount)
+        {
+            if (newAmount < MinimalItemAmount)
+            {
+                throw new ArgumentOutOfRangeException(nameof(newAmount), $"Amount should be {MinimalItemAmount} or higher.");
+            }
+
+            Amount = newAmount;
         }
 
         public void SetDisplayName(string displayName)
