@@ -60,7 +60,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameUpdatesValueCorrecly()
         {
-            _item.DisplayName = "Cool";
+            _item.SetDisplayName("Cool");
 
             _item.DisplayName.Should().Be("Cool");
         }
@@ -68,11 +68,24 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameKeepsValueInDefaultDisplayNameSame()
         {
-            _item.DisplayName = "Other";
+            _item.SetDisplayName("Other");
 
             var oldName = _item.DefaultDisplayName;
 
             _item.DefaultDisplayName.Should().Be(oldName);
+        }
+
+        [TestMethod]
+        [DataRow(null)]
+        [DataRow("")]
+        [DataRow(" ")]
+        public void SettingDisplayNameToNullThrowsException(string displayName)
+        {
+            var oldName = _item.DisplayName;
+            Action act = () => _item.SetDisplayName(displayName);
+
+            act.Should().Throw<ArgumentNullException>();
+            _item.DisplayName.Should().Be(oldName);
         }
 
     }

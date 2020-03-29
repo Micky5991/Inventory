@@ -30,5 +30,10 @@ namespace Micky5991.Inventory.Tests.Fakes
 
             Meta = new ItemMeta(handle, typeof(FakeItem), displayName, defaultWeight);
         }
+
+        public void SetDisplayName(string displayName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

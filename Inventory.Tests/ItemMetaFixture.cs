@@ -54,23 +54,23 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        [DataRow(new string[] { null })]
-        [DataRow(new string[] { "" })]
-        [DataRow(new string[] { " " })]
-        public void ItemMetaWithInvalidItemHandleWillThrowException(string[] handles)
+        [DataRow(null)]
+        [DataRow("")]
+        [DataRow(" ")]
+        public void ItemMetaWithInvalidItemHandleWillThrowException(string handle)
         {
-            Action act = () => new ItemMeta(handles[0], typeof(FakeItem), "FakeItem", 1);
+            Action act = () => new ItemMeta(handle, typeof(FakeItem), "FakeItem", 1);
 
             act.Should().Throw<ArgumentException>();
         }
 
         [TestMethod]
-        [DataRow(new string[] { null })]
-        [DataRow(new string[] { "" })]
-        [DataRow(new string[] { " " })]
-        public void ItemMetaWithInvalidDisplayNameWillThrowException(string[] displayNames)
+        [DataRow(null)]
+        [DataRow("")]
+        [DataRow(" ")]
+        public void ItemMetaWithInvalidDisplayNameWillThrowException(string displayName)
         {
-            Action act = () => new ItemMeta("fakehandle", typeof(FakeItem), displayNames[0], 1);
+            Action act = () => new ItemMeta("fakehandle", typeof(FakeItem), displayName, 1);
 
             act.Should().Throw<ArgumentException>();
         }
