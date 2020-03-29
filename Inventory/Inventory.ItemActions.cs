@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Micky5991.Inventory.Interfaces;
 
@@ -5,22 +6,42 @@ namespace Micky5991.Inventory
 {
     internal partial class Inventory
     {
-        public Task InsertItemAsync(IItem item)
+        public async Task<bool> InsertItemAsync(IItem item)
         {
-            _items.TryAdd(item.RuntimeId, item);
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
 
-            RecalculateWeight();
+            var success = _items.TryAdd(item.RuntimeId, item);
 
-            return Task.CompletedTask;
+            if (success == false)
+            {
+                return false;
+            }
+
+            await OnItemAdded(item);
+
+            return true;
         }
 
-        public Task RemoveItemAsync(IItem item)
+        public async Task<bool> RemoveItemAsync(IItem item)
         {
-            _items.TryRemove(item.RuntimeId, out _);
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
 
-            RecalculateWeight();
+            var success = _items.TryRemove(item.RuntimeId, out _);
 
-            return Task.CompletedTask;
+            if (success == false)
+            {
+                return false;
+            }
+
+            await OnItemRemoved(item);
+
+            return true;
         }
 
     }
