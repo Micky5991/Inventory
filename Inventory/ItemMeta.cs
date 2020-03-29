@@ -11,6 +11,8 @@ namespace Micky5991.Inventory
 
         public Type Type { get; }
 
+        public string DisplayName { get; }
+
         public int DefaultWeight { get; }
 
         public ItemFlags Flags { get; }
@@ -20,16 +22,22 @@ namespace Micky5991.Inventory
         /// </summary>
         /// <param name="handle">Unique handle of item</param>
         /// <param name="type">Underlying type of item that this item will be implemented of</param>
+        /// <param name="displayName">Default display name this item should have</param>
         /// <param name="defaultWeight">Default item weight of this item.</param>
         /// <param name="flags">Behaviour flags of this item</param>
         /// <exception cref="ArgumentException"><paramref name="type"/> is invalid</exception>
         /// <exception cref="ArgumentNullException"><paramref name="handle"/> or <paramref name="type"/> is null</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="defaultWeight"/> is 0 or lower</exception>
-        public ItemMeta(string handle, Type type, int defaultWeight, ItemFlags flags = ItemFlags.None)
+        public ItemMeta(string handle, Type type, string displayName, int defaultWeight, ItemFlags flags = ItemFlags.None)
         {
             if (string.IsNullOrWhiteSpace(handle))
             {
                 throw new ArgumentNullException(nameof(handle));
+            }
+
+            if (string.IsNullOrWhiteSpace(displayName))
+            {
+                throw new ArgumentNullException(nameof(displayName));
             }
 
             if (type == null)
@@ -49,6 +57,7 @@ namespace Micky5991.Inventory
 
             Handle = handle;
             Type = type;
+            DisplayName = displayName;
             DefaultWeight = defaultWeight;
             Flags = flags;
         }

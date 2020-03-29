@@ -11,6 +11,10 @@ namespace Micky5991.Inventory
 
         public ItemMeta Meta { get; }
 
+        public string DefaultDisplayName { get; }
+
+        public string DisplayName { get; set; }
+
         public int Weight { get; }
 
         protected Item(ItemMeta meta)
@@ -25,6 +29,9 @@ namespace Micky5991.Inventory
 
             Weight = Meta.DefaultWeight;
             Handle = Meta.Handle;
+            DefaultDisplayName = Meta.DisplayName;
+
+            DisplayName = DefaultDisplayName;
         }
     }
 }
