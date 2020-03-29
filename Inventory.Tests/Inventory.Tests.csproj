@@ -5,7 +5,7 @@
         <AssemblyName>Micky5991.Inventory.Tests</AssemblyName>
         <RootNamespace>Micky5991.Inventory.Tests</RootNamespace>
         <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
