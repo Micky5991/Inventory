@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions;
 using Micky5991.Inventory.Enums;
+using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -26,7 +27,8 @@ namespace Micky5991.Inventory.Tests
         {
             Action act = () => new ItemMeta("testhandle", typeof(int), 5);
 
-            act.Should().Throw<ArgumentException>();
+            act.Should().Throw<ArgumentException>()
+                .Where(x => x.Message.Contains(typeof(IItem).ToString()));
         }
 
         [TestMethod]
@@ -46,7 +48,8 @@ namespace Micky5991.Inventory.Tests
         {
             Action act = () => new ItemMeta("testhandle", typeof(FakeItem), weight);
 
-            act.Should().Throw<ArgumentOutOfRangeException>();
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .Where(x => x.Message.Contains("1 or higher"));
         }
 
         [TestMethod]
