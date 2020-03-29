@@ -21,8 +21,8 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        [DataRow(-1)]
-        [DataRow(-2)]
+        [DataRow(Inventory.MinimalInventoryCapacity - 1)]
+        [DataRow(Inventory.MinimalInventoryCapacity - 2)]
         [DataRow(int.MinValue)]
         public void CreatingInventoryWithInvalidCapacityThrowsException(int capacity)
         {
@@ -32,9 +32,9 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        [DataRow(0)]
-        [DataRow(1)]
-        [DataRow(100)]
+        [DataRow(Inventory.MinimalInventoryCapacity)]
+        [DataRow(Inventory.MinimalInventoryCapacity + 1)]
+        [DataRow(Inventory.MinimalInventoryCapacity + 2)]
         [DataRow(int.MaxValue)]
         public void CreatingInventoryWithCapacityWillSetCapacityValues(int capacity)
         {

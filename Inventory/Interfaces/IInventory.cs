@@ -6,7 +6,6 @@ namespace Micky5991.Inventory.Interfaces
 {
     public interface IInventory
     {
-
         IReadOnlyDictionary<Guid, IItem> Items { get; }
 
         int Capacity { get; }
