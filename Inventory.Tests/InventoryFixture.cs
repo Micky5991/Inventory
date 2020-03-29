@@ -76,7 +76,8 @@ namespace Micky5991.Inventory.Tests
         {
             Func<Task> act = () => _inventory.InsertItemAsync(null);
 
-            await act.Should().ThrowAsync<ArgumentNullException>();
+            (await act.Should().ThrowAsync<ArgumentNullException>())
+                .Where(x => string.IsNullOrWhiteSpace(x.Message) == false);
         }
 
         [TestMethod]
@@ -132,7 +133,11 @@ namespace Micky5991.Inventory.Tests
 
             Func<Task> act = () => _inventory.InsertItemAsync(item);
 
-            await act.Should().ThrowAsync<InventoryCapacityException>();
+            (await act.Should().ThrowAsync<InventoryCapacityException>())
+                .Where(x =>
+                            x.Message.Contains(item.Handle) &&
+                            x.Message.Contains(item.RuntimeId.ToString())
+                            );
         }
 
         [TestMethod]
