@@ -3,7 +3,7 @@ using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory
 {
-    public class Item : IItem
+    public abstract class Item : IItem
     {
         public string Handle { get; }
 
@@ -13,9 +13,14 @@ namespace Micky5991.Inventory
 
         public int Weight { get; }
 
-        public Item(Guid runtimeId, ItemMeta meta)
+        protected Item(ItemMeta meta)
         {
-            RuntimeId = runtimeId;
+            if (meta == null)
+            {
+                throw new ArgumentNullException(nameof(meta));
+            }
+
+            RuntimeId = Guid.NewGuid();
             Meta = meta;
 
             Weight = Meta.DefaultWeight;
