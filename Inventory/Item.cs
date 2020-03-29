@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Interfaces;
@@ -8,7 +7,7 @@ namespace Micky5991.Inventory
 {
     public abstract class Item : IItem
     {
-        internal const int MinimalItemAmount = 1;
+        internal const int MinimalItemAmount = 0;
 
         public string Handle { get; }
 
@@ -46,7 +45,7 @@ namespace Micky5991.Inventory
             Stackable = (Meta.Flags & ItemFlags.NotStackable) == 0;
 
             DisplayName = DefaultDisplayName;
-            Amount = MinimalItemAmount;
+            Amount = Math.Max(MinimalItemAmount, 1);
         }
 
         public void SetCurrentInventory(IInventory? inventory)

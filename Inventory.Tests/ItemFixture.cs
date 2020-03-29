@@ -50,7 +50,7 @@ namespace Micky5991.Inventory.Tests
             item.SingleWeight.Should().Be(_meta.DefaultWeight);
             item.DisplayName.Should().Be(_meta.DisplayName);
             item.DefaultDisplayName.Should().Be(_meta.DisplayName);
-            item.Amount.Should().Be(1);
+            item.Amount.Should().Be(Math.Max(Item.MinimalItemAmount, 1));
             item.Stackable.Should().BeTrue();
 
             item.RuntimeId.Should().NotBe(Guid.Empty);
