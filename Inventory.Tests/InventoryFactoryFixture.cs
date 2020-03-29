@@ -1,3 +1,4 @@
+using System;
 using FluentAssertions;
 using Micky5991.Inventory.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -27,6 +28,7 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        [DataRow(0)]
         [DataRow(1)]
         [DataRow(10)]
         [DataRow(100)]
@@ -35,6 +37,17 @@ namespace Micky5991.Inventory.Tests
             var inventory = _inventoryFactory.CreateInventory(capacity);
 
             inventory.Capacity.Should().Be(capacity);
+        }
+
+        [TestMethod]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        [DataRow(int.MinValue)]
+        public void CreatingInventoryWithInvalidWeightWillThrowException(int capacity)
+        {
+            Action act = () => _inventoryFactory.CreateInventory(capacity);
+
+            act.Should().Throw<ArgumentOutOfRangeException>();
         }
     }
 }

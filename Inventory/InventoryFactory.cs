@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using Micky5991.Inventory.Interfaces;
 
@@ -10,6 +11,11 @@ namespace Micky5991.Inventory
 
         public IInventory CreateInventory(int capacity)
         {
+            if (capacity < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(capacity));
+            }
+
             return new Inventory(capacity);
         }
 
