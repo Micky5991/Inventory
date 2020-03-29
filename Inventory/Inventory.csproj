@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <AssemblyName>Micky5991.Inventory</AssemblyName>
+        <RootNamespace>Micky5991.Inventory</RootNamespace>
+        <LangVersion>8</LangVersion>
+        <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>Micky5991.Inventory</PackageId>
+        <Title>General purpose inventory framework </Title>
+        <Copyright>2020 Micky5991</Copyright>
+        <PackageProjectUrl>https://github.com/Micky5991/Inventory</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/Micky5991/Inventory/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/Micky5991/Inventory</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+
+</Project>
