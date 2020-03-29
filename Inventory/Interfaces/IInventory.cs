@@ -15,6 +15,8 @@ namespace Micky5991.Inventory.Interfaces
 
         int AvailableCapacity { get; }
 
+        bool DoesItemFit(IItem item);
+
         Task<bool> InsertItemAsync(IItem item);
 
         Task<bool> RemoveItemAsync(IItem item);

@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory
@@ -11,6 +12,11 @@ namespace Micky5991.Inventory
             if (item == null)
             {
                 throw new ArgumentNullException(nameof(item));
+            }
+
+            if (DoesItemFit(item) == false)
+            {
+                throw new InventoryCapacityException(nameof(item), item);
             }
 
             var success = _items.TryAdd(item.RuntimeId, item);
