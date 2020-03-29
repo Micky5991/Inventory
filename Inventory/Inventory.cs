@@ -8,6 +8,8 @@ namespace Micky5991.Inventory
 {
     internal partial class Inventory : IInventory
     {
+        internal const int MinimalInventoryCapacity = 0;
+
         public IReadOnlyDictionary<Guid, IItem> Items { get; }
 
         public int Capacity { get; private set; }
@@ -20,7 +22,7 @@ namespace Micky5991.Inventory
 
         internal Inventory(int capacity)
         {
-            if (capacity < 0)
+            if (capacity < MinimalInventoryCapacity)
             {
                 throw new ArgumentOutOfRangeException(nameof(capacity));
             }
