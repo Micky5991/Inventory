@@ -1,8 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace Micky5991.Inventory.Interfaces
 {
+    [PublicAPI]
     public interface IItem
     {
 

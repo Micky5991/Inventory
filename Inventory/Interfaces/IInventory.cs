@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace Micky5991.Inventory.Interfaces
 {
+    [PublicAPI]
     public interface IInventory
     {
         IReadOnlyDictionary<Guid, IItem> Items { get; }
