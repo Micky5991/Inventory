@@ -4,6 +4,7 @@ using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Micky5991.Inventory.Tests
 {
@@ -18,11 +19,15 @@ namespace Micky5991.Inventory.Tests
         private ItemMeta _meta;
         private Item _item;
 
+        private Mock<IInventory> _inventoryMock;
+
         [TestInitialize]
         public void Setup()
         {
             _meta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
             _item = new RealItem(_meta);
+
+            _inventoryMock = new Mock<IInventory>();
         }
 
         [TestMethod]
@@ -161,6 +166,16 @@ namespace Micky5991.Inventory.Tests
                 .Where(x => x.Message.Contains($"{Item.MinimalItemAmount} or higher"));
 
             _item.Amount.Should().Be(oldAmount);
+        }
+
+        [TestMethod]
+        public void SettingCurrentInventoryWillUpdateValue()
+        {
+            _item.SetCurrentInventory(_inventoryMock.Object);
+            _item.CurrentInventory.Should().Be(_inventoryMock.Object);
+
+            _item.SetCurrentInventory(null);
+            _item.CurrentInventory.Should().BeNull();
         }
 
     }

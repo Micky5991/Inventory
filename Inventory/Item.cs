@@ -28,6 +28,8 @@ namespace Micky5991.Inventory
 
         public bool Stackable { get; }
 
+        public IInventory? CurrentInventory { get; private set; }
+
         protected Item(ItemMeta meta)
         {
             if (meta == null)
@@ -45,6 +47,11 @@ namespace Micky5991.Inventory
 
             DisplayName = DefaultDisplayName;
             Amount = MinimalItemAmount;
+        }
+
+        public void SetCurrentInventory(IInventory? inventory)
+        {
+            CurrentInventory = inventory;
         }
 
         public void SetAmount(int newAmount)
