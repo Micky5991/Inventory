@@ -11,11 +11,13 @@ namespace Micky5991.Inventory.Interfaces
 
         int Capacity { get; }
 
+        int UsedCapacity { get; }
+
         int AvailableCapacity { get; }
 
-        Task InsertItemAsync(IItem item);
+        Task<bool> InsertItemAsync(IItem item);
 
-        Task RemoveItemAsync(IItem item);
+        Task<bool> RemoveItemAsync(IItem item);
 
     }
 }

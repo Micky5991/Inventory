@@ -20,6 +20,11 @@ namespace Micky5991.Inventory
 
         internal Inventory(int capacity)
         {
+            if (capacity < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(capacity));
+            }
+
             _items = new ConcurrentDictionary<Guid, IItem>();
             Items = _items;
 
