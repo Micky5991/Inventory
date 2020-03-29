@@ -19,6 +19,16 @@ namespace Micky5991.Inventory
                 throw new InventoryCapacityException(nameof(item), item);
             }
 
+            if (item.CurrentInventory != null && item.CurrentInventory != this)
+            {
+                var oldInventoryRemoveSuccess = await item.CurrentInventory.RemoveItemAsync(item);
+
+                if (oldInventoryRemoveSuccess == false)
+                {
+                    return false;
+                }
+            }
+
             var success = _items.TryAdd(item.RuntimeId, item);
 
             if (success == false)
