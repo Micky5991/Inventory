@@ -32,6 +32,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(1)]
         [DataRow(10)]
         [DataRow(100)]
+        [DataRow(int.MaxValue)]
         public void SetsCorrectInitialCapacityToInventory(int capacity)
         {
             var inventory = _inventoryFactory.CreateInventory(capacity);
