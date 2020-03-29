@@ -55,9 +55,11 @@ namespace Micky5991.Inventory
 
         public void SetAmount(int newAmount)
         {
-            if (newAmount < MinimalItemAmount)
+            var minAmount = Math.Max(MinimalItemAmount, 0);
+
+            if (newAmount < minAmount)
             {
-                throw new ArgumentOutOfRangeException(nameof(newAmount), $"Amount should be {MinimalItemAmount} or higher.");
+                throw new ArgumentOutOfRangeException(nameof(newAmount), $"Amount should be {minAmount} or higher.");
             }
 
             Amount = newAmount;
@@ -80,12 +82,26 @@ namespace Micky5991.Inventory
                 return false;
             }
 
-            return Handle == sourceItem.Handle && Stackable && sourceItem.Stackable;
+            return Handle == sourceItem.Handle && sourceItem.Amount > 0 && Stackable && sourceItem.Stackable;
         }
 
         public Task MergeItemAsync(IItem sourceItem)
         {
-            throw new NotImplementedException();
+            if (sourceItem == null)
+            {
+                throw new ArgumentNullException(nameof(sourceItem));
+            }
+
+            if (sourceItem == this)
+            {
+                throw new ArgumentException("Could not merge item with itself", nameof(sourceItem));
+            }
+
+            SetAmount(Amount + sourceItem.Amount);
+
+            sourceItem.SetAmount(0);
+
+            return Task.CompletedTask;
         }
     }
 }

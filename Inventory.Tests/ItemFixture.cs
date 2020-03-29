@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Interfaces;
@@ -123,6 +124,16 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        public void ItemWithZeroAmountWillNotBeMergable()
+        {
+            var fakeItem = new FakeItem(10);
+
+            fakeItem.SetAmount(0);
+
+            _item.CanMergeWith(fakeItem).Should().BeFalse();
+        }
+
+        [TestMethod]
         public void SameItemWillNotBeMergable()
         {
             _item.CanMergeWith(_item).Should().BeFalse();
@@ -163,7 +174,7 @@ namespace Micky5991.Inventory.Tests
             Action act = () => _item.SetAmount(amount);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .Where(x => x.Message.Contains($"{Item.MinimalItemAmount} or higher"));
+                .Where(x => x.Message.Contains($"{Math.Max(Item.MinimalItemAmount, 0)} or higher"));
 
             _item.Amount.Should().Be(oldAmount);
         }
@@ -176,6 +187,49 @@ namespace Micky5991.Inventory.Tests
 
             _item.SetCurrentInventory(null);
             _item.CurrentInventory.Should().BeNull();
+        }
+
+        [TestMethod]
+        public async Task MergingItemWillSumAmount()
+        {
+            var otherItem = new FakeItem(10);
+            otherItem.SetAmount(2);
+
+            _item.SetAmount(2);
+
+            await _item.MergeItemAsync(otherItem);
+
+            _item.Amount.Should().Be(4);
+            otherItem.Amount.Should().Be(0);
+        }
+
+        [TestMethod]
+        public async Task MergingItemWithItselfWillThrowException()
+        {
+            Func<Task> act = () => _item.MergeItemAsync(_item);
+
+            (await act.Should().ThrowAsync<ArgumentException>())
+                .Where(x => x.Message.Contains("itself"));
+        }
+
+        [TestMethod]
+        public async Task MergingItemWithNullWillThrowException()
+        {
+            Func<Task> act = () => _item.MergeItemAsync(null);
+
+            await act.Should().ThrowAsync<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public async Task MergingItemWithUnmergableItemWillThrowException()
+        {
+            var otherItem = new Mock<IItem>();
+
+            otherItem.SetupGet(x => x.Stackable).Returns(false);
+
+            Func<Task> act = () => _item.MergeItemAsync(_item);
+
+            await act.Should().ThrowAsync<ArgumentException>();
         }
 
     }
