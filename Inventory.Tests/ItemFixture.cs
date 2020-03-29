@@ -124,13 +124,27 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        public void ItemWithZeroAmountWillNotBeMergable()
+        [DataRow(0)]
+        [DataRow(-1)]
+        public void ItemWithZeroAmountWillNotBeMergable(int itemAmount)
         {
-            var fakeItem = new FakeItem(10);
+            var fakeItem = new FakeItem(10, _item.Handle);
 
-            fakeItem.SetAmount(0);
+            fakeItem.SetAmount(itemAmount);
 
             _item.CanMergeWith(fakeItem).Should().BeFalse();
+        }
+
+        [TestMethod]
+        [DataRow(1)]
+        [DataRow(2)]
+        public void ItemWithPositiveItemAmountWillBeMergable(int itemAmount)
+        {
+            var fakeItem = new FakeItem(10, _item.Handle);
+
+            fakeItem.SetAmount(itemAmount);
+
+            _item.CanMergeWith(fakeItem).Should().BeTrue();
         }
 
         [TestMethod]
@@ -140,38 +154,41 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        [DataRow(Item.MinimalItemAmount + 1)]
-        [DataRow(Item.MinimalItemAmount + 10)]
-        [DataRow(Item.MinimalItemAmount + 100)]
-        public void SettingAmountWillUpdateWeightAndAmount(int amount)
+        [DataRow(1)]
+        [DataRow(10)]
+        [DataRow(100)]
+        public void SettingAmountWillUpdateWeightAndAmount(int amountDelta)
         {
             var singleWeight = _meta.DefaultWeight;
-            _item.SetAmount(amount);
+            var targetAmount = Item.MinimalItemAmount + amountDelta;
 
-            _item.Amount.Should().Be(amount);
-            _item.TotalWeight.Should().Be(singleWeight * amount);
+            _item.SetAmount(targetAmount);
+
+            _item.Amount.Should().Be(targetAmount);
+            _item.TotalWeight.Should().Be(singleWeight * targetAmount);
         }
 
         [TestMethod]
-        [DataRow(Item.MinimalItemAmount)]
-        [DataRow(Item.MinimalItemAmount + 3)]
-        [DataRow(Item.MinimalItemAmount + 7)]
-        [DataRow(Item.MinimalItemAmount + 11)]
-        public void TotalWeightIsMultipleOfSingleWeightAndAmount(int amount)
+        [DataRow(0)]
+        [DataRow(3)]
+        [DataRow(7)]
+        [DataRow(11)]
+        public void TotalWeightIsMultipleOfSingleWeightAndAmount(int amountDelta)
         {
-            _item.SetAmount(amount);
+            var actualAmount = Item.MinimalItemAmount + amountDelta;
 
-            (_item.TotalWeight / _item.SingleWeight).Should().Be(amount);
+            _item.SetAmount(actualAmount);
+
+            (_item.TotalWeight / _item.SingleWeight).Should().Be(actualAmount);
         }
 
         [TestMethod]
-        [DataRow(Item.MinimalItemAmount - 1)]
-        [DataRow(Item.MinimalItemAmount - 2)]
-        [DataRow(int.MinValue)]
-        public void SettingItemAmountBelowMinimalAllowedItemAmountThrowsException(int amount)
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void SettingItemAmountBelowMinimalAllowedItemAmountThrowsException(int amountDelta)
         {
             var oldAmount = _item.Amount;
-            Action act = () => _item.SetAmount(amount);
+            Action act = () => _item.SetAmount(Item.MinimalItemAmount + amountDelta);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains($"{Math.Max(Item.MinimalItemAmount, 0)} or higher"));
@@ -230,6 +247,17 @@ namespace Micky5991.Inventory.Tests
             Func<Task> act = () => _item.MergeItemAsync(_item);
 
             await act.Should().ThrowAsync<ArgumentException>();
+        }
+
+        [TestMethod]
+        public void DetectionOfMinimalAmountDetectsRightAmount()
+        {
+            Item.MinimalItemAmount = -10;
+
+            Action act = () => _item.SetAmount(-5);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .Where(x => x.Message.Contains("0"));
         }
 
     }

@@ -319,7 +319,9 @@ namespace Micky5991.Inventory.Tests
                 .Setup(x => x.RemoveItemAsync(_itemMock.Object))
                 .ReturnsAsync(false);
 
-            await _inventory.InsertItemAsync(_itemMock.Object);
+            var success = await _inventory.InsertItemAsync(_itemMock.Object);
+
+            success.Should().BeFalse();
 
             _itemMock.Verify(x => x.SetCurrentInventory(It.IsAny<IInventory>()), Times.Never);
         }
