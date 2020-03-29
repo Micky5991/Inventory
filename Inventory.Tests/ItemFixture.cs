@@ -45,8 +45,20 @@ namespace Micky5991.Inventory.Tests
             item.Weight.Should().Be(_meta.DefaultWeight);
             item.DisplayName.Should().Be(_meta.DisplayName);
             item.DefaultDisplayName.Should().Be(_meta.DisplayName);
+            item.Stackable.Should().BeTrue();
 
             item.RuntimeId.Should().NotBe(Guid.Empty);
+        }
+
+        [TestMethod]
+        [DataRow(ItemFlags.NotStackable, false)]
+        [DataRow(ItemFlags.None, true)]
+        public void SettingNonStackableFlagWillBeInterpretedCorrectly(ItemFlags flags, bool stackable)
+        {
+            _meta = new ItemMeta(_meta.Handle, _meta.Type, _meta.DisplayName, _meta.DefaultWeight, flags);
+            _item = new RealItem(_meta);
+
+            _item.Stackable.Should().Be(stackable);
         }
 
         [TestMethod]
@@ -86,6 +98,28 @@ namespace Micky5991.Inventory.Tests
 
             act.Should().Throw<ArgumentNullException>();
             _item.DisplayName.Should().Be(oldName);
+        }
+
+        [TestMethod]
+        public void InequalHandleShouldPreventMerging()
+        {
+            var fakeItem = new FakeItem(10, "unmergableitem");
+
+            _item.CanMergeWith(fakeItem).Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void NonStackableItemsWillNotBeMergable()
+        {
+            var fakeItem = new FakeItem(10, ItemHandle, flags: ItemFlags.NotStackable);
+
+            _item.CanMergeWith(fakeItem).Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void SameItemWillNotBeMergable()
+        {
+            _item.CanMergeWith(_item).Should().BeFalse();
         }
 
     }

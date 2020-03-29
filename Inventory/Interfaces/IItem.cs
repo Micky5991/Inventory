@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace Micky5991.Inventory.Interfaces
 {
@@ -17,7 +18,13 @@ namespace Micky5991.Inventory.Interfaces
 
         int Weight { get; }
 
+        bool Stackable { get; }
+
         void SetDisplayName(string displayName);
+
+        bool CanMergeWith(IItem sourceItem);
+
+        Task MergeItemAsync(IItem sourceItem);
 
     }
 }
