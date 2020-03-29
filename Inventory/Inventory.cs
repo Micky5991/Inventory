@@ -24,7 +24,7 @@ namespace Micky5991.Inventory
         {
             if (capacity < MinimalInventoryCapacity)
             {
-                throw new ArgumentOutOfRangeException(nameof(capacity));
+                throw new ArgumentOutOfRangeException(nameof(capacity), $"The capacity has to be {MinimalInventoryCapacity} or higher");
             }
 
             _items = new ConcurrentDictionary<Guid, IItem>();
@@ -44,5 +44,21 @@ namespace Micky5991.Inventory
             return AvailableCapacity >= item.Weight;
         }
 
+        public bool SetCapacity(int capacity)
+        {
+            if (capacity < MinimalInventoryCapacity)
+            {
+                throw new ArgumentOutOfRangeException(nameof(capacity), $"The capacity has to be {MinimalInventoryCapacity} or higher");
+            }
+
+            if (UsedCapacity > capacity)
+            {
+                return false;
+            }
+
+            Capacity = capacity;
+
+            return true;
+        }
     }
 }

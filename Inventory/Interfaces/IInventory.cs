@@ -20,5 +20,7 @@ namespace Micky5991.Inventory.Interfaces
 
         Task<bool> RemoveItemAsync(IItem item);
 
+        bool SetCapacity(int capacity);
+
     }
 }
