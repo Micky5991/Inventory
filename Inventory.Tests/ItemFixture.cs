@@ -25,6 +25,8 @@ namespace Micky5991.Inventory.Tests
         [TestInitialize]
         public void Setup()
         {
+            Item.MinimalItemAmount = 0;
+
             _meta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
             _item = new RealItem(_meta);
 
@@ -110,15 +112,23 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void InequalHandleShouldPreventMerging()
         {
-            var fakeItem = new FakeItem(10, "unmergableitem");
+            var fakeItem = new FakeItem(_item.SingleWeight, "unmergableitem");
 
             _item.CanMergeWith(fakeItem).Should().BeFalse();
         }
 
         [TestMethod]
+        public void CanMergeCheckWithNullSourceItemWillResultInException()
+        {
+            Action act = () => _item.CanMergeWith(null);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
         public void NonStackableItemsWillNotBeMergable()
         {
-            var fakeItem = new FakeItem(10, ItemHandle, flags: ItemFlags.NotStackable);
+            var fakeItem = new FakeItem(_item.SingleWeight, ItemHandle, flags: ItemFlags.NotStackable);
 
             _item.CanMergeWith(fakeItem).Should().BeFalse();
         }
@@ -128,7 +138,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-1)]
         public void ItemWithZeroAmountWillNotBeMergable(int itemAmount)
         {
-            var fakeItem = new FakeItem(10, _item.Handle);
+            var fakeItem = new FakeItem(_item.SingleWeight, _item.Handle);
 
             fakeItem.SetAmount(itemAmount);
 
@@ -140,7 +150,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(2)]
         public void ItemWithPositiveItemAmountWillBeMergable(int itemAmount)
         {
-            var fakeItem = new FakeItem(10, _item.Handle);
+            var fakeItem = new FakeItem(_item.SingleWeight, _item.Handle);
 
             fakeItem.SetAmount(itemAmount);
 
@@ -258,6 +268,19 @@ namespace Micky5991.Inventory.Tests
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("0"));
+        }
+
+        [TestMethod]
+        [DataRow(-1)]
+        [DataRow(0)]
+        [DataRow(1)]
+        public void SingleWeightHasToBeEqualToAllowMerging(int weightDelta)
+        {
+            var otherItem = new FakeItem(_item.Meta);
+
+            otherItem.SingleWeight = _item.Meta.DefaultWeight + weightDelta;
+
+            _item.CanMergeWith(otherItem).Should().Be(otherItem.SingleWeight == _item.Meta.DefaultWeight);
         }
 
     }

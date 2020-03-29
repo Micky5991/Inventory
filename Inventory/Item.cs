@@ -79,12 +79,22 @@ namespace Micky5991.Inventory
 
         public bool CanMergeWith(IItem sourceItem)
         {
+            if (sourceItem == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             if (sourceItem == this)
             {
                 return false;
             }
 
-            return Handle == sourceItem.Handle && sourceItem.Amount > 0 && Stackable && sourceItem.Stackable;
+            return
+                Handle == sourceItem.Handle
+                && sourceItem.Amount > 0
+                && Stackable
+                && sourceItem.Stackable
+                && SingleWeight == sourceItem.SingleWeight;
         }
 
         public Task MergeItemAsync(IItem sourceItem)

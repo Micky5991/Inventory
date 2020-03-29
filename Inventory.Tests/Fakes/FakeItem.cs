@@ -17,7 +17,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public int Amount { get; private set; }
 
-        public int SingleWeight { get; }
+        public int SingleWeight { get; set; }
 
         public string Handle => Meta.Handle;
 
@@ -37,6 +37,7 @@ namespace Micky5991.Inventory.Tests.Fakes
             DisplayName = meta.DisplayName;
             Amount = 1;
             Stackable = (Meta.Flags & ItemFlags.NotStackable) == 0;
+            SingleWeight = Meta.DefaultWeight;
         }
 
         public FakeItem(int defaultWeight, string handle = "testitem", string displayName = "FakeItem", ItemFlags flags = ItemFlags.None)
@@ -45,6 +46,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 
             Meta = new ItemMeta(handle, typeof(FakeItem), displayName, defaultWeight, flags);
             Stackable = (Meta.Flags & ItemFlags.NotStackable) == 0;
+            SingleWeight = defaultWeight;
         }
 
         public void SetCurrentInventory(IInventory? inventory)
