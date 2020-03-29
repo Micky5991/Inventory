@@ -1,4 +1,7 @@
+using System.Runtime.CompilerServices;
 using Micky5991.Inventory.Interfaces;
+
+[assembly:InternalsVisibleTo("Micky5991.Inventory.Tests")]
 
 namespace Micky5991.Inventory
 {
