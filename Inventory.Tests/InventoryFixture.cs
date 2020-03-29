@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Tests.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,14 +10,14 @@ namespace Micky5991.Inventory.Tests
     [TestClass]
     public class InventoryFixture
     {
-        private const int InventoryWeight = 100;
+        private const int InventoryCapacity = 100;
 
         private Inventory _inventory;
 
         [TestInitialize]
         public void Setup()
         {
-            _inventory = new Inventory(InventoryWeight);
+            _inventory = new Inventory(InventoryCapacity);
         }
 
         [TestMethod]
@@ -116,6 +117,64 @@ namespace Micky5991.Inventory.Tests
             (await _inventory.RemoveItemAsync(item)).Should().BeFalse();
         }
 
+        [TestMethod]
+        public async Task AddingItemWithHigherWeightThanCapacityWillThrowException()
+        {
+            var item = new FakeItem(InventoryCapacity + 1);
+
+            Func<Task> act = () => _inventory.InsertItemAsync(item);
+
+            await act.Should().ThrowAsync<InventoryCapacityException>();
+        }
+
+        [TestMethod]
+        public async Task AddingInvalidItemWillNotAddItemToInventory()
+        {
+            var item = new FakeItem(InventoryCapacity + 1);
+
+            Func<Task> act = () => _inventory.InsertItemAsync(item);
+
+            await act.Should().ThrowAsync<InventoryCapacityException>();
+
+            _inventory.Items.Should().BeEmpty();
+        }
+
+        [TestMethod]
+        public async Task CheckIfItemFitsWillReturnCorrectValuesAfterItemCollectionChange()
+        {
+            var item = await AddItemToInventoryAsync(InventoryCapacity);
+
+            _inventory.DoesItemFit(item).Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void CheckingIfFillingItemWillFitIntoInventoryShouldReturnTrue()
+        {
+            var item = new FakeItem(InventoryCapacity);
+
+            _inventory.DoesItemFit(item).Should().BeTrue();
+        }
+
+        [TestMethod]
+        public async Task CheckingIfSecondFillingItemWillFitIntoInventoryShouldReturnTrue()
+        {
+            await AddItemToInventoryAsync(InventoryCapacity - 10);
+
+            var item = new FakeItem(10);
+
+            _inventory.DoesItemFit(item).Should().BeTrue();
+        }
+
+        [TestMethod]
+        public async Task CheckingIfSecondCapacityExceedingItemWillFitIntoInventoryShouldReturnFalse()
+        {
+            await AddItemToInventoryAsync(InventoryCapacity - 10);
+
+            var item = new FakeItem(11);
+
+            _inventory.DoesItemFit(item).Should().BeFalse();
+        }
+
         private async Task<FakeItem> AddItemToInventoryAsync(int weight = 10)
         {
             var item = new FakeItem(weight);
@@ -125,7 +184,7 @@ namespace Micky5991.Inventory.Tests
             return item;
         }
 
-        private void AssertInventoryCapacity(int usedCapacity, int capacity = InventoryWeight, Inventory inventory = null)
+        private void AssertInventoryCapacity(int usedCapacity, int capacity = InventoryCapacity, Inventory inventory = null)
         {
             if (inventory == null)
             {

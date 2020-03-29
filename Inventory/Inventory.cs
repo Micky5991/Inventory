@@ -37,5 +37,10 @@ namespace Micky5991.Inventory
             UsedCapacity = _items.Values.Sum(x => x.Weight);
         }
 
+        public bool DoesItemFit(IItem item)
+        {
+            return AvailableCapacity >= item.Weight;
+        }
+
     }
 }
