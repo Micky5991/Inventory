@@ -20,9 +20,11 @@ namespace Micky5991.Inventory
             await OnAfterItemAddedOrRemoved(item);
         }
 
-        private async Task OnAfterItemAddedOrRemoved(IItem item)
+        private Task OnAfterItemAddedOrRemoved(IItem item)
         {
             RecalculateWeight();
+
+            return Task.CompletedTask;
         }
 
     }
