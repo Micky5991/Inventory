@@ -15,6 +15,10 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public string DisplayName { get; set; }
 
+        public int Amount { get; }
+
+        public int SingleWeight { get; }
+
         public string Handle => Meta.Handle;
 
         public int TotalWeight => Meta.DefaultWeight;
@@ -34,6 +38,11 @@ namespace Micky5991.Inventory.Tests.Fakes
             RuntimeId = Guid.NewGuid();
 
             Meta = new ItemMeta(handle, typeof(FakeItem), displayName, defaultWeight, flags);
+        }
+
+        public void SetAmount(int newAmount)
+        {
+            throw new NotImplementedException();
         }
 
         public void SetDisplayName(string displayName)

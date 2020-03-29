@@ -16,14 +16,19 @@ namespace Micky5991.Inventory.Interfaces
 
         string DisplayName { get; }
 
+        int Amount { get; }
+
+        int SingleWeight { get; }
+
         int TotalWeight { get; }
 
         bool Stackable { get; }
 
+        void SetAmount(int newAmount);
+
         void SetDisplayName(string displayName);
 
         bool CanMergeWith(IItem sourceItem);
-
         Task MergeItemAsync(IItem sourceItem);
 
     }

@@ -42,9 +42,10 @@ namespace Micky5991.Inventory.Tests
 
             item.Meta.Should().Be(_meta);
             item.Handle.Should().Be(_meta.Handle);
-            item.TotalWeight.Should().Be(_meta.DefaultWeight);
+            item.SingleWeight.Should().Be(_meta.DefaultWeight);
             item.DisplayName.Should().Be(_meta.DisplayName);
             item.DefaultDisplayName.Should().Be(_meta.DisplayName);
+            item.Amount.Should().Be(1);
             item.Stackable.Should().BeTrue();
 
             item.RuntimeId.Should().NotBe(Guid.Empty);
@@ -120,6 +121,46 @@ namespace Micky5991.Inventory.Tests
         public void SameItemWillNotBeMergable()
         {
             _item.CanMergeWith(_item).Should().BeFalse();
+        }
+
+        [TestMethod]
+        [DataRow(Item.MinimalItemAmount + 1)]
+        [DataRow(Item.MinimalItemAmount + 10)]
+        [DataRow(Item.MinimalItemAmount + 100)]
+        public void SettingAmountWillUpdateWeightAndAmount(int amount)
+        {
+            var singleWeight = _meta.DefaultWeight;
+            _item.SetAmount(amount);
+
+            _item.Amount.Should().Be(amount);
+            _item.TotalWeight.Should().Be(singleWeight * amount);
+        }
+
+        [TestMethod]
+        [DataRow(Item.MinimalItemAmount)]
+        [DataRow(Item.MinimalItemAmount + 3)]
+        [DataRow(Item.MinimalItemAmount + 7)]
+        [DataRow(Item.MinimalItemAmount + 11)]
+        public void TotalWeightIsMultipleOfSingleWeightAndAmount(int amount)
+        {
+            _item.SetAmount(amount);
+
+            (_item.TotalWeight / _item.SingleWeight).Should().Be(amount);
+        }
+
+        [TestMethod]
+        [DataRow(Item.MinimalItemAmount - 1)]
+        [DataRow(Item.MinimalItemAmount - 2)]
+        [DataRow(int.MinValue)]
+        public void SettingItemAmountBelowMinimalAllowedItemAmountThrowsException(int amount)
+        {
+            var oldAmount = _item.Amount;
+            Action act = () => _item.SetAmount(amount);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .Where(x => x.Message.Contains($"{Item.MinimalItemAmount} or higher"));
+
+            _item.Amount.Should().Be(oldAmount);
         }
 
     }
