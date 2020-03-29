@@ -2,8 +2,10 @@ using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Exceptions;
+using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Micky5991.Inventory.Tests
 {
@@ -14,10 +16,14 @@ namespace Micky5991.Inventory.Tests
 
         private Inventory _inventory;
 
+        private Mock<IItem> _itemMock;
+
         [TestInitialize]
         public void Setup()
         {
             _inventory = new Inventory(InventoryCapacity);
+
+            _itemMock = new Mock<IItem>();
         }
 
         [TestMethod]
@@ -253,6 +259,69 @@ namespace Micky5991.Inventory.Tests
             _inventory.SetCapacity(60);
 
             _inventory.UsedCapacity.Should().Be(oldUsedCapacity);
+        }
+
+        [TestMethod]
+        public async Task AddingItemWillSetCurrentInventoryCorrectly()
+        {
+            _itemMock.Setup(x => x.SetCurrentInventory(_inventory));
+
+            await _inventory.InsertItemAsync(_itemMock.Object);
+
+            _itemMock.Verify(x => x.SetCurrentInventory(_inventory));
+        }
+
+        [TestMethod]
+        public async Task RemovingItemWillSetCurrentInventoryToNull()
+        {
+            _itemMock.Setup(x => x.SetCurrentInventory(It.IsAny<IInventory>()));
+
+            await _inventory.InsertItemAsync(_itemMock.Object);
+            await _inventory.RemoveItemAsync(_itemMock.Object);
+
+            _itemMock.Verify(x => x.SetCurrentInventory(null), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task InsertingItemIntoInventoryWillRemoveItemFromOldInventoryFirst()
+        {
+            var otherInventoryMock = new Mock<IInventory>();
+
+            _itemMock
+                .SetupGet(x => x.CurrentInventory)
+                .Returns(otherInventoryMock.Object);
+
+            _itemMock
+                .Setup(x => x.SetCurrentInventory(_inventory));
+
+            otherInventoryMock
+                .Setup(x => x.RemoveItemAsync(_itemMock.Object))
+                .ReturnsAsync(true);
+
+            await _inventory.InsertItemAsync(_itemMock.Object);
+
+            _itemMock.VerifyGet(x => x.CurrentInventory, Times.AtLeastOnce);
+            otherInventoryMock.Verify(x => x.RemoveItemAsync(_itemMock.Object), Times.Once);
+
+            _itemMock.Verify(x => x.SetCurrentInventory(_inventory), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task FailingRemovingOldInventoryWillResultInFailedInsertion()
+        {
+            var otherInventoryMock = new Mock<IInventory>();
+
+            _itemMock
+                .SetupGet(x => x.CurrentInventory)
+                .Returns(otherInventoryMock.Object);
+
+            otherInventoryMock
+                .Setup(x => x.RemoveItemAsync(_itemMock.Object))
+                .ReturnsAsync(false);
+
+            await _inventory.InsertItemAsync(_itemMock.Object);
+
+            _itemMock.Verify(x => x.SetCurrentInventory(It.IsAny<IInventory>()), Times.Never);
         }
 
         private async Task<FakeItem> AddItemToInventoryAsync(int weight = 10)

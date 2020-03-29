@@ -8,11 +8,15 @@ namespace Micky5991.Inventory
 
         private async Task OnItemAdded(IItem item)
         {
+            item.SetCurrentInventory(this);
+
             await OnAfterItemAddedOrRemoved(item);
         }
 
         private async Task OnItemRemoved(IItem item)
         {
+            item.SetCurrentInventory(null);
+
             await OnAfterItemAddedOrRemoved(item);
         }
 
