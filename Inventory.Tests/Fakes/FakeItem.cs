@@ -1,5 +1,8 @@
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Interfaces;
 
@@ -75,6 +78,14 @@ namespace Micky5991.Inventory.Tests.Fakes
         public Task MergeItemAsync(IItem sourceItem)
         {
             throw new NotImplementedException();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

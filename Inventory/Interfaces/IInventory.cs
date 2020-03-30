@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
 namespace Micky5991.Inventory.Interfaces
 {
     [PublicAPI]
-    public interface IInventory
+    public interface IInventory : INotifyPropertyChanged
     {
         IReadOnlyDictionary<Guid, IItem> Items { get; }
 

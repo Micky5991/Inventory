@@ -10,16 +10,6 @@ namespace Micky5991.Inventory
     {
         internal const int MinimalInventoryCapacity = 0;
 
-        public IReadOnlyDictionary<Guid, IItem> Items { get; }
-
-        public int Capacity { get; private set; }
-
-        public int UsedCapacity { get; private set; }
-
-        public int AvailableCapacity => Capacity - UsedCapacity;
-
-        private readonly ConcurrentDictionary<Guid, IItem> _items;
-
         internal Inventory(int capacity)
         {
             if (capacity < MinimalInventoryCapacity)

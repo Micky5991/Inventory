@@ -5,29 +5,9 @@ using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory
 {
-    public abstract class Item : IItem
+    public abstract partial class Item : IItem
     {
         internal static int MinimalItemAmount { get; set; } = 0;
-
-        public string Handle { get; }
-
-        public Guid RuntimeId { get; }
-
-        public ItemMeta Meta { get; }
-
-        public string DefaultDisplayName { get; }
-
-        public string DisplayName { get; private set; }
-
-        public int Amount { get; private set; }
-
-        public int SingleWeight { get; }
-
-        public int TotalWeight => SingleWeight * Amount;
-
-        public bool Stackable { get; }
-
-        public IInventory? CurrentInventory { get; private set; }
 
         protected Item(ItemMeta meta)
         {
