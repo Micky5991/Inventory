@@ -1,21 +1,98 @@
+using System;
+using FluentAssertions;
+using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
+using Micky5991.Inventory.Tests.Utils;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Micky5991.Inventory.Tests
 {
     [TestClass]
     public class ItemFactoryFixture
     {
+        private const string DefaultItemHandle = "item";
 
         private ItemFactory _itemFactory;
         private ItemRegistry _itemRegistry;
 
+        private ItemMeta _defaultMeta;
+
+        private Mock<IServiceProvider> _serviceProviderMock;
+
         [TestInitialize]
         public void Setup()
         {
+            _serviceProviderMock = new Mock<IServiceProvider>();
+
             _itemRegistry = new ItemRegistry();
 
-            _itemFactory = new ItemFactory(_itemRegistry);
+            _defaultMeta = InventoryUtils.CreateItemMeta(DefaultItemHandle, typeof(FakeItem), "Fake Item");
+            _itemRegistry.AddItemMeta(_defaultMeta);
+            _itemRegistry.ValidateAndCacheItemMeta();
+
+            AddItemResolveToServiceProvider<FakeItem>();
+
+            _itemFactory = new ItemFactory(_itemRegistry, _serviceProviderMock.Object);
+        }
+
+        [TestMethod]
+        public void CreatingItemFromMetaWillCreateRightItem()
+        {
+            var item = _itemFactory.CreateItem(DefaultItemHandle, 1);
+
+            item.Should().NotBeNull();
+            item.Should().BeOfType<FakeItem>();
+
+            item.Meta.Should().Be(_defaultMeta);
+            item.Amount.Should().Be(1);
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void CreatingItemWithAmountBelowOneWillThrowException(int amount)
+        {
+            Action act = () => _itemFactory.CreateItem(DefaultItemHandle, amount);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .Where(x => x.Message.Contains("1 or higher"));
+        }
+
+        [TestMethod]
+        [DataRow(null)]
+        [DataRow("")]
+        [DataRow(" ")]
+        public void CreatingItemWithInvalidHandleWillThrowException(string handle = null)
+        {
+            Action act = () => _itemFactory.CreateItem(handle, 10);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void CreatingItemWithUnknownHandleWillReturnNull()
+        {
+            var item = _itemFactory.CreateItem("unknown", 10);
+
+            item.Should().BeNull();
+        }
+
+        private void AddItemResolveToServiceProvider<T>() where T : IItem
+        {
+            _serviceProviderMock
+                .Setup(x => x.GetService(typeof(T)))
+                .Returns<Type>(x =>
+                {
+                    IItem CreateItem(IServiceProvider serviceProvider, object[] arguments)
+                    {
+                        return (T) Activator.CreateInstance(typeof(T), arguments);
+                    }
+
+                    return new ObjectFactory(CreateItem);
+                });
         }
 
     }
