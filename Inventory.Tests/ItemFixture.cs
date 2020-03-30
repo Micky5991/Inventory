@@ -295,5 +295,70 @@ namespace Micky5991.Inventory.Tests
             _item.CanMergeWith(otherItem).Should().Be(otherItem.SingleWeight == _item.Meta.DefaultWeight);
         }
 
+        [TestMethod]
+        public void ChangingDisplayNameTriggersNotification()
+        {
+            using var monitoredSubject = _item.Monitor();
+
+            _item.SetDisplayName(_item.DisplayName + "ADD");
+
+            monitoredSubject.Should().RaisePropertyChangeFor(x => x.DisplayName);
+        }
+
+        [TestMethod]
+        public void ChangingDisplayNameToCurrentValueDoesNotTriggerNotification()
+        {
+            using var monitoredSubject = _item.Monitor();
+
+            _item.SetDisplayName(_item.DisplayName);
+
+            monitoredSubject.Should().NotRaisePropertyChangeFor(x => x.DisplayName);
+        }
+
+        [TestMethod]
+        public void ChangingAmountWillNotifyAmountAndTotalWeight()
+        {
+            using var monitoredItem = _item.Monitor();
+
+            _item.SetAmount(_item.Amount + 1);
+
+            monitoredItem.Should().RaisePropertyChangeFor(x => x.Amount);
+            monitoredItem.Should().RaisePropertyChangeFor(x => x.TotalWeight);
+        }
+
+        [TestMethod]
+        public void ChangingAmountToSameAmountWontTriggerNotification()
+        {
+            using var monitoredItem = _item.Monitor();
+
+            _item.SetAmount(_item.Amount);
+
+            monitoredItem.Should().NotRaisePropertyChangeFor(x => x.Amount);
+            monitoredItem.Should().NotRaisePropertyChangeFor(x => x.TotalWeight);
+        }
+
+        [TestMethod]
+        public void ChangingCurrentInventoryToDifferentValueWillNotify()
+        {
+            using var monitoredItem = _item.Monitor();
+
+            var otherInventory = new Mock<IInventory>();
+
+            _item.SetCurrentInventory(otherInventory.Object);
+
+            monitoredItem.Should().RaisePropertyChangeFor(x => x.CurrentInventory);
+        }
+
+        [TestMethod]
+        public void ChangingCurrentInventoryToSameValueWontNotify()
+        {
+            using var monitoredItem = _item.Monitor();
+
+            _item.SetCurrentInventory(null);
+
+            monitoredItem.Should().NotRaisePropertyChangeFor(x => x.CurrentInventory);
+        }
+
+
     }
 }
