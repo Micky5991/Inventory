@@ -2,25 +2,21 @@ using System.Collections.Generic;
 using Inventory.Example.Items;
 using Micky5991.Inventory;
 using Micky5991.Inventory.Enums;
-using Micky5991.Inventory.Interfaces;
 
 namespace Inventory.Example
 {
-    public class ItemRegistry : IItemRegistry
+    public class ItemRegistry : BaseItemRegistry
     {
-        public ICollection<ItemMeta> GetItemMeta()
+        protected override IEnumerable<ItemMeta> LoadItemMeta()
         {
-            return new []
-            {
-                AddItem<AppleItem>(ItemHandle.Apple, "Apple"),
-                AddItem<WaterItem>(ItemHandle.Water, "Water"),
-                AddItem<DiceItem>(ItemHandle.Dice, "Dice"),
-            };
+            yield return CreateItemMeta<AppleItem>(ItemHandle.Apple, "Apple");
+            yield return CreateItemMeta<WaterItem>(ItemHandle.Water, "Water");
+            yield return CreateItemMeta<DiceItem>(ItemHandle.Dice, "Dice");
         }
 
-        private ItemMeta AddItem<T>(ItemHandle itemHandle, string displayName, int defaultWeight = 1, ItemFlags flags = ItemFlags.None) where T : BaseItem
+        private ItemMeta CreateItemMeta<T>(ItemHandle itemHandle, string displayName, int defaultWeight = 1, ItemFlags flags = ItemFlags.None) where T : BaseItem
         {
-            return new ItemMeta(itemHandle.ToString(), typeof(T), displayName, defaultWeight, flags);
+            return CreateItemMeta<T>(itemHandle.ToString(), displayName, defaultWeight, flags);
         }
     }
 }

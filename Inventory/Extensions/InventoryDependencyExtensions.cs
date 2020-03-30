@@ -22,6 +22,8 @@ namespace Micky5991.Inventory.Extensions
                 serviceCollection.AddTransient(itemType);
             }
 
+            serviceCollection.AddTransient(x => itemRegistry);
+
             return serviceCollection;
         }
 

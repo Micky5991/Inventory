@@ -8,7 +8,7 @@ namespace Inventory.Example
 {
     class Program
     {
-        private ServiceProvider _serviceProvider;
+        private readonly ServiceProvider _serviceProvider;
 
         static async Task Main(string[] args)
         {
