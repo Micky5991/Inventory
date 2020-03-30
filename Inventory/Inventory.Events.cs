@@ -24,6 +24,8 @@ namespace Micky5991.Inventory
         {
             RecalculateWeight();
 
+            OnPropertyChanged(nameof(Items));
+
             return Task.CompletedTask;
         }
 
