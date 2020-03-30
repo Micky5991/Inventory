@@ -32,16 +32,16 @@ namespace Micky5991.Inventory
                 return null;
             }
 
+            return BuildItemFromMeta(meta);
+        }
+
+        private IItem BuildItemFromMeta(ItemMeta meta)
+        {
             var factory = (ObjectFactory) _serviceProvider.GetService(meta.Type);
 
             var item = (IItem) factory(_serviceProvider, new [] { (object) meta });
 
             return item;
-        }
-
-        private IItem BuildItemFromMeta(ItemMeta meta)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
