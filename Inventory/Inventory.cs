@@ -31,6 +31,11 @@ namespace Micky5991.Inventory
 
         public bool DoesItemFit(IItem item)
         {
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
             return AvailableCapacity >= item.TotalWeight;
         }
 

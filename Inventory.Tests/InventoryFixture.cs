@@ -168,6 +168,14 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        public void PassingNullToDoesItemFitWillThrowException()
+        {
+            Action act = () => _inventory.DoesItemFit(null);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
         public void CheckingIfFillingItemWillFitIntoInventoryShouldReturnTrue()
         {
             var item = new FakeItem(InventoryCapacity);
