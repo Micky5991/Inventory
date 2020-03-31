@@ -32,7 +32,7 @@ namespace Micky5991.Inventory
                 return null;
             }
 
-            return CreateItem(meta, amount);
+            return SetupItemPostCreate(BuildItemFromMeta(meta), amount);
         }
 
         public IItem CreateItem(ItemMeta meta, int amount)
