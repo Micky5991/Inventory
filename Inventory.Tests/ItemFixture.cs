@@ -360,6 +360,20 @@ namespace Micky5991.Inventory.Tests
             monitoredItem.Should().NotRaisePropertyChangeFor(x => x.CurrentInventory);
         }
 
+        [TestMethod]
+        public void PassingMetaWithWrongTypeThrowsException()
+        {
+            var meta = new ItemMeta(ItemHandle, typeof(FakeItem), ItemDisplayName, ItemWeight, ItemFlags);
+
+            Action act = () => new RealItem(meta);
+
+            act.Should().Throw<ArgumentException>()
+                .Where(x =>
+                    x.Message.Contains("mismatch")
+                    && x.Message.Contains("type")
+                    && x.Message.Contains("meta"));
+        }
+
 
     }
 }
