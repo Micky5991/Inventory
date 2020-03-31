@@ -73,6 +73,28 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        public async Task AddingItemWithSameRuntimeKeyWillReturnFalse()
+        {
+            var item = new FakeItem(10);
+            var otherFake = new FakeItem(10);
+
+            otherFake.RuntimeId = item.RuntimeId;
+
+            (await _inventory.InsertItemAsync(item)).Should().BeTrue();
+            (await _inventory.InsertItemAsync(item)).Should().BeFalse();
+        }
+
+        [TestMethod]
+        public async Task AddingItemWithCurrentInventoryAlreadyToTargetInventorySetWillReturnFalse()
+        {
+            var item = new FakeItem(10);
+
+            item.SetCurrentInventory(_inventory);
+
+            (await _inventory.InsertItemAsync(item)).Should().BeFalse();
+        }
+
+        [TestMethod]
         public async Task AddingItemWithHigherWeightThanCapacityWillThrowException()
         {
             var item = new FakeItem(InventoryCapacity + 1);
