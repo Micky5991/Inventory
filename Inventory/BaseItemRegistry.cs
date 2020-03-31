@@ -19,7 +19,7 @@ namespace Micky5991.Inventory
         {
             ValidateAndCacheItemMeta();
 
-            return _metaCollection.Values;
+            return _metaCollection!.Values;
         }
 
         public bool TryGetItemMeta(string handle, out ItemMeta? meta)
@@ -31,7 +31,7 @@ namespace Micky5991.Inventory
 
             ValidateAndCacheItemMeta();
 
-            return _metaCollection.TryGetValue(handle, out meta);
+            return _metaCollection!.TryGetValue(handle, out meta);
         }
 
         protected ItemMeta CreateItemMeta<T>(string itemHandle, string displayName, int defaultWeight = 1, ItemFlags flags = ItemFlags.None) where T : IItem
@@ -82,7 +82,7 @@ namespace Micky5991.Inventory
 
                 if (valid == false)
                 {
-                    throw new InvalidItemRegistryException(errorMessage);
+                    throw new InvalidItemRegistryException(errorMessage!);
                 }
             }
         }

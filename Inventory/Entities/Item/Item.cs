@@ -34,7 +34,7 @@ namespace Micky5991.Inventory.Entities.Item
             Amount = Math.Max(MinimalItemAmount, 1);
         }
 
-        private (bool Valid, string ErrorMessage) ValidateMeta()
+        private (bool Valid, string? ErrorMessage) ValidateMeta()
         {
             var currentType = GetType();
 
