@@ -90,8 +90,9 @@ namespace Micky5991.Inventory.Tests
             var additionalApple = new AppleItem(appleMeta);
             additionalApple.SetAmount(2);
 
-            await _inventory.InsertItemAsync(additionalApple);
+            var result = await _inventory.InsertItemAsync(additionalApple);
 
+            result.Should().BeTrue();
             _inventory.Items.Should().HaveCount(2);
 
             var foundApple = _inventory.Items.Values.First(x => x.Handle == appleHandle);
