@@ -19,6 +19,12 @@ namespace Micky5991.Inventory.Entities.Item
             RuntimeId = Guid.NewGuid();
             Meta = meta;
 
+            var (valid, errorMessage) = ValidateMeta();
+            if (valid == false)
+            {
+                throw new ArgumentException(errorMessage, nameof(meta));
+            }
+
             SingleWeight = Meta.DefaultWeight;
             Handle = Meta.Handle;
             DefaultDisplayName = Meta.DisplayName;
@@ -26,6 +32,18 @@ namespace Micky5991.Inventory.Entities.Item
 
             DisplayName = DefaultDisplayName;
             Amount = Math.Max(MinimalItemAmount, 1);
+        }
+
+        private (bool Valid, string ErrorMessage) ValidateMeta()
+        {
+            var currentType = GetType();
+
+            if (Meta.Type != currentType)
+            {
+                return (false, "The current type in the provided meta mismatches the actual item type");
+            }
+
+            return (true, null);
         }
 
         public void SetCurrentInventory(IInventory? inventory)
