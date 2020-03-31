@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,13 +11,23 @@ namespace Micky5991.Inventory.Extensions
 
         public static IServiceCollection AddInventoryServices(this IServiceCollection serviceCollection)
         {
+            if (serviceCollection == null)
+            {
+                throw new ArgumentNullException(nameof(serviceCollection));
+            }
+
             return serviceCollection
                 .AddTransient<IInventoryFactory, InventoryFactory>()
-                .AddTransient<IItemFactory>(x => new ItemFactory(x.GetService<IItemRegistry>(), x));
+                .AddTransient<IItemFactory>(x => new ItemFactory(x.GetRequiredService<IItemRegistry>(), x));
         }
 
         public static IServiceCollection AddItemTypes(this IServiceCollection serviceCollection, IItemRegistry itemRegistry)
         {
+            if (serviceCollection == null)
+            {
+                throw new ArgumentNullException(nameof(serviceCollection));
+            }
+
             if (itemRegistry == null)
             {
                 throw new ArgumentNullException(nameof(itemRegistry));
@@ -24,8 +35,18 @@ namespace Micky5991.Inventory.Extensions
 
             serviceCollection.AddTransient(x => itemRegistry);
 
-            var uniqueTypes = itemRegistry.GetItemMeta().Select(x => x.Type).Distinct();
+            var metaCollection = itemRegistry.GetItemMeta();
+            if (metaCollection == null)
+            {
+                throw new InvalidItemRegistryException($"The method {itemRegistry.GetType()}.{nameof(IItemRegistry.GetItemMeta)} returns a null enumerable instance!");
+            }
 
+            if (metaCollection.Contains(null))
+            {
+                throw new InvalidItemRegistryException($"The method {itemRegistry.GetType()}.{nameof(IItemRegistry.GetItemMeta)} contains a null value inside the collection");
+            }
+
+            var uniqueTypes = metaCollection.Select(x => x.Type).Distinct();
             foreach (var itemType in uniqueTypes)
             {
                 serviceCollection.AddTransient(itemType, x => ActivatorUtilities.CreateFactory(itemType, new[] { typeof(ItemMeta) }));
