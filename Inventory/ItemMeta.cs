@@ -7,14 +7,29 @@ namespace Micky5991.Inventory
     public class ItemMeta
     {
 
+        /// <summary>
+        /// Unique handle of this meta information
+        /// </summary>
         public string Handle { get; }
 
+        /// <summary>
+        /// Implementation type of the item this meta will be represented by.
+        /// </summary>
         public Type Type { get; }
 
+        /// <summary>
+        /// Default display name of the created item
+        /// </summary>
         public string DisplayName { get; }
 
+        /// <summary>
+        /// Weight of the final item
+        /// </summary>
         public int DefaultWeight { get; }
 
+        /// <summary>
+        /// Flag collection that represent different item abilities
+        /// </summary>
         public ItemFlags Flags { get; }
 
         /// <summary>
