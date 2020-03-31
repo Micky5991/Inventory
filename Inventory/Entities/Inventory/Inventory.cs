@@ -17,7 +17,6 @@ namespace Micky5991.Inventory.Entities.Inventory
             }
 
             _items = new ConcurrentDictionary<Guid, IItem>();
-            Items = _items;
 
             UsedCapacity = 0;
             Capacity = capacity;

@@ -95,8 +95,8 @@ namespace Micky5991.Inventory.Tests
             result.Should().BeTrue();
             _inventory.Items.Should().HaveCount(2);
 
-            var foundApple = _inventory.Items.Values.First(x => x.Handle == appleHandle);
-            var foundWater = _inventory.Items.Values.First(x => x.Handle == waterHandle);
+            var foundApple = _inventory.Items.First(x => x.Handle == appleHandle);
+            var foundWater = _inventory.Items.First(x => x.Handle == waterHandle);
 
             foundApple.Should().Be(apple);
             foundApple.Amount.Should().Be(5);

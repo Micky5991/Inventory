@@ -32,7 +32,7 @@ namespace Micky5991.Inventory.Tests
             var item = await AddItemToInventoryAsync();
 
             _inventory.Items.Should()
-                .ContainSingle(x => x.Key == item.RuntimeId && x.Value == item);
+                .ContainSingle(x => x == item);
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace Micky5991.Inventory.Tests
             await _inventory.InsertItemAsync(item);
 
             _inventory.Items.Should()
-                .ContainSingle(x => x.Key == item.RuntimeId && x.Value == item);
+                .ContainSingle(x => x == item);
         }
 
         [TestMethod]

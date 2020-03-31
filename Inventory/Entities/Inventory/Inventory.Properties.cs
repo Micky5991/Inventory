@@ -12,7 +12,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         private int _capacity;
         private int _usedCapacity;
 
-        public IReadOnlyDictionary<Guid, IItem> Items { get; }
+        public ICollection<IItem> Items => _items.Values;
 
         public int Capacity
         {
