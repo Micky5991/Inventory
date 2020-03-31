@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -9,7 +8,7 @@ namespace Micky5991.Inventory.Interfaces
     [PublicAPI]
     public interface IInventory : INotifyPropertyChanged
     {
-        IReadOnlyDictionary<Guid, IItem> Items { get; }
+        ICollection<IItem> Items { get; }
 
         int Capacity { get; }
 

@@ -34,7 +34,7 @@ namespace Inventory.Example.Services
             await _inventory.InsertItemAsync(apple);
             await _inventory.InsertItemAsync(water);
 
-            foreach (var item in _inventory.Items.Values)
+            foreach (var item in _inventory.Items)
             {
                 Console.WriteLine($"Item: {item.Handle} - {item.GetType()} - {item.Amount}x");
             }
@@ -45,7 +45,7 @@ namespace Inventory.Example.Services
 
             await _inventory.InsertItemAsync(additionalWater);
 
-            foreach (var item in _inventory.Items.Values)
+            foreach (var item in _inventory.Items)
             {
                 Console.WriteLine($"Item: {item.Handle} - {item.GetType()} - {item.Amount}x");
             }
