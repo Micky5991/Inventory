@@ -32,7 +32,29 @@ namespace Micky5991.Inventory
                 return null;
             }
 
-            return BuildItemFromMeta(meta);
+            return CreateItem(meta, amount);
+        }
+
+        public IItem CreateItem(ItemMeta meta, int amount)
+        {
+            if (meta == null)
+            {
+                throw new ArgumentNullException(nameof(meta));
+            }
+
+            if (amount <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amount), "Item amount has to be 1 or higher");
+            }
+
+            return SetupItemPostCreate(BuildItemFromMeta(meta), amount);
+        }
+
+        private IItem SetupItemPostCreate(IItem item, int amount)
+        {
+            item.SetAmount(amount);
+
+            return item;
         }
 
         private IItem BuildItemFromMeta(ItemMeta meta)

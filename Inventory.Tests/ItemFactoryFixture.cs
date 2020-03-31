@@ -38,15 +38,51 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        public void CreatingItemFromMetaWillCreateRightItem()
+        [DataRow(1)]
+        [DataRow(2)]
+        public void CreatingItemFromHandleWillCreateRightItem(int itemAmount)
         {
-            var item = _itemFactory.CreateItem(DefaultItemHandle, 1);
+            var item = _itemFactory.CreateItem(DefaultItemHandle, itemAmount);
 
             item.Should().NotBeNull();
             item.Should().BeOfType<FakeItem>();
 
             item.Meta.Should().Be(_defaultMeta);
-            item.Amount.Should().Be(1);
+            item.Amount.Should().Be(itemAmount);
+        }
+
+        [TestMethod]
+        [DataRow(1)]
+        [DataRow(2)]
+        public void CreatingItemFromMetaWillCreateRightItem(int itemAmount)
+        {
+            var item = _itemFactory.CreateItem(_defaultMeta, itemAmount);
+
+            item.Should().NotBeNull();
+            item.Should().BeOfType<FakeItem>();
+
+            item.Meta.Should().Be(_defaultMeta);
+            item.Amount.Should().Be(itemAmount);
+        }
+
+        [TestMethod]
+        public void CreatingItemWithNullMetaThrowsException()
+        {
+            Action act = () => _itemFactory.CreateItem((ItemMeta) null, 1);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void CreatingItemWithInvalidAmountThrowsException(int amount)
+        {
+            Action act = () => _itemFactory.CreateItem(_defaultMeta, amount);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .Where(x => x.Message.Contains("1 or higher"));
         }
 
         [TestMethod]
