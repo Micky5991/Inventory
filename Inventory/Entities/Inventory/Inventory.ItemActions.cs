@@ -20,12 +20,12 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new InventoryCapacityException(nameof(item), item);
             }
 
-            if (_items.ContainsKey(item.RuntimeId) || item.CurrentInventory == this)
+            if (item.CurrentInventory == this)
             {
                 return false;
             }
 
-            if (item.CurrentInventory != null && item.CurrentInventory != this)
+            if (item.CurrentInventory != null)
             {
                 var oldInventoryRemoveSuccess = await item.CurrentInventory.RemoveItemAsync(item);
 
@@ -35,15 +35,12 @@ namespace Micky5991.Inventory.Entities.Inventory
                 }
             }
 
-            var merged = await TryMergeItemAsync(item);
-            if (merged)
+            if (await TryMergeItemAsync(item))
             {
                 return true;
             }
 
-            var success = _items.TryAdd(item.RuntimeId, item);
-
-            if (success == false)
+            if (_items.TryAdd(item.RuntimeId, item) == false)
             {
                 return false;
             }
