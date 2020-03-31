@@ -10,7 +10,7 @@ using Moq;
 namespace Micky5991.Inventory.Tests
 {
     [TestClass]
-    public class InventoryFixture
+    public partial class InventoryFixture
     {
         private const int InventoryCapacity = 100;
 
