@@ -10,7 +10,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 {
     public class FakeItem : IItem
     {
-        public Guid RuntimeId { get; }
+        public Guid RuntimeId { get; set; }
 
         public ItemMeta Meta { get; }
 
