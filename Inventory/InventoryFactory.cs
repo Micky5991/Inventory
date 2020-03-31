@@ -16,7 +16,7 @@ namespace Micky5991.Inventory
                 throw new ArgumentOutOfRangeException(nameof(capacity));
             }
 
-            return new Inventory(capacity);
+            return new Entities.Inventory.Inventory(capacity);
         }
 
     }

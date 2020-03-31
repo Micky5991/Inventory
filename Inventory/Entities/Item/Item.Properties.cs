@@ -1,7 +1,7 @@
 using System;
 using Micky5991.Inventory.Interfaces;
 
-namespace Micky5991.Inventory
+namespace Micky5991.Inventory.Entities.Item
 {
     public abstract partial class Item
     {

@@ -2,11 +2,10 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
-namespace Micky5991.Inventory
+namespace Micky5991.Inventory.Entities.Inventory
 {
-    public partial class Item
+    internal partial class Inventory
     {
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -14,6 +13,5 @@ namespace Micky5991.Inventory
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

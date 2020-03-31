@@ -14,38 +14,38 @@ namespace Micky5991.Inventory.Tests
     {
         private const int InventoryCapacity = 100;
 
-        private Inventory _inventory;
+        private Entities.Inventory.Inventory _inventory;
 
         private Mock<IItem> _itemMock;
 
         [TestInitialize]
         public void Setup()
         {
-            _inventory = new Inventory(InventoryCapacity);
+            _inventory = new Entities.Inventory.Inventory(InventoryCapacity);
 
             _itemMock = new Mock<IItem>();
         }
 
         [TestMethod]
-        [DataRow(Inventory.MinimalInventoryCapacity - 1)]
-        [DataRow(Inventory.MinimalInventoryCapacity - 2)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity - 1)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity - 2)]
         [DataRow(int.MinValue)]
         public void CreatingInventoryWithInvalidCapacityThrowsException(int capacity)
         {
-            Action act = () => new Inventory(capacity);
+            Action act = () => new Entities.Inventory.Inventory(capacity);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .Where(x => x.Message.Contains($"{Inventory.MinimalInventoryCapacity} or higher"));
+                .Where(x => x.Message.Contains($"{Entities.Inventory.Inventory.MinimalInventoryCapacity} or higher"));
         }
 
         [TestMethod]
-        [DataRow(Inventory.MinimalInventoryCapacity)]
-        [DataRow(Inventory.MinimalInventoryCapacity + 1)]
-        [DataRow(Inventory.MinimalInventoryCapacity + 2)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity + 1)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity + 2)]
         [DataRow(int.MaxValue)]
         public void CreatingInventoryWithCapacityWillSetCapacityValues(int capacity)
         {
-            var inventory = new Inventory(capacity);
+            var inventory = new Entities.Inventory.Inventory(capacity);
 
             AssertInventoryCapacity(0, capacity, inventory);
         }
@@ -206,15 +206,15 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingCapacityBelowMinimalCapacityWillThrowException()
         {
-            Action act = () => _inventory.SetCapacity(Inventory.MinimalInventoryCapacity - 1);
+            Action act = () => _inventory.SetCapacity(Entities.Inventory.Inventory.MinimalInventoryCapacity - 1);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .Where(x => x.Message.Contains($"{Inventory.MinimalInventoryCapacity} or higher"));
+                .Where(x => x.Message.Contains($"{Entities.Inventory.Inventory.MinimalInventoryCapacity} or higher"));
         }
 
         [TestMethod]
-        [DataRow(Inventory.MinimalInventoryCapacity)]
-        [DataRow(Inventory.MinimalInventoryCapacity + 1)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity + 1)]
         [DataRow(int.MaxValue)]
         public void ChangingCapacityWillChangeCapacityCorrectly(int capacity)
         {
@@ -393,7 +393,7 @@ namespace Micky5991.Inventory.Tests
             return item;
         }
 
-        private void AssertInventoryCapacity(int usedCapacity, int capacity = InventoryCapacity, Inventory inventory = null)
+        private void AssertInventoryCapacity(int usedCapacity, int capacity = InventoryCapacity, Entities.Inventory.Inventory inventory = null)
         {
             if (inventory == null)
             {

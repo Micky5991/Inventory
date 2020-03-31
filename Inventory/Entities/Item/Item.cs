@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Interfaces;
 
-namespace Micky5991.Inventory
+namespace Micky5991.Inventory.Entities.Item
 {
     public abstract partial class Item : IItem
     {
