@@ -7,6 +7,7 @@ namespace Micky5991.Inventory.Interfaces
     {
 
         IItem CreateItem(string handle, int amount);
+        IItem CreateItem(ItemMeta meta, int amount);
 
     }
 }
