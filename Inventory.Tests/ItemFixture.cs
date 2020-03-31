@@ -232,7 +232,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task MergingItemWillSumAmount()
         {
-            var otherItem = new FakeItem(10);
+            var otherItem = new FakeItem(_meta);
             otherItem.SetAmount(2);
 
             _item.SetAmount(2);
@@ -374,6 +374,22 @@ namespace Micky5991.Inventory.Tests
                     && x.Message.Contains("meta"));
         }
 
+        [TestMethod]
+        public async Task MergingTwoItemsCanMergeSignalsFalseWillThrowException()
+        {
+            var realMeta = new ItemMeta("item1", typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
+            var fakeMeta = new ItemMeta("item2", typeof(FakeItem), ItemDisplayName, ItemWeight, ItemFlags);
+
+            var realItem = new RealItem(realMeta);
+            var fakeItem = new FakeItem(fakeMeta);
+
+            realItem.CanMergeWith(fakeItem).Should().BeFalse();
+
+            Func<Task> act = () => realItem.MergeItemAsync(fakeItem);
+
+            (await act.Should().ThrowAsync<ArgumentException>())
+                .Where(x => x.Message.Contains("merge") && x.Message.Contains("not"));
+        }
 
     }
 }

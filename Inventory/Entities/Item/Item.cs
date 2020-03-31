@@ -107,6 +107,11 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentException("Could not merge item with itself", nameof(sourceItem));
             }
 
+            if (CanMergeWith(sourceItem) == false)
+            {
+                throw new ArgumentException("The item cannot be merged with this instance", nameof(sourceItem));
+            }
+
             SetAmount(Amount + sourceItem.Amount);
 
             sourceItem.SetAmount(0);
