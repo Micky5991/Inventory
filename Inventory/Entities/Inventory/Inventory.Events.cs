@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Micky5991.Inventory.Interfaces;
 
-namespace Micky5991.Inventory
+namespace Micky5991.Inventory.Entities.Inventory
 {
     internal partial class Inventory
     {

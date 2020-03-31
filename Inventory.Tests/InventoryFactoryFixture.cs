@@ -28,10 +28,10 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        [DataRow(Inventory.MinimalInventoryCapacity)]
-        [DataRow(Inventory.MinimalInventoryCapacity + 1)]
-        [DataRow(Inventory.MinimalInventoryCapacity + 10)]
-        [DataRow(Inventory.MinimalInventoryCapacity + 100)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity + 1)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity + 10)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity + 100)]
         [DataRow(int.MaxValue)]
         public void SetsCorrectInitialCapacityToInventory(int capacity)
         {
@@ -41,8 +41,8 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        [DataRow(Inventory.MinimalInventoryCapacity - 1)]
-        [DataRow(Inventory.MinimalInventoryCapacity - 2)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity - 1)]
+        [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity - 2)]
         [DataRow(int.MinValue)]
         public void CreatingInventoryWithInvalidWeightWillThrowException(int capacity)
         {

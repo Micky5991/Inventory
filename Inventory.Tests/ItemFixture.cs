@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Micky5991.Inventory.Entities.Item;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
