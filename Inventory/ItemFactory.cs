@@ -15,7 +15,7 @@ namespace Micky5991.Inventory
             _serviceProvider = serviceProvider;
         }
 
-        public IItem CreateItem(string handle, int amount)
+        public IItem? CreateItem(string handle, int amount)
         {
             if (string.IsNullOrWhiteSpace(handle))
             {
