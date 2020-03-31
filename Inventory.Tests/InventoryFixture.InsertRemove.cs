@@ -79,9 +79,12 @@ namespace Micky5991.Inventory.Tests
             var otherFake = new FakeItem(10);
 
             otherFake.RuntimeId = item.RuntimeId;
+            item.IsMergableCheck = x => false;
 
             (await _inventory.InsertItemAsync(item)).Should().BeTrue();
-            (await _inventory.InsertItemAsync(item)).Should().BeFalse();
+            (await _inventory.InsertItemAsync(otherFake)).Should().BeFalse();
+
+            otherFake.CurrentInventory.Should().BeNull();
         }
 
         [TestMethod]
