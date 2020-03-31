@@ -30,7 +30,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public IInventory CurrentInventory { get; private set; }
 
-        public Func<IItem, bool> IsMergableCheck { get; }
+        public Func<IItem, bool> IsMergableCheck { get; set; }
 
         public FakeItem(ItemMeta meta)
         {
