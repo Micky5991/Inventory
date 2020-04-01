@@ -16,63 +16,25 @@ using Moq;
 namespace Micky5991.Inventory.Tests
 {
     [TestClass]
-    public class ItemFixture
+    public class ItemFixture : ItemTest
     {
-        private const string ItemHandle = "testhandle";
-        private const string ItemDisplayName = "RealItem";
-        private const int ItemWeight = 50;
-        private const ItemFlags ItemFlags = Enums.ItemFlags.None;
-
-        private const string FakeItemHandle = "fakehandle";
-        private const string FakeItemDisplayName = "FakeItem";
-        private const int FakeItemWeight = 50;
-        private const ItemFlags FakeItemFlags = Enums.ItemFlags.None;
-
-        private ItemMeta _realMeta;
-        private ItemMeta _fakeMeta;
-
-        private ItemMeta _defaultRealMeta;
-        private ItemMeta _defaultFakeMeta;
-
-        private Item _item;
-        private FakeItem _fakeItem;
 
         private Mock<IInventory> _inventoryMock;
-
-        private IServiceCollection _serviceCollection;
-        private IServiceProvider _serviceProvider;
-        private ItemRegistry _itemRegistry;
-        private IItemFactory _itemFactory;
-        private AggregatedItemServices _itemServices;
 
         [TestInitialize]
         public void Setup()
         {
             Item.MinimalItemAmount = 0;
 
-            _itemRegistry = new ItemRegistry();
-
-            _defaultRealMeta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
-            _defaultFakeMeta = new ItemMeta(FakeItemHandle, typeof(FakeItem), FakeItemDisplayName, FakeItemWeight, FakeItemFlags);
-
-            _serviceCollection = new ServiceCollection();
-            _serviceCollection.AddInventoryServices();
-
             _inventoryMock = new Mock<IInventory>();
+
+            SetupItemTest();
         }
 
         [TestCleanup]
         public void TearDown()
         {
-            _serviceProvider = null;
-            _serviceCollection = null;
-            _itemFactory = null;
-
-            _realMeta = null;
-            _fakeMeta = null;
-
-            _item = null;
-            _fakeItem = null;
+            TearDownItemTest();
         }
 
         private void SetupServiceProvider(params ItemMeta[] itemMetas)
