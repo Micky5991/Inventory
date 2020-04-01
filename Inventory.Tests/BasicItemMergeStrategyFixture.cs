@@ -115,6 +115,14 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        public void SameItemIsNotMergable()
+        {
+            SetupMock(_targetItem, true, "item", 1, 1);
+
+            _strategy.CanBeMerged(_targetItem.Object, _targetItem.Object).Should().BeFalse();
+        }
+
+        [TestMethod]
         public async Task MergingItemExecutesAmountSumAndAmountClearOnSource()
         {
             _targetItem.SetupGet(x => x.Amount).Returns(1);

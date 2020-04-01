@@ -98,11 +98,6 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentNullException();
             }
 
-            if (sourceItem == this)
-            {
-                return false;
-            }
-
             return _itemMergeStrategyHandler.CanBeMerged(this, sourceItem);
         }
 
@@ -113,18 +108,12 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentNullException(nameof(sourceItem));
             }
 
-            if (sourceItem == this)
-            {
-                throw new ArgumentException("Could not merge item with itself", nameof(sourceItem));
-            }
-
             if (_itemMergeStrategyHandler.CanBeMerged(this, sourceItem) == false)
             {
                 throw new ArgumentException("The item cannot be merged with this instance", nameof(sourceItem));
             }
 
             await _itemMergeStrategyHandler.MergeItemWithAsync(this, sourceItem);
-
         }
     }
 }
