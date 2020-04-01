@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Micky5991.Inventory.Interfaces;
 
@@ -9,11 +10,21 @@ namespace Micky5991.Inventory.Strategies.Handlers
 
         public void AddStrategy(T strategy)
         {
+            if (strategy == null)
+            {
+                throw new ArgumentNullException(nameof(strategy));
+            }
+
             _strategies.Add(strategy);
         }
 
         public void RemoveStrategy(T strategy)
         {
+            if (strategy == null)
+            {
+                throw new ArgumentNullException(nameof(strategy));
+            }
+
             _strategies.Remove(strategy);
         }
 
