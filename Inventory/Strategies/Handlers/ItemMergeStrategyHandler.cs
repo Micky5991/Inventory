@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Micky5991.Inventory.Interfaces;
@@ -8,11 +9,31 @@ namespace Micky5991.Inventory.Strategies.Handlers
     {
         public bool CanBeMerged(IItem targetItem, IItem sourceItem)
         {
+            if (targetItem == null)
+            {
+                throw new ArgumentNullException(nameof(targetItem));
+            }
+
+            if (sourceItem == null)
+            {
+                throw new ArgumentNullException(nameof(sourceItem));
+            }
+
             return GetAllStrategies().All(x => x.CanBeMerged(targetItem, sourceItem));
         }
 
         public async Task MergeItemWithAsync(IItem targetItem, IItem sourceItem)
         {
+            if (targetItem == null)
+            {
+                throw new ArgumentNullException(nameof(targetItem));
+            }
+
+            if (sourceItem == null)
+            {
+                throw new ArgumentNullException(nameof(sourceItem));
+            }
+
             foreach (var strategy in GetAllStrategies())
             {
                 await strategy.MergeItemWithAsync(targetItem, sourceItem);
