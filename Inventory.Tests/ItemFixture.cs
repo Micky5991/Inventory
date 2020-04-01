@@ -31,6 +31,9 @@ namespace Micky5991.Inventory.Tests
         private ItemMeta _realMeta;
         private ItemMeta _fakeMeta;
 
+        private ItemMeta _defaultRealMeta;
+        private ItemMeta _defaultFakeMeta;
+
         private Item _item;
         private FakeItem _fakeItem;
 
@@ -49,8 +52,8 @@ namespace Micky5991.Inventory.Tests
 
             _itemRegistry = new ItemRegistry();
 
-            _realMeta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
-            _fakeMeta = new ItemMeta(FakeItemHandle, typeof(FakeItem), FakeItemDisplayName, FakeItemWeight, FakeItemFlags);
+            _defaultRealMeta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
+            _defaultFakeMeta = new ItemMeta(FakeItemHandle, typeof(FakeItem), FakeItemDisplayName, FakeItemWeight, FakeItemFlags);
 
             _serviceCollection = new ServiceCollection();
             _serviceCollection.AddInventoryServices();
@@ -114,7 +117,7 @@ namespace Micky5991.Inventory.Tests
 
         private void SetupDefaultServiceProvider()
         {
-            SetupServiceProvider(_realMeta, _fakeMeta);
+            SetupServiceProvider(_defaultRealMeta, _defaultFakeMeta);
         }
 
         [TestMethod]
@@ -152,7 +155,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(ItemFlags.None, true)]
         public void SettingNonStackableFlagWillBeInterpretedCorrectly(ItemFlags flags, bool stackable)
         {
-            SetupServiceProvider(new ItemMeta(_realMeta.Handle, typeof(RealItem), _realMeta.DisplayName, _realMeta.DefaultWeight, flags));
+            SetupServiceProvider(new ItemMeta(_defaultRealMeta.Handle, typeof(RealItem), _defaultRealMeta.DisplayName, _defaultRealMeta.DefaultWeight, flags));
 
             _item.Stackable.Should().Be(stackable);
         }
