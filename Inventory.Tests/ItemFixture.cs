@@ -74,6 +74,9 @@ namespace Micky5991.Inventory.Tests
 
         private void SetupServiceProvider(params ItemMeta[] itemMetas)
         {
+            _realMeta = null;
+            _fakeMeta = null;
+
             var index = 0;
             foreach (var itemMeta in itemMetas)
             {
@@ -200,16 +203,6 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        public void InequalHandleShouldPreventMerging()
-        {
-            SetupDefaultServiceProvider();
-
-            var fakeItem = new FakeItem(_item.SingleWeight, "unmergableitem");
-
-            _item.CanMergeWith(fakeItem).Should().BeFalse();
-        }
-
-        [TestMethod]
         public void CanMergeCheckWithNullSourceItemWillResultInException()
         {
             SetupDefaultServiceProvider();
@@ -217,59 +210,6 @@ namespace Micky5991.Inventory.Tests
             Action act = () => _item.CanMergeWith(null);
 
             act.Should().Throw<ArgumentNullException>();
-        }
-
-        [TestMethod]
-        public void NonStackableItemsWillNotBeMergable()
-        {
-            SetupDefaultServiceProvider();
-
-            var fakeItem = new FakeItem(_item.SingleWeight, ItemHandle, flags: ItemFlags.NotStackable);
-
-            _item.CanMergeWith(fakeItem).Should().BeFalse();
-        }
-
-        [TestMethod]
-        public void NonStackableTargetWillNotBeMergable()
-        {
-            SetupServiceProvider(
-                new ItemMeta(_realMeta.Handle, _realMeta.Type, _realMeta.DisplayName, _realMeta.DefaultWeight, ItemFlags.NotStackable),
-                new ItemMeta(_fakeMeta.Handle, _fakeMeta.Type, _fakeMeta.DisplayName, _fakeMeta.DefaultWeight, ItemFlags.NotStackable)
-                );
-
-            _item.CanMergeWith(_fakeItem).Should().BeFalse();
-        }
-
-        [TestMethod]
-        [DataRow(0)]
-        [DataRow(-1)]
-        public void ItemWithZeroAmountWillNotBeMergable(int itemAmount)
-        {
-            var fakeItem = new FakeItem(_item.SingleWeight, _item.Handle);
-
-            _fakeItem.SetAmount(itemAmount);
-
-            _item.CanMergeWith(fakeItem).Should().BeFalse();
-        }
-
-        [TestMethod]
-        [DataRow(1)]
-        [DataRow(2)]
-        public void ItemWithPositiveItemAmountWillBeMergable(int itemAmount)
-        {
-            var fakeItem = new FakeItem(_item.SingleWeight, _item.Handle);
-
-            fakeItem.SetAmount(itemAmount);
-
-            _item.CanMergeWith(fakeItem).Should().BeTrue();
-        }
-
-        [TestMethod]
-        public void SameItemWillNotBeMergable()
-        {
-            SetupDefaultServiceProvider();
-
-            _item.CanMergeWith(_item).Should().BeFalse();
         }
 
         [TestMethod]
@@ -334,56 +274,6 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        public async Task MergingItemWillSumAmount()
-        {
-            SetupDefaultServiceProvider();
-
-            var otherItem = _itemFactory.CreateItem(_realMeta, 2);
-
-            _item.SetAmount(2);
-
-            await _item.MergeItemAsync(otherItem);
-
-            _item.Amount.Should().Be(4);
-            otherItem.Amount.Should().Be(0);
-        }
-
-        [TestMethod]
-        public async Task MergingItemWithItselfWillThrowException()
-        {
-            SetupDefaultServiceProvider();
-
-            Func<Task> act = () => _item.MergeItemAsync(_item);
-
-            (await act.Should().ThrowAsync<ArgumentException>())
-                .Where(x => x.Message.Contains("itself"));
-        }
-
-        [TestMethod]
-        public async Task MergingItemWithNullWillThrowException()
-        {
-            SetupDefaultServiceProvider();
-
-            Func<Task> act = () => _item.MergeItemAsync(null);
-
-            await act.Should().ThrowAsync<ArgumentNullException>();
-        }
-
-        [TestMethod]
-        public async Task MergingItemWithUnmergableItemWillThrowException()
-        {
-            SetupDefaultServiceProvider();
-
-            var otherItem = new Mock<IItem>();
-
-            otherItem.SetupGet(x => x.Stackable).Returns(false);
-
-            Func<Task> act = () => _item.MergeItemAsync(_item);
-
-            await act.Should().ThrowAsync<ArgumentException>();
-        }
-
-        [TestMethod]
         public void DetectionOfMinimalAmountDetectsRightAmount()
         {
             SetupDefaultServiceProvider();
@@ -394,21 +284,6 @@ namespace Micky5991.Inventory.Tests
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("0"));
-        }
-
-        [TestMethod]
-        [DataRow(-1)]
-        [DataRow(0)]
-        [DataRow(1)]
-        public void SingleWeightHasToBeEqualToAllowMerging(int weightDelta)
-        {
-            SetupServiceProvider(_realMeta, _fakeMeta);
-
-            var otherItem = (FakeItem) _itemFactory.CreateItem(_fakeMeta, 1);
-
-            otherItem.SingleWeight = _item.Meta.DefaultWeight + weightDelta;
-
-            _item.CanMergeWith(otherItem).Should().Be(otherItem.SingleWeight == _item.Meta.DefaultWeight);
         }
 
         [TestMethod]
