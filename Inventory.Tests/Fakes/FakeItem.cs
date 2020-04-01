@@ -55,6 +55,11 @@ namespace Micky5991.Inventory.Tests.Fakes
             Amount = 1;
         }
 
+        public void Initialize()
+        {
+            // Do nothing
+        }
+
         public void SetCurrentInventory(IInventory inventory)
         {
             CurrentInventory = inventory;

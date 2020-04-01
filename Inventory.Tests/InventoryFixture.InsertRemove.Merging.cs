@@ -78,8 +78,8 @@ namespace Micky5991.Inventory.Tests
             registry.TryGetItemMeta(appleHandle, out var appleMeta);
             registry.TryGetItemMeta(waterHandle, out var waterMeta);
 
-            var apple = new AppleItem(appleMeta);
-            var water = new WaterItem(waterMeta);
+            var apple = new AppleItem(appleMeta, ServiceUtils.CreateItemServices());
+            var water = new WaterItem(waterMeta, ServiceUtils.CreateItemServices());
 
             apple.SetAmount(3);
             water.SetAmount(2);
@@ -87,7 +87,7 @@ namespace Micky5991.Inventory.Tests
             await _inventory.InsertItemAsync(apple);
             await _inventory.InsertItemAsync(water);
 
-            var additionalApple = new AppleItem(appleMeta);
+            var additionalApple = new AppleItem(appleMeta, ServiceUtils.CreateItemServices());
             additionalApple.SetAmount(2);
 
             var result = await _inventory.InsertItemAsync(additionalApple);

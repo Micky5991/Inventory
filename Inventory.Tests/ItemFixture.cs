@@ -1,10 +1,12 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Entities.Item;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
+using Micky5991.Inventory.Tests.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -22,14 +24,16 @@ namespace Micky5991.Inventory.Tests
         private Item _item;
 
         private Mock<IInventory> _inventoryMock;
+        private AggregatedItemServices _itemServices;
 
         [TestInitialize]
         public void Setup()
         {
             Item.MinimalItemAmount = 0;
 
+            _itemServices = ServiceUtils.CreateItemServices();
             _meta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
-            _item = new RealItem(_meta);
+            _item = new RealItem(_meta, _itemServices);
 
             _inventoryMock = new Mock<IInventory>();
         }
@@ -47,7 +51,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingItemWillSetParametersCorrectly()
         {
-            var item = new RealItem(_meta);
+            var item = new RealItem(_meta, ServiceUtils.CreateItemServices());
 
             item.Meta.Should().Be(_meta);
             item.Handle.Should().Be(_meta.Handle);
@@ -66,7 +70,7 @@ namespace Micky5991.Inventory.Tests
         public void SettingNonStackableFlagWillBeInterpretedCorrectly(ItemFlags flags, bool stackable)
         {
             _meta = new ItemMeta(_meta.Handle, _meta.Type, _meta.DisplayName, _meta.DefaultWeight, flags);
-            _item = new RealItem(_meta);
+            _item = new RealItem(_meta, _itemServices);
 
             _item.Stackable.Should().Be(stackable);
         }
@@ -74,7 +78,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingItemWithNullItemMetaWillThrowException()
         {
-            Action act = () => new RealItem(null);
+            Action act = () => new RealItem(null, _itemServices);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -141,7 +145,7 @@ namespace Micky5991.Inventory.Tests
 
             var newMeta = new ItemMeta(_meta.Handle, _meta.Type, _meta.DisplayName, _meta.DefaultWeight, ItemFlags.NotStackable);
 
-            _item = new RealItem(newMeta);
+            _item = new RealItem(newMeta, _itemServices);
 
             _item.CanMergeWith(fakeItem).Should().BeFalse();
         }
@@ -365,7 +369,7 @@ namespace Micky5991.Inventory.Tests
         {
             var meta = new ItemMeta(ItemHandle, typeof(FakeItem), ItemDisplayName, ItemWeight, ItemFlags);
 
-            Action act = () => new RealItem(meta);
+            Action act = () => new RealItem(meta, _itemServices);
 
             act.Should().Throw<ArgumentException>()
                 .Where(x =>
@@ -380,7 +384,7 @@ namespace Micky5991.Inventory.Tests
             var realMeta = new ItemMeta("item1", typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
             var fakeMeta = new ItemMeta("item2", typeof(FakeItem), ItemDisplayName, ItemWeight, ItemFlags);
 
-            var realItem = new RealItem(realMeta);
+            var realItem = new RealItem(realMeta, _itemServices);
             var fakeItem = new FakeItem(fakeMeta);
 
             realItem.CanMergeWith(fakeItem).Should().BeFalse();

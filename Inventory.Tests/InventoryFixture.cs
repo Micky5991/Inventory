@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
