@@ -88,10 +88,13 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        public void SourceItemWithZeroAmountIsNotMergable()
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void SourceItemWithZeroAmountIsNotMergable(int sourceAmount)
         {
-            SetupMock(_targetItem, true, "item1", 1, 1);
-            SetupMock(_sourceItem, true, "item2", 0, 1);
+            SetupMock(_targetItem, true, "item", 1, 1);
+            SetupMock(_sourceItem, true, "item", sourceAmount, 1);
 
             _strategy.CanBeMerged(_targetItem.Object, _sourceItem.Object).Should().BeFalse();
         }
