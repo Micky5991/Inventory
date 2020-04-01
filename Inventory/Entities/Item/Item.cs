@@ -106,7 +106,7 @@ namespace Micky5991.Inventory.Entities.Item
             return _itemMergeStrategyHandler.CanBeMerged(this, sourceItem);
         }
 
-        public Task MergeItemAsync(IItem sourceItem)
+        public async Task MergeItemAsync(IItem sourceItem)
         {
             if (sourceItem == null)
             {
@@ -123,11 +123,8 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentException("The item cannot be merged with this instance", nameof(sourceItem));
             }
 
-            SetAmount(Amount + sourceItem.Amount);
+            await _itemMergeStrategyHandler.MergeItemWithAsync(this, sourceItem);
 
-            sourceItem.SetAmount(0);
-
-            return Task.CompletedTask;
         }
     }
 }
