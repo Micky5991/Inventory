@@ -18,7 +18,8 @@ namespace Micky5991.Inventory.Strategies
                 throw new ArgumentNullException(nameof(sourceItem));
             }
 
-            return targetItem.Handle == sourceItem.Handle
+            return sourceItem != targetItem
+                   && targetItem.Handle == sourceItem.Handle
                    && sourceItem.Amount > 0
                    && targetItem.Stackable && sourceItem.Stackable
                    && targetItem.SingleWeight == sourceItem.SingleWeight;

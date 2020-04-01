@@ -314,5 +314,30 @@ namespace Micky5991.Inventory.Tests
                 .Where(x => x.Message.Contains("merge") && x.Message.Contains("not"));
         }
 
+        [TestMethod]
+        public async Task MergingWithNullThrowsException()
+        {
+            SetupDefaultServiceProvider();
+
+            Func<Task> act = () => _item.MergeItemAsync(null);
+
+            await act.Should().ThrowAsync<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public async Task MergingWithMergableStrategyExecutesCorrectMethod()
+        {
+            SetupDefaultServiceProvider();
+
+            var handlerMock = new Mock<IItemMergeStrategyHandler>();
+            var item = new RealItem(_realMeta, new AggregatedItemServices(handlerMock.Object));
+
+            handlerMock.Setup(x => x.CanBeMerged(item, _item)).Returns(true);
+
+            await item.MergeItemAsync(_item);
+
+            handlerMock.Verify(x => x.MergeItemWithAsync(item, _item), Times.Once);
+        }
+
     }
 }
