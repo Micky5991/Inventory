@@ -36,7 +36,10 @@ namespace Micky5991.Inventory.Strategies
                 throw new ArgumentNullException(nameof(sourceItem));
             }
 
-            throw new System.NotImplementedException();
+            targetItem.SetAmount(targetItem.Amount + sourceItem.Amount);
+            sourceItem.SetAmount(0);
+
+            return Task.CompletedTask;
         }
     }
 }
