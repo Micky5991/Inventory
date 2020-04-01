@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Entities.Item;
 using Micky5991.Inventory.Enums;
@@ -64,28 +65,9 @@ namespace Micky5991.Inventory.Tests
 
         protected void SetupServiceProvider(params ItemMeta[] itemMetas)
         {
-            _realMeta = null;
-            _fakeMeta = null;
-
-            var index = 0;
             foreach (var itemMeta in itemMetas)
             {
                 _itemRegistry.AddItemMeta(itemMeta);
-
-                switch (index)
-                {
-                    case 1:
-                        _fakeMeta = itemMeta;
-                        break;
-
-                    case 0:
-                    default:
-                        _realMeta = itemMeta;
-
-                        break;
-                }
-
-                index++;
             }
 
             _serviceCollection.AddItemTypes(_itemRegistry);
@@ -94,17 +76,18 @@ namespace Micky5991.Inventory.Tests
             _itemFactory = _serviceProvider.GetRequiredService<IItemFactory>();
             _itemServices = _serviceProvider.GetRequiredService<AggregatedItemServices>();
 
-            _item = (Item) _itemFactory.CreateItem(_realMeta, 1);
-
-            if (_fakeMeta != null)
-            {
-                _fakeItem = (FakeItem) _itemFactory.CreateItem(_fakeMeta, 1);
-            }
+            _item = (Item) _itemFactory.CreateItem(itemMetas.First(), 1);
         }
 
         protected void SetupDefaultServiceProvider()
         {
+            _realMeta = _defaultRealMeta;
+            _fakeMeta = _defaultFakeMeta;
+
             SetupServiceProvider(_defaultRealMeta, _defaultFakeMeta);
+
+            _item = (Item) _itemFactory.CreateItem(_defaultRealMeta, 1);
+            _fakeItem = (FakeItem) _itemFactory.CreateItem(_defaultFakeMeta, 1);
         }
 
     }
