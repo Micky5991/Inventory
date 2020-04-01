@@ -37,51 +37,6 @@ namespace Micky5991.Inventory.Tests
             TearDownItemTest();
         }
 
-        private void SetupServiceProvider(params ItemMeta[] itemMetas)
-        {
-            _realMeta = null;
-            _fakeMeta = null;
-
-            var index = 0;
-            foreach (var itemMeta in itemMetas)
-            {
-                _itemRegistry.AddItemMeta(itemMeta);
-
-                switch (index)
-                {
-                    case 1:
-                        _fakeMeta = itemMeta;
-                        break;
-
-                    case 0:
-                    default:
-                        _realMeta = itemMeta;
-
-                        break;
-                }
-
-                index++;
-            }
-
-            _serviceCollection.AddItemTypes(_itemRegistry);
-            _serviceProvider = _serviceCollection.BuildServiceProvider();
-
-            _itemFactory = _serviceProvider.GetRequiredService<IItemFactory>();
-            _itemServices = _serviceProvider.GetRequiredService<AggregatedItemServices>();
-
-            _item = (Item) _itemFactory.CreateItem(_realMeta, 1);
-
-            if (_fakeMeta != null)
-            {
-                _fakeItem = (FakeItem) _itemFactory.CreateItem(_fakeMeta, 1);
-            }
-        }
-
-        private void SetupDefaultServiceProvider()
-        {
-            SetupServiceProvider(_defaultRealMeta, _defaultFakeMeta);
-        }
-
         [TestMethod]
         public void CreatingItemWillBeSuccessful()
         {
