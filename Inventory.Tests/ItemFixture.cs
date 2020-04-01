@@ -1,12 +1,15 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Entities.Item;
 using Micky5991.Inventory.Enums;
+using Micky5991.Inventory.Extensions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
 using Micky5991.Inventory.Tests.Utils;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -16,14 +19,27 @@ namespace Micky5991.Inventory.Tests
     public class ItemFixture
     {
         private const string ItemHandle = "testhandle";
-        private const string ItemDisplayName = "FakeItem";
+        private const string ItemDisplayName = "RealItem";
         private const int ItemWeight = 50;
         private const ItemFlags ItemFlags = Enums.ItemFlags.None;
 
-        private ItemMeta _meta;
+        private const string FakeItemHandle = "fakehandle";
+        private const string FakeItemDisplayName = "FakeItem";
+        private const int FakeItemWeight = 50;
+        private const ItemFlags FakeItemFlags = Enums.ItemFlags.None;
+
+        private ItemMeta _realMeta;
+        private ItemMeta _fakeMeta;
+
         private Item _item;
+        private FakeItem _fakeItem;
 
         private Mock<IInventory> _inventoryMock;
+
+        private IServiceCollection _serviceCollection;
+        private IServiceProvider _serviceProvider;
+        private ItemRegistry _itemRegistry;
+        private IItemFactory _itemFactory;
         private AggregatedItemServices _itemServices;
 
         [TestInitialize]
@@ -31,16 +47,78 @@ namespace Micky5991.Inventory.Tests
         {
             Item.MinimalItemAmount = 0;
 
-            _itemServices = ServiceUtils.CreateItemServices();
-            _meta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
-            _item = new RealItem(_meta, _itemServices);
+            _itemRegistry = new ItemRegistry();
+
+            _realMeta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
+            _fakeMeta = new ItemMeta(FakeItemHandle, typeof(FakeItem), FakeItemDisplayName, FakeItemWeight, FakeItemFlags);
+
+            _serviceCollection = new ServiceCollection();
+            _serviceCollection.AddInventoryServices();
 
             _inventoryMock = new Mock<IInventory>();
+        }
+
+        [TestCleanup]
+        public void TearDown()
+        {
+            _serviceProvider = null;
+            _serviceCollection = null;
+            _itemFactory = null;
+
+            _realMeta = null;
+            _fakeMeta = null;
+
+            _item = null;
+            _fakeItem = null;
+        }
+
+        private void SetupServiceProvider(params ItemMeta[] itemMetas)
+        {
+            var index = 0;
+            foreach (var itemMeta in itemMetas)
+            {
+                _itemRegistry.AddItemMeta(itemMeta);
+
+                switch (index)
+                {
+                    case 1:
+                        _fakeMeta = itemMeta;
+                        break;
+
+                    case 0:
+                    default:
+                        _realMeta = itemMeta;
+
+                        break;
+                }
+
+                index++;
+            }
+
+            _serviceCollection.AddItemTypes(_itemRegistry);
+            _serviceProvider = _serviceCollection.BuildServiceProvider();
+
+            _itemFactory = _serviceProvider.GetRequiredService<IItemFactory>();
+            _itemServices = _serviceProvider.GetRequiredService<AggregatedItemServices>();
+
+            _item = (Item) _itemFactory.CreateItem(_realMeta, 1);
+
+            if (_fakeMeta != null)
+            {
+                _fakeItem = (FakeItem) _itemFactory.CreateItem(_fakeMeta, 1);
+            }
+        }
+
+        private void SetupDefaultServiceProvider()
+        {
+            SetupServiceProvider(_realMeta, _fakeMeta);
         }
 
         [TestMethod]
         public void CreatingItemWillBeSuccessful()
         {
+            SetupDefaultServiceProvider();
+
             var item = _item;
 
             item.Should()
@@ -51,13 +129,15 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingItemWillSetParametersCorrectly()
         {
-            var item = new RealItem(_meta, ServiceUtils.CreateItemServices());
+            SetupDefaultServiceProvider();
 
-            item.Meta.Should().Be(_meta);
-            item.Handle.Should().Be(_meta.Handle);
-            item.SingleWeight.Should().Be(_meta.DefaultWeight);
-            item.DisplayName.Should().Be(_meta.DisplayName);
-            item.DefaultDisplayName.Should().Be(_meta.DisplayName);
+            var item = new RealItem(_realMeta, ServiceUtils.CreateItemServices());
+
+            item.Meta.Should().Be(_realMeta);
+            item.Handle.Should().Be(_realMeta.Handle);
+            item.SingleWeight.Should().Be(_realMeta.DefaultWeight);
+            item.DisplayName.Should().Be(_realMeta.DisplayName);
+            item.DefaultDisplayName.Should().Be(_realMeta.DisplayName);
             item.Amount.Should().Be(Math.Max(Item.MinimalItemAmount, 1));
             item.Stackable.Should().BeTrue();
 
@@ -69,8 +149,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(ItemFlags.None, true)]
         public void SettingNonStackableFlagWillBeInterpretedCorrectly(ItemFlags flags, bool stackable)
         {
-            _meta = new ItemMeta(_meta.Handle, _meta.Type, _meta.DisplayName, _meta.DefaultWeight, flags);
-            _item = new RealItem(_meta, _itemServices);
+            SetupServiceProvider(new ItemMeta(_realMeta.Handle, typeof(RealItem), _realMeta.DisplayName, _realMeta.DefaultWeight, flags));
 
             _item.Stackable.Should().Be(stackable);
         }
@@ -86,6 +165,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameUpdatesValueCorrecly()
         {
+            SetupDefaultServiceProvider();
+
             _item.SetDisplayName("Cool");
 
             _item.DisplayName.Should().Be("Cool");
@@ -94,6 +175,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameKeepsValueInDefaultDisplayNameSame()
         {
+            SetupDefaultServiceProvider();
+
             _item.SetDisplayName("Other");
 
             var oldName = _item.DefaultDisplayName;
@@ -107,6 +190,8 @@ namespace Micky5991.Inventory.Tests
         [DataRow(" ")]
         public void SettingDisplayNameToNullThrowsException(string displayName)
         {
+            SetupDefaultServiceProvider();
+
             var oldName = _item.DisplayName;
             Action act = () => _item.SetDisplayName(displayName);
 
@@ -117,6 +202,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void InequalHandleShouldPreventMerging()
         {
+            SetupDefaultServiceProvider();
+
             var fakeItem = new FakeItem(_item.SingleWeight, "unmergableitem");
 
             _item.CanMergeWith(fakeItem).Should().BeFalse();
@@ -125,6 +212,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CanMergeCheckWithNullSourceItemWillResultInException()
         {
+            SetupDefaultServiceProvider();
+
             Action act = () => _item.CanMergeWith(null);
 
             act.Should().Throw<ArgumentNullException>();
@@ -133,6 +222,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void NonStackableItemsWillNotBeMergable()
         {
+            SetupDefaultServiceProvider();
+
             var fakeItem = new FakeItem(_item.SingleWeight, ItemHandle, flags: ItemFlags.NotStackable);
 
             _item.CanMergeWith(fakeItem).Should().BeFalse();
@@ -141,13 +232,12 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void NonStackableTargetWillNotBeMergable()
         {
-            var fakeItem = new FakeItem(_item.SingleWeight, ItemHandle, flags: ItemFlags.NotStackable);
+            SetupServiceProvider(
+                new ItemMeta(_realMeta.Handle, _realMeta.Type, _realMeta.DisplayName, _realMeta.DefaultWeight, ItemFlags.NotStackable),
+                new ItemMeta(_fakeMeta.Handle, _fakeMeta.Type, _fakeMeta.DisplayName, _fakeMeta.DefaultWeight, ItemFlags.NotStackable)
+                );
 
-            var newMeta = new ItemMeta(_meta.Handle, _meta.Type, _meta.DisplayName, _meta.DefaultWeight, ItemFlags.NotStackable);
-
-            _item = new RealItem(newMeta, _itemServices);
-
-            _item.CanMergeWith(fakeItem).Should().BeFalse();
+            _item.CanMergeWith(_fakeItem).Should().BeFalse();
         }
 
         [TestMethod]
@@ -157,7 +247,7 @@ namespace Micky5991.Inventory.Tests
         {
             var fakeItem = new FakeItem(_item.SingleWeight, _item.Handle);
 
-            fakeItem.SetAmount(itemAmount);
+            _fakeItem.SetAmount(itemAmount);
 
             _item.CanMergeWith(fakeItem).Should().BeFalse();
         }
@@ -177,6 +267,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void SameItemWillNotBeMergable()
         {
+            SetupDefaultServiceProvider();
+
             _item.CanMergeWith(_item).Should().BeFalse();
         }
 
@@ -186,7 +278,9 @@ namespace Micky5991.Inventory.Tests
         [DataRow(100)]
         public void SettingAmountWillUpdateWeightAndAmount(int amountDelta)
         {
-            var singleWeight = _meta.DefaultWeight;
+            SetupDefaultServiceProvider();
+
+            var singleWeight = _realMeta.DefaultWeight;
             var targetAmount = Item.MinimalItemAmount + amountDelta;
 
             _item.SetAmount(targetAmount);
@@ -202,6 +296,8 @@ namespace Micky5991.Inventory.Tests
         [DataRow(11)]
         public void TotalWeightIsMultipleOfSingleWeightAndAmount(int amountDelta)
         {
+            SetupDefaultServiceProvider();
+
             var actualAmount = Item.MinimalItemAmount + amountDelta;
 
             _item.SetAmount(actualAmount);
@@ -214,6 +310,8 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-2)]
         public void SettingItemAmountBelowMinimalAllowedItemAmountThrowsException(int amountDelta)
         {
+            SetupDefaultServiceProvider();
+
             var oldAmount = _item.Amount;
             Action act = () => _item.SetAmount(Item.MinimalItemAmount + amountDelta);
 
@@ -226,6 +324,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void SettingCurrentInventoryWillUpdateValue()
         {
+            SetupDefaultServiceProvider();
+
             _item.SetCurrentInventory(_inventoryMock.Object);
             _item.CurrentInventory.Should().Be(_inventoryMock.Object);
 
@@ -236,8 +336,9 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task MergingItemWillSumAmount()
         {
-            var otherItem = new FakeItem(_meta);
-            otherItem.SetAmount(2);
+            SetupDefaultServiceProvider();
+
+            var otherItem = _itemFactory.CreateItem(_realMeta, 2);
 
             _item.SetAmount(2);
 
@@ -250,6 +351,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task MergingItemWithItselfWillThrowException()
         {
+            SetupDefaultServiceProvider();
+
             Func<Task> act = () => _item.MergeItemAsync(_item);
 
             (await act.Should().ThrowAsync<ArgumentException>())
@@ -259,6 +362,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task MergingItemWithNullWillThrowException()
         {
+            SetupDefaultServiceProvider();
+
             Func<Task> act = () => _item.MergeItemAsync(null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
@@ -267,6 +372,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task MergingItemWithUnmergableItemWillThrowException()
         {
+            SetupDefaultServiceProvider();
+
             var otherItem = new Mock<IItem>();
 
             otherItem.SetupGet(x => x.Stackable).Returns(false);
@@ -279,6 +386,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void DetectionOfMinimalAmountDetectsRightAmount()
         {
+            SetupDefaultServiceProvider();
+
             Item.MinimalItemAmount = -10;
 
             Action act = () => _item.SetAmount(-5);
@@ -293,7 +402,9 @@ namespace Micky5991.Inventory.Tests
         [DataRow(1)]
         public void SingleWeightHasToBeEqualToAllowMerging(int weightDelta)
         {
-            var otherItem = new FakeItem(_item.Meta);
+            SetupServiceProvider(_realMeta, _fakeMeta);
+
+            var otherItem = (FakeItem) _itemFactory.CreateItem(_fakeMeta, 1);
 
             otherItem.SingleWeight = _item.Meta.DefaultWeight + weightDelta;
 
@@ -303,6 +414,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameTriggersNotification()
         {
+            SetupDefaultServiceProvider();
+
             using var monitoredSubject = _item.Monitor();
 
             _item.SetDisplayName(_item.DisplayName + "ADD");
@@ -313,6 +426,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameToCurrentValueDoesNotTriggerNotification()
         {
+            SetupDefaultServiceProvider();
+
             using var monitoredSubject = _item.Monitor();
 
             _item.SetDisplayName(_item.DisplayName);
@@ -323,6 +438,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingAmountWillNotifyAmountAndTotalWeight()
         {
+            SetupDefaultServiceProvider();
+
             using var monitoredItem = _item.Monitor();
 
             _item.SetAmount(_item.Amount + 1);
@@ -334,6 +451,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingAmountToSameAmountWontTriggerNotification()
         {
+            SetupDefaultServiceProvider();
+
             using var monitoredItem = _item.Monitor();
 
             _item.SetAmount(_item.Amount);
@@ -345,6 +464,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingCurrentInventoryToDifferentValueWillNotify()
         {
+            SetupDefaultServiceProvider();
+
             using var monitoredItem = _item.Monitor();
 
             var otherInventory = new Mock<IInventory>();
@@ -357,6 +478,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingCurrentInventoryToSameValueWontNotify()
         {
+            SetupDefaultServiceProvider();
+
             using var monitoredItem = _item.Monitor();
 
             _item.SetCurrentInventory(null);
@@ -367,6 +490,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void PassingMetaWithWrongTypeThrowsException()
         {
+            SetupDefaultServiceProvider();
+
             var meta = new ItemMeta(ItemHandle, typeof(FakeItem), ItemDisplayName, ItemWeight, ItemFlags);
 
             Action act = () => new RealItem(meta, _itemServices);
@@ -381,11 +506,10 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task MergingTwoItemsCanMergeSignalsFalseWillThrowException()
         {
-            var realMeta = new ItemMeta("item1", typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
-            var fakeMeta = new ItemMeta("item2", typeof(FakeItem), ItemDisplayName, ItemWeight, ItemFlags);
+            SetupDefaultServiceProvider();
 
-            var realItem = new RealItem(realMeta, _itemServices);
-            var fakeItem = new FakeItem(fakeMeta);
+            var realItem = _itemFactory.CreateItem(_realMeta, 1);
+            var fakeItem = _itemFactory.CreateItem(_fakeMeta, 1);
 
             realItem.CanMergeWith(fakeItem).Should().BeFalse();
 
