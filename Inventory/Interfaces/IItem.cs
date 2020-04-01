@@ -72,6 +72,11 @@ namespace Micky5991.Inventory.Interfaces
         IInventory? CurrentInventory { get; }
 
         /// <summary>
+        /// Setups the item right after its creation for any handling that is not possible in a virtual constructor.
+        /// </summary>
+        void Initialize();
+
+        /// <summary>
         /// /!\ INTERNAL /!\
         /// This methods updates the value of <see cref="CurrentInventory"/> to the current inventory.
         ///

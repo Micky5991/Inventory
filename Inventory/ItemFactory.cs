@@ -63,6 +63,8 @@ namespace Micky5991.Inventory
 
             var item = (IItem) factory(_serviceProvider, new [] { (object) meta });
 
+            item.Initialize();
+
             return item;
         }
     }

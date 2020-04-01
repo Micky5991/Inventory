@@ -1,20 +1,26 @@
 using System;
 using System.Threading.Tasks;
+using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Interfaces;
+using Micky5991.Inventory.Strategies;
 
 namespace Micky5991.Inventory.Entities.Item
 {
     public abstract partial class Item : IItem
     {
+        private readonly IItemMergeStrategyHandler _itemMergeStrategyHandler;
+
         internal static int MinimalItemAmount { get; set; } = 0;
 
-        protected Item(ItemMeta meta)
+        protected Item(ItemMeta meta, AggregatedItemServices itemServices)
         {
             if (meta == null)
             {
                 throw new ArgumentNullException(nameof(meta));
             }
+
+            _itemMergeStrategyHandler = itemServices.ItemMergeStrategyHandler;
 
             RuntimeId = Guid.NewGuid();
             Meta = meta;
@@ -34,6 +40,11 @@ namespace Micky5991.Inventory.Entities.Item
             Amount = Math.Max(MinimalItemAmount, 1);
         }
 
+        protected virtual void SetupStrategies()
+        {
+            _itemMergeStrategyHandler.AddStrategy(new BasicItemMergeStrategy());
+        }
+
         private (bool Valid, string? ErrorMessage) ValidateMeta()
         {
             var currentType = GetType();
@@ -44,6 +55,11 @@ namespace Micky5991.Inventory.Entities.Item
             }
 
             return (true, null);
+        }
+
+        public void Initialize()
+        {
+            SetupStrategies();
         }
 
         public void SetCurrentInventory(IInventory? inventory)
@@ -87,12 +103,7 @@ namespace Micky5991.Inventory.Entities.Item
                 return false;
             }
 
-            return
-                Handle == sourceItem.Handle
-                && sourceItem.Amount > 0
-                && Stackable
-                && sourceItem.Stackable
-                && SingleWeight == sourceItem.SingleWeight;
+            return _itemMergeStrategyHandler.CanBeMerged(this, sourceItem);
         }
 
         public Task MergeItemAsync(IItem sourceItem)
@@ -107,7 +118,7 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentException("Could not merge item with itself", nameof(sourceItem));
             }
 
-            if (CanMergeWith(sourceItem) == false)
+            if (_itemMergeStrategyHandler.CanBeMerged(this, sourceItem) == false)
             {
                 throw new ArgumentException("The item cannot be merged with this instance", nameof(sourceItem));
             }

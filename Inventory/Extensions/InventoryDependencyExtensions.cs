@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
+using Micky5991.Inventory.Strategies.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Micky5991.Inventory.Extensions
@@ -18,7 +20,10 @@ namespace Micky5991.Inventory.Extensions
 
             return serviceCollection
                 .AddTransient<IInventoryFactory, InventoryFactory>()
-                .AddTransient<IItemFactory>(x => new ItemFactory(x.GetRequiredService<IItemRegistry>(), x));
+                .AddTransient<IItemFactory>(x => new ItemFactory(x.GetRequiredService<IItemRegistry>(), x))
+
+                .AddTransient<IItemMergeStrategyHandler, ItemMergeStrategyHandler>()
+                .AddTransient<AggregatedItemServices>();
         }
 
         public static IServiceCollection AddItemTypes(this IServiceCollection serviceCollection, IItemRegistry itemRegistry)
