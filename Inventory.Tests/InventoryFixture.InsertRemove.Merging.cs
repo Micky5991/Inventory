@@ -1,10 +1,8 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
-using Micky5991.Inventory.Tests.SimpleInstances;
 using Micky5991.Inventory.Tests.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -65,44 +63,6 @@ namespace Micky5991.Inventory.Tests
             await _inventory.InsertItemAsync(additionalItem.Object);
 
             insertedItemA.Verify(x => x.MergeItemAsync(additionalItem.Object), Times.Once);
-        }
-
-        [TestMethod]
-        public async Task AddingMergableItemToInventoryMergesWithOtherMergableItems()
-        {
-            const string appleHandle = "apple";
-            const string waterHandle = "water";
-
-            var registry = new SimpleItemRegistry();
-
-            registry.TryGetItemMeta(appleHandle, out var appleMeta);
-            registry.TryGetItemMeta(waterHandle, out var waterMeta);
-
-            var apple = new AppleItem(appleMeta, ServiceUtils.CreateItemServices());
-            var water = new WaterItem(waterMeta, ServiceUtils.CreateItemServices());
-
-            apple.SetAmount(3);
-            water.SetAmount(2);
-
-            await _inventory.InsertItemAsync(apple);
-            await _inventory.InsertItemAsync(water);
-
-            var additionalApple = new AppleItem(appleMeta, ServiceUtils.CreateItemServices());
-            additionalApple.SetAmount(2);
-
-            var result = await _inventory.InsertItemAsync(additionalApple);
-
-            result.Should().BeTrue();
-            _inventory.Items.Should().HaveCount(2);
-
-            var foundApple = _inventory.Items.First(x => x.Handle == appleHandle);
-            var foundWater = _inventory.Items.First(x => x.Handle == waterHandle);
-
-            foundApple.Should().Be(apple);
-            foundApple.Amount.Should().Be(5);
-
-            foundWater.Should().Be(water);
-            foundWater.Amount.Should().Be(2);
         }
 
         private Mock<IItem> CreateMockItem(string handle = "item", int weight = 1)
