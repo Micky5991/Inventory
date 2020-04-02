@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Micky5991.Inventory.Interfaces;
 
@@ -10,12 +11,16 @@ namespace Micky5991.Inventory.Entities.Inventory
         {
             item.SetCurrentInventory(this);
 
+            item.PropertyChanged += OnPropertyChanged;
+
             await OnAfterItemAddedOrRemoved(item);
         }
 
         private async Task OnItemRemoved(IItem item)
         {
             item.SetCurrentInventory(null);
+
+            item.PropertyChanged -= OnPropertyChanged;
 
             await OnAfterItemAddedOrRemoved(item);
         }
@@ -27,6 +32,17 @@ namespace Micky5991.Inventory.Entities.Inventory
             OnPropertyChanged(nameof(Items));
 
             return Task.CompletedTask;
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(IItem.TotalWeight):
+                    RecalculateWeight();
+
+                    break;
+            }
         }
 
     }
