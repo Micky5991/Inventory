@@ -39,6 +39,9 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
 
+    - name: Install .NET Core tools
+      run: dotnet tool restore
+
     - name: Build
       if: steps.vars.outputs.is_tag == 'false'
       run: dotnet build --configuration Release --no-restore
@@ -49,6 +52,9 @@ jobs:
 
     - name: Test
       run: dotnet test --verbosity normal
+
+    - name: Run Mutation Tests
+      run: dotnet stryker
 
     - name: Save NuGet artifact
       if: success() && steps.vars.outputs.is_tag == 'true' && matrix.os == 'ubuntu-latest'
