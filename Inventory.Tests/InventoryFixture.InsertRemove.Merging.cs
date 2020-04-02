@@ -60,8 +60,9 @@ namespace Micky5991.Inventory.Tests
             await _inventory.InsertItemAsync(insertedItemA.Object);
             await _inventory.InsertItemAsync(insertedItemB.Object);
 
-            await _inventory.InsertItemAsync(additionalItem.Object);
+            var result = await _inventory.InsertItemAsync(additionalItem.Object);
 
+            result.Should().BeTrue();
             insertedItemA.Verify(x => x.MergeItemAsync(additionalItem.Object), Times.Once);
         }
 
