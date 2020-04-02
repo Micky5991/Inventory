@@ -19,7 +19,7 @@ namespace Micky5991.Inventory.Strategies.Handlers
                 throw new ArgumentNullException(nameof(sourceItem));
             }
 
-            return GetAllStrategies().All(x => x.CanBeMerged(targetItem, sourceItem));
+            return this.All(x => x.CanBeMerged(targetItem, sourceItem));
         }
 
         public async Task MergeItemWithAsync(IItem targetItem, IItem sourceItem)
@@ -34,7 +34,7 @@ namespace Micky5991.Inventory.Strategies.Handlers
                 throw new ArgumentNullException(nameof(sourceItem));
             }
 
-            foreach (var strategy in GetAllStrategies())
+            foreach (var strategy in this)
             {
                 await strategy.MergeItemWithAsync(targetItem, sourceItem);
             }

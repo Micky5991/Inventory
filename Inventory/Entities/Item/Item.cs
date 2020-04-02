@@ -42,7 +42,7 @@ namespace Micky5991.Inventory.Entities.Item
 
         protected virtual void SetupStrategies()
         {
-            _itemMergeStrategyHandler.AddStrategy(new BasicItemMergeStrategy());
+            _itemMergeStrategyHandler.Add(new BasicItemMergeStrategy());
         }
 
         private (bool Valid, string? ErrorMessage) ValidateMeta()
