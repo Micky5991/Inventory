@@ -40,6 +40,7 @@ jobs:
       run: dotnet restore
 
     - name: Install .NET Core tools
+      working-directory: ./Inventory.Tests/
       run: dotnet tool restore
 
     - name: Build
@@ -54,6 +55,7 @@ jobs:
       run: dotnet test --verbosity normal
 
     - name: Run Mutation Tests
+      working-directory: ./Inventory.Tests/
       run: dotnet stryker
 
     - name: Save NuGet artifact
