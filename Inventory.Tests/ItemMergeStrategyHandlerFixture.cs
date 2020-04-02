@@ -31,7 +31,7 @@ namespace Micky5991.Inventory.Tests
 
             foreach (var mergeStrategy in _mergeStrategies)
             {
-                _strategyHandler.AddStrategy(mergeStrategy.Object);
+                _strategyHandler.Add(mergeStrategy.Object);
             }
 
             _sourceItem = new Mock<IItem>();
