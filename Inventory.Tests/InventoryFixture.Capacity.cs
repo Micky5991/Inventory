@@ -73,5 +73,20 @@ namespace Micky5991.Inventory.Tests
             _inventory.UsedCapacity.Should().Be(oldUsedCapacity);
         }
 
+        [TestMethod]
+        public async Task ChangingAmountOfItemChangesUsedCapacityOfInventory()
+        {
+            SetupDefaultServiceProvider();
+
+            var item = _itemFactory.CreateItem(_realMeta, 1);
+
+            await _inventory.InsertItemAsync(item);
+
+            _inventory.UsedCapacity.Should().Be(_realMeta.DefaultWeight);
+
+            item.SetAmount(2);
+
+            _inventory.UsedCapacity.Should().Be(2 * _realMeta.DefaultWeight);
+        }
     }
 }

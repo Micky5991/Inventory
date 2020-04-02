@@ -20,9 +20,17 @@ namespace Micky5991.Inventory.Tests
         [TestInitialize]
         public void Setup()
         {
+            SetupItemTest();
+
             _inventory = new Entities.Inventory.Inventory(InventoryCapacity);
 
             _itemMock = new Mock<IItem>();
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            TearDownItemTest();
         }
 
         [TestMethod]
