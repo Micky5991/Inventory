@@ -22,6 +22,7 @@ namespace Micky5991.Inventory.Tests
         private Mock<IInventory> _inventoryMock;
         private Mock<IItemMergeStrategyHandler> _mergeStrategyHandlerMock;
         private Mock<IItemSplitStrategyHandler> _splitStrategyHandlerMock;
+        private Mock<IItemFactory> _itemFactoryMock;
 
         private AggregatedItemServices _itemServices;
 
@@ -30,14 +31,17 @@ namespace Micky5991.Inventory.Tests
         {
             Item.MinimalItemAmount = 0;
 
+            SetupItemTest();
+
             _inventoryMock = new Mock<IInventory>();
 
             _mergeStrategyHandlerMock = new Mock<IItemMergeStrategyHandler>();
             _splitStrategyHandlerMock = new Mock<IItemSplitStrategyHandler>();
 
-            _itemServices = new AggregatedItemServices(_mergeStrategyHandlerMock.Object, _splitStrategyHandlerMock.Object, _itemFactory);
+            _itemFactoryMock = new Mock<IItemFactory>();
 
-            SetupItemTest();
+            _itemServices = new AggregatedItemServices(_mergeStrategyHandlerMock.Object, _splitStrategyHandlerMock.Object, _itemFactoryMock.Object);
+
         }
 
         [TestCleanup]
@@ -345,6 +349,52 @@ namespace Micky5991.Inventory.Tests
             await item.MergeItemAsync(_item);
 
             _mergeStrategyHandlerMock.Verify(x => x.MergeItemWithAsync(item, _item), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task SplittingStrategyExecutesCorrectMethod()
+        {
+            SetupDefaultServiceProvider();
+
+            var item = new RealItem(_defaultRealMeta, _itemServices);
+            var factoryResultItem = new RealItem(_defaultRealMeta, _itemServices);
+
+            _itemFactoryMock.Setup(x => x.CreateItem(_realMeta, 2))
+                .Returns<ItemMeta, int>((meta, amount) =>
+                {
+                    factoryResultItem.SetAmount(amount);
+
+                    return factoryResultItem;
+                });
+
+            _splitStrategyHandlerMock
+                .Setup(x => x.SplitItemAsync(item, It.IsAny<IItem>()))
+                .Returns(Task.CompletedTask);
+
+            item.SetAmount(5);
+
+            var resultItem = await item.SplitItemAsync(2);
+
+            resultItem.Should()
+                .NotBeNull()
+                .And.Be(factoryResultItem);
+
+            _splitStrategyHandlerMock.Verify(x => x.SplitItemAsync(item, It.IsAny<IItem>()), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task SplittingItemReturnsCorrectItem()
+        {
+            SetupDefaultServiceProvider();
+
+            _item.SetAmount(5);
+
+            var resultItem = await _item.SplitItemAsync(2);
+
+            _item.Amount.Should().Be(3);
+
+            resultItem.Should().BeOfType(_item.GetType());
+            resultItem.Amount.Should().Be(2);
         }
 
         [TestMethod]
