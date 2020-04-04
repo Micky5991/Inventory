@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Inventory.Example.Extensions;
 using Micky5991.Inventory.Interfaces;
 
 namespace Inventory.Example.Services
@@ -29,8 +30,8 @@ namespace Inventory.Example.Services
         {
             Console.WriteLine("--> Add 1 apple and 3 water to inventory, expect 1 apple and 3 water");
 
-            var apple = _itemFactory.CreateItem(ItemHandle.Apple.ToString(), 1);
-            var water = _itemFactory.CreateItem(ItemHandle.Water.ToString(), 3);
+            var apple = _itemFactory.CreateItem(ItemHandle.Apple, 1);
+            var water = _itemFactory.CreateItem(ItemHandle.Water, 3);
 
             await _inventory.InsertItemAsync(apple);
             await _inventory.InsertItemAsync(water);
@@ -42,7 +43,7 @@ namespace Inventory.Example.Services
 
             Console.WriteLine("--> Add another 2 water into the inventory, expect 5 water.");
 
-            var additionalWater = _itemFactory.CreateItem(ItemHandle.Water.ToString(), 2);
+            var additionalWater = _itemFactory.CreateItem(ItemHandle.Water, 2);
 
             await _inventory.InsertItemAsync(additionalWater);
 
@@ -53,7 +54,7 @@ namespace Inventory.Example.Services
 
             Console.WriteLine("Take 2 Water from inventory and print seperate");
 
-            var currentWater = _inventory.Items.First(x => x.Handle == ItemHandle.Water.ToString());
+            var currentWater = _inventory.GetItems(ItemHandle.Water).First();
             var splitWater = await currentWater.SplitItemAsync(2);
 
             Console.WriteLine("[INVENTORY]");
