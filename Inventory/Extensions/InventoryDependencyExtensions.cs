@@ -23,6 +23,7 @@ namespace Micky5991.Inventory.Extensions
                 .AddTransient<IItemFactory>(x => new ItemFactory(x.GetRequiredService<IItemRegistry>(), x))
 
                 .AddTransient<IItemMergeStrategyHandler, ItemMergeStrategyHandler>()
+                .AddTransient<IItemSplitStrategyHandler, ItemSplitStrategyHandler>()
                 .AddTransient<AggregatedItemServices>();
         }
 

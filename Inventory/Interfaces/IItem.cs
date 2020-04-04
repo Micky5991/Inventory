@@ -126,5 +126,7 @@ namespace Micky5991.Inventory.Interfaces
         /// <exception cref="ArgumentException"><paramref name="sourceItem"/> is already this instance, <paramref name="sourceItem"/> is not mergable with this item</exception>
         Task MergeItemAsync([NotNull] IItem sourceItem);
 
+        Task<IItem> SplitItemAsync(int targetAmount);
+
     }
 }

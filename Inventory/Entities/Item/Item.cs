@@ -10,6 +10,8 @@ namespace Micky5991.Inventory.Entities.Item
     public abstract partial class Item : IItem
     {
         private readonly IItemMergeStrategyHandler _itemMergeStrategyHandler;
+        private readonly IItemSplitStrategyHandler _itemSplitStrategyHandler;
+        private readonly IItemFactory _itemFactory;
 
         internal static int MinimalItemAmount { get; set; } = 0;
 
@@ -21,6 +23,8 @@ namespace Micky5991.Inventory.Entities.Item
             }
 
             _itemMergeStrategyHandler = itemServices.ItemMergeStrategyHandler;
+            _itemSplitStrategyHandler = itemServices.ItemSplitStrategyHandler;
+            _itemFactory = itemServices.ItemFactory;
 
             RuntimeId = Guid.NewGuid();
             Meta = meta;
@@ -114,6 +118,27 @@ namespace Micky5991.Inventory.Entities.Item
             }
 
             await _itemMergeStrategyHandler.MergeItemWithAsync(this, sourceItem);
+        }
+
+        public async Task<IItem> SplitItemAsync(int targetAmount)
+        {
+            if (targetAmount <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(targetAmount), $"The given {nameof(targetAmount)} has to be 1 or higher");
+            }
+
+            if (targetAmount >= Amount)
+            {
+                throw new ArgumentOutOfRangeException(nameof(targetAmount), $"The given {nameof(targetAmount)} has to be below {Amount}");
+            }
+
+            var item = _itemFactory.CreateItem(Meta, targetAmount);
+
+            SetAmount(Amount - targetAmount);
+
+            await _itemSplitStrategyHandler.SplitItemAsync(this, item);
+
+            return item;
         }
     }
 }
