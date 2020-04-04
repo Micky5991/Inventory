@@ -22,7 +22,7 @@ namespace Micky5991.Inventory.Tests
         {
             SetupItemTest();
 
-            _inventory = new Entities.Inventory.Inventory(InventoryCapacity);
+            _inventory = new Entities.Inventory.Inventory(InventoryCapacity, _inventoryServices);
 
             _itemMock = new Mock<IItem>();
         }

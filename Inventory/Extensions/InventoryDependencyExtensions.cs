@@ -25,7 +25,8 @@ namespace Micky5991.Inventory.Extensions
 
                 .AddTransient<IItemMergeStrategyHandler, ItemMergeStrategyHandler>()
                 .AddTransient<IItemSplitStrategyHandler, ItemSplitStrategyHandler>()
-                .AddTransient<AggregatedItemServices>();
+                .AddTransient<AggregatedItemServices>()
+                .AddTransient<AggregatedInventoryServices>();
         }
 
         public static IServiceCollection AddItemTypes(this IServiceCollection serviceCollection, IItemRegistry itemRegistry)

@@ -11,6 +11,11 @@ namespace Micky5991.Inventory.Interfaces
     public interface IInventory : INotifyPropertyChanged
     {
         /// <summary>
+        /// Non persistant identifier of this inventory that should ONLY be used for communication in runtime and during the lifetime of this inventory.
+        /// </summary>
+        Guid RuntimeId { get; }
+
+        /// <summary>
         /// Contains all items currently added to the inventory
         /// </summary>
         ICollection<IItem> Items { get; }

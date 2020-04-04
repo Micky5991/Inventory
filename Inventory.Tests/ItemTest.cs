@@ -35,9 +35,11 @@ namespace Micky5991.Inventory.Tests
         protected IServiceProvider _serviceProvider;
         protected ItemRegistry _itemRegistry;
         protected IItemFactory _itemFactory;
+        protected IInventoryFactory _inventoryFactory;
         protected AggregatedItemServices _itemServices;
+        protected AggregatedInventoryServices _inventoryServices;
 
-        protected void SetupItemTest()
+        protected void SetupItemTest(Action<IServiceCollection> collectionInitializer = null)
         {
 
             _itemRegistry = new ItemRegistry();
@@ -46,6 +48,12 @@ namespace Micky5991.Inventory.Tests
             _defaultFakeMeta = new ItemMeta(FakeItemHandle, typeof(FakeItem), FakeItemDisplayName, FakeItemWeight, FakeItemFlags);
 
             _serviceCollection = new ServiceCollection();
+
+            if (collectionInitializer != null)
+            {
+                collectionInitializer(_serviceCollection);
+            }
+
             _serviceCollection.AddInventoryServices();
 
         }
@@ -75,6 +83,8 @@ namespace Micky5991.Inventory.Tests
 
             _itemFactory = _serviceProvider.GetRequiredService<IItemFactory>();
             _itemServices = _serviceProvider.GetRequiredService<AggregatedItemServices>();
+            _inventoryFactory = _serviceProvider.GetRequiredService<IInventoryFactory>();
+            _inventoryServices = _serviceProvider.GetRequiredService<AggregatedInventoryServices>();
 
             _item = (Item) _itemFactory.CreateItem(itemMetas.First(), 1);
         }
