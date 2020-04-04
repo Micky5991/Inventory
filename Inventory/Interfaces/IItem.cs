@@ -97,6 +97,8 @@ namespace Micky5991.Inventory.Interfaces
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="newAmount"/> is too low</exception>
         void SetAmount(int newAmount);
 
+        void SetSingleWeight(int weight);
+
         /// <summary>
         /// Sets the current displayname of this item to the given <paramref name="displayName"/>.
         ///

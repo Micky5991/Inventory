@@ -70,6 +70,11 @@ namespace Micky5991.Inventory.Tests.Fakes
             Amount = newAmount;
         }
 
+        public void SetSingleWeight(int weight)
+        {
+            SingleWeight = weight;
+        }
+
         public void SetDisplayName(string displayName)
         {
             throw new NotImplementedException();
