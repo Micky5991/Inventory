@@ -3,6 +3,7 @@ using System.Linq;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
+using Micky5991.Inventory.Interfaces.Strategy;
 using Micky5991.Inventory.Strategies.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 

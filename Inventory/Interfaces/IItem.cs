@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Micky5991.Inventory.Interfaces.Strategy;
 
 namespace Micky5991.Inventory.Interfaces
 {
