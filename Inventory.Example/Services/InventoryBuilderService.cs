@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Micky5991.Inventory.Interfaces;
 
@@ -49,6 +50,21 @@ namespace Inventory.Example.Services
             {
                 Console.WriteLine($"Item: {item.Handle} - {item.GetType()} - {item.Amount}x");
             }
+
+            Console.WriteLine("Take 2 Water from inventory and print seperate");
+
+            var currentWater = _inventory.Items.First(x => x.Handle == ItemHandle.Water.ToString());
+            var splitWater = await currentWater.SplitItemAsync(2);
+
+            Console.WriteLine("[INVENTORY]");
+            foreach (var item in _inventory.Items)
+            {
+                Console.WriteLine($"Item: {item.Handle} - {item.GetType()} - {item.Amount}x");
+            }
+
+            Console.WriteLine("[ITEM]");
+            Console.WriteLine($"Item: {splitWater.Handle} - {splitWater.GetType()} - {splitWater.Amount}x");
+
         }
 
     }

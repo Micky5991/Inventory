@@ -20,6 +20,10 @@ namespace Micky5991.Inventory.Tests
     {
 
         private Mock<IInventory> _inventoryMock;
+        private Mock<IItemMergeStrategyHandler> _mergeStrategyHandlerMock;
+        private Mock<IItemSplitStrategyHandler> _splitStrategyHandlerMock;
+
+        private AggregatedItemServices _itemServices;
 
         [TestInitialize]
         public void Setup()
@@ -27,6 +31,11 @@ namespace Micky5991.Inventory.Tests
             Item.MinimalItemAmount = 0;
 
             _inventoryMock = new Mock<IInventory>();
+
+            _mergeStrategyHandlerMock = new Mock<IItemMergeStrategyHandler>();
+            _splitStrategyHandlerMock = new Mock<IItemSplitStrategyHandler>();
+
+            _itemServices = new AggregatedItemServices(_mergeStrategyHandlerMock.Object, _splitStrategyHandlerMock.Object, _itemFactory);
 
             SetupItemTest();
         }
@@ -329,14 +338,13 @@ namespace Micky5991.Inventory.Tests
         {
             SetupDefaultServiceProvider();
 
-            var handlerMock = new Mock<IItemMergeStrategyHandler>();
-            var item = new RealItem(_realMeta, new AggregatedItemServices(handlerMock.Object));
+            var item = new RealItem(_realMeta, _itemServices);
 
-            handlerMock.Setup(x => x.CanBeMerged(item, _item)).Returns(true);
+            _mergeStrategyHandlerMock.Setup(x => x.CanBeMerged(item, _item)).Returns(true);
 
             await item.MergeItemAsync(_item);
 
-            handlerMock.Verify(x => x.MergeItemWithAsync(item, _item), Times.Once);
+            _mergeStrategyHandlerMock.Verify(x => x.MergeItemWithAsync(item, _item), Times.Once);
         }
 
     }
