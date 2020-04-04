@@ -347,5 +347,35 @@ namespace Micky5991.Inventory.Tests
             _mergeStrategyHandlerMock.Verify(x => x.MergeItemWithAsync(item, _item), Times.Once);
         }
 
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        public async Task SplittingWithNegativeAmountThrowsException(int targetAmount)
+        {
+            SetupDefaultServiceProvider();
+
+            Func<Task> act = () => _item.SplitItemAsync(targetAmount);
+
+            (await act.Should().ThrowAsync<ArgumentOutOfRangeException>())
+                .Where(x => x.Message.Contains("1 or higher"));
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(2)]
+        public async Task SplittingWithAmountHigherThanItemAmountThrowsException(int amountDelta)
+        {
+            SetupDefaultServiceProvider();
+
+            Func<Task> act = () => _item.SplitItemAsync(_item.Amount + amountDelta);
+
+            (await act.Should().ThrowAsync<ArgumentOutOfRangeException>())
+                .Where(x =>
+                    x.Message.Contains((_item.Amount - 1).ToString())
+                    && x.Message.Contains("or lower")
+                    );
+        }
+
     }
 }
