@@ -85,6 +85,11 @@ namespace Micky5991.Inventory.Tests.Fakes
             throw new NotImplementedException();
         }
 
+        public Task<IItem> SplitItemAsync(int targetAmount)
+        {
+            throw new NotImplementedException();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
