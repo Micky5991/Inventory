@@ -5,7 +5,7 @@ using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Entities.Inventory
 {
-    internal partial class Inventory
+    public partial class Inventory
     {
         private readonly ConcurrentDictionary<Guid, IItem> _items;
 

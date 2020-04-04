@@ -7,13 +7,13 @@ using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Entities.Inventory
 {
-    internal partial class Inventory : IInventory
+    public partial class Inventory : IInventory
     {
         internal const int MinimalInventoryCapacity = 0;
 
         private readonly AggregatedInventoryServices _inventoryServices;
 
-        internal Inventory(int capacity, AggregatedInventoryServices inventoryServices)
+        public Inventory(int capacity, AggregatedInventoryServices inventoryServices)
         {
             if (capacity < MinimalInventoryCapacity)
             {
