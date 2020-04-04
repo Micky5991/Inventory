@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Micky5991.Inventory.Interfaces;
+using Micky5991.Inventory.Interfaces.Strategy;
 
 namespace Micky5991.Inventory.Strategies.Handlers
 {
