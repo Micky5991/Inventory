@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Micky5991.Inventory.AggregatedServices;
+using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Entities.Inventory
@@ -13,6 +14,8 @@ namespace Micky5991.Inventory.Entities.Inventory
 
         private readonly AggregatedInventoryServices _inventoryServices;
 
+        private readonly IItemRegistry _itemRegistry;
+
         public Inventory(int capacity, AggregatedInventoryServices inventoryServices)
         {
             if (capacity < MinimalInventoryCapacity)
@@ -21,6 +24,8 @@ namespace Micky5991.Inventory.Entities.Inventory
             }
 
             _inventoryServices = inventoryServices;
+
+            _itemRegistry = _inventoryServices.ItemRegistry;
 
             _items = new ConcurrentDictionary<Guid, IItem>();
 
@@ -42,6 +47,33 @@ namespace Micky5991.Inventory.Entities.Inventory
             }
 
             return AvailableCapacity >= item.TotalWeight;
+        }
+
+        public bool DoesItemFit(string handle, int amount = 1)
+        {
+            if (_itemRegistry.TryGetItemMeta(handle, out var meta) == false)
+            {
+                throw new ItemMetaNotFoundException($"Could not find the given handle {handle}");
+            }
+
+            return DoesItemFit(meta, amount);
+        }
+
+        public bool DoesItemFit(ItemMeta meta, int amount = 1)
+        {
+            if (meta == null)
+            {
+                throw new ArgumentNullException(nameof(meta));
+            }
+
+            if (amount < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amount), $"The given {nameof(amount)} has to be 1 or higher");
+            }
+
+            var neededSpace = meta.DefaultWeight * amount;
+
+            return AvailableCapacity >= neededSpace;
         }
 
         public bool SetCapacity(int capacity)
