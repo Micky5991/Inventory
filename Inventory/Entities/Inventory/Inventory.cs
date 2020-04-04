@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using Micky5991.Inventory.Interfaces;
 
@@ -52,6 +53,36 @@ namespace Micky5991.Inventory.Entities.Inventory
             Capacity = capacity;
 
             return true;
+        }
+
+        public ICollection<IItem> GetItems(string handle)
+        {
+            if (string.IsNullOrWhiteSpace(handle))
+            {
+                throw new ArgumentNullException(nameof(handle));
+            }
+
+            return new List<IItem>(Items.Where(x => x.Handle == handle));
+        }
+
+        public ICollection<T> GetItems<T>(string? handle = null) where T : IItem
+        {
+            bool IncludeItemCheck(IItem item)
+            {
+                if (item is T == false)
+                {
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(handle) == false && item.Handle != handle)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+
+            return new List<T>( Items.Where(IncludeItemCheck).Select(x => (T) x));
         }
     }
 }

@@ -31,6 +31,23 @@ namespace Micky5991.Inventory.Interfaces
         int AvailableCapacity { get; }
 
         /// <summary>
+        /// Returns all items in this inventory that have the given <paramref name="handle"/>
+        /// </summary>
+        /// <param name="handle">Handle to search for</param>
+        /// <returns>Found items with the given <paramref name="handle"/></returns>
+        /// <exception cref="ArgumentNullException"><paramref name="handle"/> is null or whitespace</exception>
+        ICollection<IItem> GetItems(string handle);
+
+        /// <summary>
+        /// Returns a list of all items that are assignable to <typeparamref name="T"/>.
+        /// If <paramref name="handle"/> is not empty, it has to match <paramref name="handle"/> too.
+        /// </summary>
+        /// <param name="handle">Restriction of items to only include items with specified handle</param>
+        /// <typeparam name="T">Parent type of the items that should be included</typeparam>
+        /// <returns>List of items that matched the given criteria</returns>
+        ICollection<T> GetItems<T>(string? handle = null) where T : IItem;
+
+        /// <summary>
         /// Determines if the given item would fit into this inventory
         /// </summary>
         /// <param name="item">Item that should be checked</param>
