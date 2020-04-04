@@ -5,6 +5,7 @@ using FluentAssertions;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Entities.Item;
 using Micky5991.Inventory.Enums;
+using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Extensions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
@@ -88,6 +89,15 @@ namespace Micky5991.Inventory.Tests
             SetupServiceProvider(new ItemMeta(_defaultRealMeta.Handle, typeof(RealItem), _defaultRealMeta.DisplayName, _defaultRealMeta.DefaultWeight, flags));
 
             _item.Stackable.Should().Be(stackable);
+        }
+
+        [TestMethod]
+        public void SettingAmountOfNonStackableItemWillThrowException()
+        {
+            SetupServiceProvider(new ItemMeta(_defaultRealMeta.Handle, typeof(RealItem), _defaultRealMeta.DisplayName, _defaultRealMeta.DefaultWeight, ItemFlags.NotStackable));
+
+            Action act = () => _item.SetAmount(2);
+            act.Should().Throw<ItemNotStackableException>();
         }
 
         [TestMethod]

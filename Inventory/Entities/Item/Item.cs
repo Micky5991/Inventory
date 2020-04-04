@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Enums;
+using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Strategies;
 
@@ -76,6 +77,11 @@ namespace Micky5991.Inventory.Entities.Item
             const int hardAmountMinimum = 0;
 
             var minAmount = Math.Max(MinimalItemAmount, hardAmountMinimum);
+
+            if (Stackable == false && newAmount > 1)
+            {
+                throw new ItemNotStackableException();
+            }
 
             if (newAmount < minAmount)
             {
