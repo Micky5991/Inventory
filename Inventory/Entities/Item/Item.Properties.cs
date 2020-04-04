@@ -8,6 +8,7 @@ namespace Micky5991.Inventory.Entities.Item
         private int _amount;
         private string _displayName;
         private IInventory? _currentInventory;
+        private int _singleWeight;
 
         public string Handle { get; }
 
@@ -50,7 +51,22 @@ namespace Micky5991.Inventory.Entities.Item
             }
         }
 
-        public int SingleWeight { get; }
+        public int SingleWeight
+        {
+            get => _singleWeight;
+            private set
+            {
+                if (value == _singleWeight)
+                {
+                    return;
+                }
+
+                _singleWeight = value;
+
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(TotalWeight));
+            }
+        }
 
         public int TotalWeight => SingleWeight * Amount;
 

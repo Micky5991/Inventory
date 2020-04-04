@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Micky5991.Inventory
 {
-    internal class ItemFactory : IItemFactory
+    public class ItemFactory : IItemFactory
     {
         private readonly IItemRegistry _registry;
         private readonly IServiceProvider _serviceProvider;

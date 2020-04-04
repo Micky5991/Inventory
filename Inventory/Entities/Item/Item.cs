@@ -92,6 +92,29 @@ namespace Micky5991.Inventory.Entities.Item
             Amount = newAmount;
         }
 
+        public void SetSingleWeight(int weight)
+        {
+            if (weight <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(weight), "Weight has to be 1 or higher");
+            }
+
+            if (weight == SingleWeight)
+            {
+                return;
+            }
+
+            var weightDelta = weight - SingleWeight;
+            var totalDelta = weightDelta * Amount;
+
+            if (CurrentInventory != null && weightDelta > 0 && CurrentInventory.AvailableCapacity < totalDelta)
+            {
+                throw new InventoryCapacityException(nameof(weight), this);
+            }
+
+            SingleWeight = weight;
+        }
+
         public void SetDisplayName(string displayName)
         {
             if (string.IsNullOrWhiteSpace(displayName))
