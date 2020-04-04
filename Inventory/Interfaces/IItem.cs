@@ -126,6 +126,15 @@ namespace Micky5991.Inventory.Interfaces
         /// <exception cref="ArgumentException"><paramref name="sourceItem"/> is already this instance, <paramref name="sourceItem"/> is not mergable with this item</exception>
         Task MergeItemAsync([NotNull] IItem sourceItem);
 
+        /// <summary>
+        /// Splits the current item into two items and returns the created one.
+        ///
+        /// The current amount of this item will be deducted by <paramref name="targetAmount"/>.
+        /// To specify how to split the item, a <see cref="IItemSplitStrategy"/> can be specified in <see cref="Initialize"/>.
+        /// </summary>
+        /// <param name="targetAmount">Amount of created item</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="targetAmount"/> is 0 or lower or equal or higher than <see cref="Amount"/></exception>
+        /// <returns>Newly created item</returns>
         Task<IItem> SplitItemAsync(int targetAmount);
 
     }
