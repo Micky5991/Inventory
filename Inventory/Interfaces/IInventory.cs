@@ -61,6 +61,26 @@ namespace Micky5991.Inventory.Interfaces
         bool DoesItemFit([NotNull] IItem item);
 
         /// <summary>
+        /// Determines if the given <paramref name="handle"/> can be inserted <paramref name="amount"/> of times into this inventory.
+        /// </summary>
+        /// <param name="handle">ItemMeta identifier to search for</param>
+        /// <param name="amount">Multiplication of weight received from <paramref name="handle"/></param>
+        /// <returns>true if the <paramref name="handle"/> can be added these amount of times</returns>
+        /// <exception cref="ItemMetaNotFoundException"><paramref name="handle"/> is unknown</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="amount"/> is lower than 1</exception>
+        bool DoesItemFit(string handle, int amount = 1);
+
+        /// <summary>
+        /// Determines if the given <paramref name="meta"/> can be added <paramref name="amount"/> of times into this inventory.
+        /// </summary>
+        /// <param name="meta">Item information to get the single weight from</param>
+        /// <param name="amount">Multiplication of weight received from <paramref name="meta"/></param>
+        /// <returns>true if the item would fit, false otherwise</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="meta"/> is null</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="amount"/> is 0 or lower</exception>
+        bool DoesItemFit(ItemMeta meta, int amount = 1);
+
+        /// <summary>
         /// Tries to insert the given <paramref name="item"/> into this inventory.
         ///
         /// - If the given item is already in any other inventory, it will be removed from the old one first.
