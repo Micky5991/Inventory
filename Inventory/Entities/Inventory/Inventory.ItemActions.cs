@@ -6,7 +6,7 @@ using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Entities.Inventory
 {
-    internal partial class Inventory
+    public partial class Inventory
     {
         public async Task<bool> InsertItemAsync(IItem item)
         {

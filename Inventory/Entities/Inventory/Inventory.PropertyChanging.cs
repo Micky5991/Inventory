@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 namespace Micky5991.Inventory.Entities.Inventory
 {
-    internal partial class Inventory
+    public partial class Inventory
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
