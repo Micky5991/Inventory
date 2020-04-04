@@ -1,5 +1,6 @@
 using System;
 using FluentAssertions;
+using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -10,11 +11,12 @@ namespace Micky5991.Inventory.Tests
     {
 
         private InventoryFactory _inventoryFactory;
+        private AggregatedInventoryServices _inventoryServices;
 
         [TestInitialize]
         public void Setup()
         {
-            _inventoryFactory = new InventoryFactory();
+            _inventoryFactory = new InventoryFactory(_inventoryServices);
         }
 
         [TestMethod]

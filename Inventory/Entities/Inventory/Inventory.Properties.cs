@@ -12,6 +12,8 @@ namespace Micky5991.Inventory.Entities.Inventory
         private int _capacity;
         private int _usedCapacity;
 
+        public Guid RuntimeId { get; }
+
         public ICollection<IItem> Items => _items.Values;
 
         public int Capacity

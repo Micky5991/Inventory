@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Entities.Inventory
@@ -10,15 +11,20 @@ namespace Micky5991.Inventory.Entities.Inventory
     {
         internal const int MinimalInventoryCapacity = 0;
 
-        internal Inventory(int capacity)
+        private readonly AggregatedInventoryServices _inventoryServices;
+
+        internal Inventory(int capacity, AggregatedInventoryServices inventoryServices)
         {
             if (capacity < MinimalInventoryCapacity)
             {
                 throw new ArgumentOutOfRangeException(nameof(capacity), $"The capacity has to be {MinimalInventoryCapacity} or higher");
             }
 
+            _inventoryServices = inventoryServices;
+
             _items = new ConcurrentDictionary<Guid, IItem>();
 
+            RuntimeId = Guid.NewGuid();
             UsedCapacity = 0;
             Capacity = capacity;
         }
