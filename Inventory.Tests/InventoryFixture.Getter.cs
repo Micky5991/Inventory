@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -23,24 +24,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task GettingItemsWithHandleOnlyWillReturnCorrectItems()
         {
-            var realMeta = _defaultRealMeta;
-            _defaultRealMeta = new ItemMeta(realMeta.Handle, realMeta.Type, realMeta.DisplayName, realMeta.DefaultWeight, ItemFlags.NotStackable);
-
-            SetupDefaultServiceProvider();
-
-            _inventory.SetCapacity(1000);
-
-            var items = new[]
-            {
-                _itemFactory.CreateItem(_realMeta, 1),
-                _itemFactory.CreateItem(_realMeta, 1),
-                _itemFactory.CreateItem(_fakeMeta, 1),
-            };
-
-            foreach (var item in items)
-            {
-                await _inventory.InsertItemAsync(item);
-            }
+            var items = await AddNonStackableItemsAsync();
 
             var returnedItem = _inventory.GetItems(ItemHandle);
             var expectedResult = items.Where(x => x.Handle == ItemHandle).ToArray();
@@ -51,24 +35,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task GettingItemsWithItemInterfaceWithNullHandleReturnsAllItems()
         {
-            var realMeta = _defaultRealMeta;
-            _defaultRealMeta = new ItemMeta(realMeta.Handle, realMeta.Type, realMeta.DisplayName, realMeta.DefaultWeight, ItemFlags.NotStackable);
-
-            SetupDefaultServiceProvider();
-
-            _inventory.SetCapacity(1000);
-
-            var items = new[]
-            {
-                _itemFactory.CreateItem(_realMeta, 1),
-                _itemFactory.CreateItem(_realMeta, 1),
-                _itemFactory.CreateItem(_fakeMeta, 1),
-            };
-
-            foreach (var item in items)
-            {
-                await _inventory.InsertItemAsync(item);
-            }
+            var items = await AddNonStackableItemsAsync();
 
             var returnedItem = _inventory.GetItems<IItem>(null);
 
@@ -78,24 +45,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task GettingItemsWithItemInterfaceWithSpecificHandleReturnsSubsetOfItems()
         {
-            var realMeta = _defaultRealMeta;
-            _defaultRealMeta = new ItemMeta(realMeta.Handle, realMeta.Type, realMeta.DisplayName, realMeta.DefaultWeight, ItemFlags.NotStackable);
-
-            SetupDefaultServiceProvider();
-
-            _inventory.SetCapacity(1000);
-
-            var items = new[]
-            {
-                _itemFactory.CreateItem(_realMeta, 1),
-                _itemFactory.CreateItem(_realMeta, 1),
-                _itemFactory.CreateItem(_fakeMeta, 1),
-            };
-
-            foreach (var item in items)
-            {
-                await _inventory.InsertItemAsync(item);
-            }
+            var items = await AddNonStackableItemsAsync();
 
             var returnedItem = _inventory.GetItems<IItem>(ItemHandle);
             var expectedResult = items.Where(x => x.Handle == ItemHandle).ToArray();
@@ -106,6 +56,16 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task GetItemsWithSpecificTypeParameterReturnsCorrectItems()
         {
+            var items = await AddNonStackableItemsAsync();
+
+            var returnedItem = _inventory.GetItems<RealItem>(ItemHandle);
+            var expectedResult = items.Where(x => x.GetType() == typeof(RealItem)).ToArray();
+
+            returnedItem.Should().OnlyContain(x => expectedResult.Contains(x));
+        }
+
+        private async Task<ICollection<IItem>> AddNonStackableItemsAsync()
+        {
             var realMeta = _defaultRealMeta;
             _defaultRealMeta = new ItemMeta(realMeta.Handle, realMeta.Type, realMeta.DisplayName, realMeta.DefaultWeight, ItemFlags.NotStackable);
 
@@ -125,10 +85,7 @@ namespace Micky5991.Inventory.Tests
                 await _inventory.InsertItemAsync(item);
             }
 
-            var returnedItem = _inventory.GetItems<RealItem>(ItemHandle);
-            var expectedResult = items.Where(x => x.GetType() == typeof(RealItem)).ToArray();
-
-            returnedItem.Should().OnlyContain(x => expectedResult.Contains(x));
+            return items;
         }
 
     }
