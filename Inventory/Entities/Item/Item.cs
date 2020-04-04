@@ -117,7 +117,8 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentException("The item cannot be merged with this instance", nameof(sourceItem));
             }
 
-            await _itemMergeStrategyHandler.MergeItemWithAsync(this, sourceItem);
+            await _itemMergeStrategyHandler.MergeItemWithAsync(this, sourceItem)
+                .ConfigureAwait(false);
         }
 
         public async Task<IItem> SplitItemAsync(int targetAmount)
@@ -136,7 +137,8 @@ namespace Micky5991.Inventory.Entities.Item
 
             SetAmount(Amount - targetAmount);
 
-            await _itemSplitStrategyHandler.SplitItemAsync(this, item);
+            await _itemSplitStrategyHandler.SplitItemAsync(this, item)
+                .ConfigureAwait(false);
 
             return item;
         }

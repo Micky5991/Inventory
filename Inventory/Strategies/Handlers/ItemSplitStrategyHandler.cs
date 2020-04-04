@@ -20,7 +20,8 @@ namespace Micky5991.Inventory.Strategies.Handlers
 
             foreach (var strategy in this)
             {
-                await strategy.SplitItemAsync(oldItem, newItem);
+                await strategy.SplitItemAsync(oldItem, newItem)
+                    .ConfigureAwait(false);
             }
         }
     }

@@ -13,7 +13,8 @@ namespace Micky5991.Inventory.Entities.Inventory
 
             item.PropertyChanged += OnPropertyChanged;
 
-            await OnAfterItemAddedOrRemoved(item);
+            await OnAfterItemAddedOrRemoved(item)
+                .ConfigureAwait(false);
         }
 
         private async Task OnItemRemoved(IItem item)
@@ -22,7 +23,8 @@ namespace Micky5991.Inventory.Entities.Inventory
 
             item.PropertyChanged -= OnPropertyChanged;
 
-            await OnAfterItemAddedOrRemoved(item);
+            await OnAfterItemAddedOrRemoved(item)
+                .ConfigureAwait(false);
         }
 
         private Task OnAfterItemAddedOrRemoved(IItem item)

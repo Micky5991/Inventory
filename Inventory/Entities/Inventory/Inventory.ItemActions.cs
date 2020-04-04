@@ -27,7 +27,8 @@ namespace Micky5991.Inventory.Entities.Inventory
 
             if (item.CurrentInventory != null)
             {
-                var oldInventoryRemoveSuccess = await item.CurrentInventory.RemoveItemAsync(item);
+                var oldInventoryRemoveSuccess = await item.CurrentInventory.RemoveItemAsync(item)
+                    .ConfigureAwait(false);
 
                 if (oldInventoryRemoveSuccess == false)
                 {
@@ -35,7 +36,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 }
             }
 
-            if (await TryMergeItemAsync(item))
+            if (await TryMergeItemAsync(item).ConfigureAwait(false))
             {
                 return true;
             }
@@ -45,7 +46,8 @@ namespace Micky5991.Inventory.Entities.Inventory
                 return false;
             }
 
-            await OnItemAdded(item);
+            await OnItemAdded(item)
+                .ConfigureAwait(false);
 
             return true;
         }
@@ -59,7 +61,8 @@ namespace Micky5991.Inventory.Entities.Inventory
                     continue;
                 }
 
-                await MergeItemsAsync(item, sourceItem);
+                await MergeItemsAsync(item, sourceItem)
+                    .ConfigureAwait(false);
 
                 return true;
             }
@@ -86,7 +89,8 @@ namespace Micky5991.Inventory.Entities.Inventory
                 return false;
             }
 
-            await OnItemRemoved(item);
+            await OnItemRemoved(item)
+                .ConfigureAwait(false);
 
             return true;
         }

@@ -36,7 +36,8 @@ namespace Micky5991.Inventory.Strategies.Handlers
 
             foreach (var strategy in this)
             {
-                await strategy.MergeItemWithAsync(targetItem, sourceItem);
+                await strategy.MergeItemWithAsync(targetItem, sourceItem)
+                    .ConfigureAwait(false);
             }
         }
     }
