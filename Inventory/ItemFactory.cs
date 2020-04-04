@@ -1,4 +1,6 @@
 using System;
+using Micky5991.Inventory.Enums;
+using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -32,6 +34,11 @@ namespace Micky5991.Inventory
                 return null;
             }
 
+            if ((meta.Flags & ItemFlags.NotStackable) != 0 && amount > 1)
+            {
+                throw new ItemNotStackableException();
+            }
+
             return SetupItemPostCreate(BuildItemFromMeta(meta!), amount);
         }
 
@@ -45,6 +52,11 @@ namespace Micky5991.Inventory
             if (amount <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(amount), "Item amount has to be 1 or higher");
+            }
+
+            if ((meta.Flags & ItemFlags.NotStackable) != 0 && amount > 1)
+            {
+                throw new ItemNotStackableException();
             }
 
             return SetupItemPostCreate(BuildItemFromMeta(meta), amount);

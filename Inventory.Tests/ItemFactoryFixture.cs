@@ -1,5 +1,7 @@
 using System;
 using FluentAssertions;
+using Micky5991.Inventory.Enums;
+using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
 using Micky5991.Inventory.Tests.Utils;
@@ -13,11 +15,13 @@ namespace Micky5991.Inventory.Tests
     public class ItemFactoryFixture
     {
         private const string DefaultItemHandle = "item";
+        private const string DefaultNonStackableItemHandle = "item_nonstackable";
 
         private ItemFactory _itemFactory;
         private ItemRegistry _itemRegistry;
 
         private ItemMeta _defaultMeta;
+        private ItemMeta _nonStackableDefaultMeta;
 
         private Mock<IServiceProvider> _serviceProviderMock;
 
@@ -29,7 +33,11 @@ namespace Micky5991.Inventory.Tests
             _itemRegistry = new ItemRegistry();
 
             _defaultMeta = InventoryUtils.CreateItemMeta(DefaultItemHandle, typeof(FakeItem), "Fake Item");
+            _nonStackableDefaultMeta = InventoryUtils.CreateItemMeta(DefaultNonStackableItemHandle, typeof(FakeItem), "Fake Item", flags: ItemFlags.NotStackable);
+
             _itemRegistry.AddItemMeta(_defaultMeta);
+            _itemRegistry.AddItemMeta(_nonStackableDefaultMeta);
+
             _itemRegistry.ValidateAndCacheItemMeta();
 
             AddItemResolveToServiceProvider<FakeItem>();
@@ -63,6 +71,28 @@ namespace Micky5991.Inventory.Tests
 
             item.Meta.Should().Be(_defaultMeta);
             item.Amount.Should().Be(itemAmount);
+        }
+
+        [TestMethod]
+        [DataRow(2)]
+        [DataRow(3)]
+        public void CreatingNonStackableItemWithAmountOverOneWillThrowException(int itemAmount)
+        {
+            var meta = InventoryUtils.CreateItemMeta(flags: ItemFlags.NotStackable);
+
+            Action act = () => _itemFactory.CreateItem(meta, itemAmount);
+
+            act.Should().Throw<ItemNotStackableException>();
+        }
+
+        [TestMethod]
+        [DataRow(2)]
+        [DataRow(3)]
+        public void CreatingNonStackableItemFromHandleWithAmountOverOneWillThrowException(int itemAmount)
+        {
+            Action act = () => _itemFactory.CreateItem(DefaultNonStackableItemHandle, itemAmount);
+
+            act.Should().Throw<ItemNotStackableException>();
         }
 
         [TestMethod]
