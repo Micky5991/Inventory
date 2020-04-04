@@ -129,7 +129,7 @@ namespace Micky5991.Inventory.Entities.Item
 
             if (targetAmount >= Amount)
             {
-                throw new ArgumentOutOfRangeException(nameof(targetAmount), $"The given {nameof(targetAmount)} has to be below {Amount}");
+                throw new ArgumentOutOfRangeException(nameof(targetAmount), $"The given {nameof(targetAmount)} has to be {Amount - 1 } or lower");
             }
 
             var item = _itemFactory.CreateItem(Meta, targetAmount);
