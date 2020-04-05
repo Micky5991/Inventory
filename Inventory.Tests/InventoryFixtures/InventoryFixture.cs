@@ -6,7 +6,7 @@ using Micky5991.Inventory.Tests.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Micky5991.Inventory.Tests
+namespace Micky5991.Inventory.Tests.InventoryFixtures
 {
     [TestClass]
     public partial class InventoryFixture : ItemTest

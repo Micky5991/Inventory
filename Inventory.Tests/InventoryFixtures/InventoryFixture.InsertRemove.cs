@@ -5,7 +5,7 @@ using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Tests.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Micky5991.Inventory.Tests
+namespace Micky5991.Inventory.Tests.InventoryFixtures
 {
     public partial class InventoryFixture
     {
