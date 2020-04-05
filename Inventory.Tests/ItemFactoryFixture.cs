@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentAssertions;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Exceptions;
@@ -144,6 +145,111 @@ namespace Micky5991.Inventory.Tests
             var item = _itemFactory.CreateItem("unknown", 10);
 
             item.Should().BeNull();
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void CreatingItemsWithNegativeAmountThrowsException(int amount)
+        {
+            Action act = () => _itemFactory.CreateItems(DefaultItemHandle, amount);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .Where(x => x.Message.Contains("1 or higher"));
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void CreatingItemsWithNegativeAmountInMetaOverloadThrowsException(int amount)
+        {
+            Action act = () => _itemFactory.CreateItems(_defaultMeta, amount);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .Where(x => x.Message.Contains("1 or higher"));
+        }
+
+        [TestMethod]
+        [DataRow(null)]
+        [DataRow("")]
+        [DataRow(" ")]
+        public void CreatingItemsWithInvalidHandleThrowsException(string handle)
+        {
+            Action act = () => _itemFactory.CreateItems(handle, 1);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void CreatingItemsWithNullMetaThrowsException()
+        {
+            Action act = () => _itemFactory.CreateItems((ItemMeta) null, 1);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void CreatingItemWithKnownHandleReturnsCorrentItem()
+        {
+            var resultItems = _itemFactory.CreateItems(DefaultItemHandle, 1);
+
+            resultItems.Should().NotBeNull();
+            resultItems.Should().HaveCount(1);
+
+            var resultItem = resultItems.First();
+
+            resultItem.Should().NotBeNull().And.BeOfType(_defaultMeta.Type);
+            resultItem.Amount.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void CreatingItemWithKnownMetaReturnsCorrentItem()
+        {
+            var resultItems = _itemFactory.CreateItems(_defaultMeta, 1);
+
+            resultItems.Should().NotBeNull();
+            resultItems.Should().HaveCount(1);
+
+            var resultItem = resultItems.First();
+
+            resultItem.Should().NotBeNull().And.BeOfType(_defaultMeta.Type);
+            resultItem.Amount.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void CreatingItemsWithUnknownHandleReturnsNull()
+        {
+            var resultItems = _itemFactory.CreateItems("unknownhandle", 1);
+
+            resultItems.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void CreatingItemsWithNonStackableHandleReturnsMultipleItems()
+        {
+            var resultItems = _itemFactory.CreateItems(DefaultNonStackableItemHandle, 5);
+
+            resultItems.Should()
+                .HaveCount(5)
+                .And.OnlyHaveUniqueItems()
+                .And.AllBeOfType(_nonStackableDefaultMeta.Type)
+                .And.NotContainNulls()
+                .And.OnlyContain(x => x.Amount == 1);
+        }
+
+        [TestMethod]
+        public void CreatingItemsWithNonStackableMetaReturnsMultipleItems()
+        {
+            var resultItems = _itemFactory.CreateItems(_nonStackableDefaultMeta, 5);
+
+            resultItems.Should()
+                .HaveCount(5)
+                .And.OnlyHaveUniqueItems()
+                .And.AllBeOfType(_nonStackableDefaultMeta.Type)
+                .And.NotContainNulls()
+                .And.OnlyContain(x => x.Amount == 1);
         }
 
         private void AddItemResolveToServiceProvider<T>() where T : IItem
