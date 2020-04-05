@@ -79,7 +79,7 @@ namespace Micky5991.Inventory.Extensions
         /// <summary>
         /// Registers the default <see cref="IItemMergeStrategyHandler"/>.
         ///
-        /// - serviceCollection.AddTransient<IItemMergeStrategyHandler, ItemMergeStrategyHandler>()
+        /// - <see cref="IItemMergeStrategyHandler"/> -> <see cref="ItemMergeStrategyHandler"/>
         /// </summary>
         /// <param name="serviceCollection">Collection to register the services to</param>
         /// <returns><paramref name="serviceCollection"/> that has been passed</returns>
@@ -98,7 +98,7 @@ namespace Micky5991.Inventory.Extensions
         /// <summary>
         /// Registers the default <see cref="IItemSplitStrategyHandler"/>
         ///
-        /// - serviceCollection.AddTransient<IItemSplitStrategyHandler, ItemSplitStrategyHandler>()
+        /// -> <see cref="IItemSplitStrategyHandler"/> -> <see cref="ItemSplitStrategyHandler"/>
         /// </summary>
         /// <param name="serviceCollection">Collection to register the services to</param>
         /// <returns><paramref name="serviceCollection"/> that has been passed</returns>
@@ -138,7 +138,7 @@ namespace Micky5991.Inventory.Extensions
         /// <summary>
         /// Registers default <see cref="IInventoryFactory"/>.
         ///
-        /// - serviceCollection.AddTransient<IInventoryFactory, InventoryFactory>()
+        /// - <see cref="IInventoryFactory"/> -> <see cref="InventoryFactory"/>
         /// </summary>
         /// <param name="serviceCollection">Collection to register the services to</param>
         /// <returns><paramref name="serviceCollection"/> that has been passed</returns>
@@ -157,7 +157,7 @@ namespace Micky5991.Inventory.Extensions
         /// <summary>
         /// Registers default <see cref="IItemFactory"/>
         ///
-        /// - serviceCollection.AddTransient<IItemFactory, ItemFactory>()
+        /// - <see cref="IItemFactory"/> -> <see cref="ItemFactory"/>
         /// </summary>
         /// <param name="serviceCollection">Collection to register the services to</param>
         /// <returns><paramref name="serviceCollection"/> that has been passed</returns>
