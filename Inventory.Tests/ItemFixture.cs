@@ -257,6 +257,77 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void ChangingSingleWeightToNegativeAmountThrowsException(int singleWeight)
+        {
+            Action act = () => _item.SetSingleWeight(singleWeight);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .Where(x => x.Message.Contains("1 or higher"));
+        }
+
+        [TestMethod]
+        [DataRow(1)]
+        [DataRow(2)]
+        [DataRow(3)]
+        public void ChangingSingleWeightToPositiveAmountRaisesEvent(int singleWeight)
+        {
+            using var monitoredItem = _item.Monitor();
+
+            _item.SetSingleWeight(singleWeight);
+
+            monitoredItem.Should().RaisePropertyChangeFor(x => x.SingleWeight);
+            monitoredItem.Should().RaisePropertyChangeFor(x => x.TotalWeight);
+        }
+
+        [TestMethod]
+        public void SettingSingleWeightToOldValueDoesNotRaiseNotification()
+        {
+            using var monitoredItem = _item.Monitor();
+
+            _item.SetSingleWeight(_item.SingleWeight);
+
+            monitoredItem.Should().NotRaisePropertyChangeFor(x => x.SingleWeight);
+            monitoredItem.Should().NotRaisePropertyChangeFor(x => x.TotalWeight);
+        }
+
+        [TestMethod]
+        public void SettingSingleWeightAboveInventoryCapacityThrowsException()
+        {
+            _inventory.InsertItemAsync(_item);
+
+            Action act = () => _item.SetSingleWeight(_inventory.Capacity + 1);
+
+            act.Should().Throw<InventoryCapacityException>();
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void SettingSingleWeightToCapacityDoesNotThrowInventoryCapacityException(int capacityDelta)
+        {
+            _inventory.InsertItemAsync(_item);
+
+            Action act = () => _item.SetSingleWeight(_inventory.Capacity + capacityDelta);
+
+            act.Should().NotThrow<InventoryCapacityException>();
+        }
+
+        [TestMethod]
+        [DataRow(1)]
+        [DataRow(2)]
+        [DataRow(3)]
+        public void SettingSingleWeightUpdatesValue(int singleWeight)
+        {
+            _item.SetSingleWeight(singleWeight);
+
+            _item.SingleWeight.Should().Be(singleWeight);
+        }
+
+        [TestMethod]
         public void PassingMetaWithWrongTypeThrowsException()
         {
             var meta = new ItemMeta(ItemHandle, typeof(FakeItem), ItemDisplayName, ItemWeight, ItemFlags);
