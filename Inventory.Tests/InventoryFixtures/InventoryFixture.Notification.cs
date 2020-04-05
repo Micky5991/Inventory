@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Micky5991.Inventory.Tests
+namespace Micky5991.Inventory.Tests.InventoryFixtures
 {
     public partial class InventoryFixture
     {
