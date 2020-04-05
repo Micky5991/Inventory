@@ -304,6 +304,36 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        [DataRow(1)]
+        [DataRow(2)]
+        public void SettingAmountAboveInventoryCapacityThrowsException(int amountDelta)
+        {
+            _inventory.SetCapacity(10);
+            _item.SetSingleWeight(1);
+            _item.SetAmount(1);
+
+            _inventory.InsertItemAsync(_item);
+
+            Action act = () => _item.SetAmount(10 + amountDelta);
+
+            act.Should().Throw<InventoryCapacityException>();
+        }
+
+        [TestMethod]
+        public void SettingSingleWeightAboveCapacityWithAmountAboveOneThrowsException()
+        {
+            _inventory.SetCapacity(10);
+            _item.SetAmount(10);
+            _item.SetSingleWeight(1);
+
+            _inventory.InsertItemAsync(_item);
+
+            Action act = () => _item.SetSingleWeight(2);
+
+            act.Should().Throw<InventoryCapacityException>();
+        }
+
+        [TestMethod]
         [DataRow(0)]
         [DataRow(-1)]
         [DataRow(-2)]

@@ -89,6 +89,17 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentOutOfRangeException(nameof(newAmount), $"Amount should be {minAmount} or higher.");
             }
 
+            if (Amount < newAmount && CurrentInventory != null)
+            {
+                var amountDelta = newAmount - Amount;
+                var weightDelta = SingleWeight * amountDelta;
+
+                if (weightDelta > CurrentInventory.AvailableCapacity)
+                {
+                    throw new InventoryCapacityException(nameof(newAmount), this);
+                }
+            }
+
             Amount = newAmount;
         }
 
