@@ -55,11 +55,6 @@ namespace Micky5991.Inventory
                 return null;
             }
 
-            if (amount <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(amount), "Item amount has to be 1 or higher");
-            }
-
             return CreateItems(meta, amount);
         }
 
@@ -88,11 +83,6 @@ namespace Micky5991.Inventory
             if (meta == null)
             {
                 throw new ArgumentNullException(nameof(meta));
-            }
-
-            if (amount <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(amount), "Item amount has to be 1 or higher");
             }
 
             if ((meta.Flags & ItemFlags.NotStackable) == 0)
