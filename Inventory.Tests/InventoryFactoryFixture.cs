@@ -3,6 +3,7 @@ using FluentAssertions;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Micky5991.Inventory.Tests
 {
@@ -13,9 +14,14 @@ namespace Micky5991.Inventory.Tests
         private InventoryFactory _inventoryFactory;
         private AggregatedInventoryServices _inventoryServices;
 
+        private Mock<IItemRegistry> _itemRegistry;
+
         [TestInitialize]
         public void Setup()
         {
+            _itemRegistry = new Mock<IItemRegistry>();
+            _inventoryServices = new AggregatedInventoryServices(_itemRegistry.Object);
+
             _inventoryFactory = new InventoryFactory(_inventoryServices);
         }
 

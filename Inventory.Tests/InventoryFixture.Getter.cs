@@ -69,7 +69,7 @@ namespace Micky5991.Inventory.Tests
             var realMeta = _defaultRealMeta;
             _defaultRealMeta = new ItemMeta(realMeta.Handle, realMeta.Type, realMeta.DisplayName, realMeta.DefaultWeight, ItemFlags.NotStackable);
 
-            SetupDefaultServiceProvider();
+            Setup();
 
             _inventory.SetCapacity(1000);
 

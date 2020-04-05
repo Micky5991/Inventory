@@ -1,17 +1,13 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Entities.Item;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Exceptions;
-using Micky5991.Inventory.Extensions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Interfaces.Strategy;
 using Micky5991.Inventory.Tests.Fakes;
 using Micky5991.Inventory.Tests.Utils;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -22,11 +18,6 @@ namespace Micky5991.Inventory.Tests
     {
 
         private Mock<IInventory> _inventoryMock;
-        private Mock<IItemMergeStrategyHandler> _mergeStrategyHandlerMock;
-        private Mock<IItemSplitStrategyHandler> _splitStrategyHandlerMock;
-        private Mock<IItemFactory> _itemFactoryMock;
-
-        private AggregatedItemServices _itemServices;
 
         [TestInitialize]
         public void Setup()
@@ -36,13 +27,6 @@ namespace Micky5991.Inventory.Tests
             SetupItemTest();
 
             _inventoryMock = new Mock<IInventory>();
-
-            _mergeStrategyHandlerMock = new Mock<IItemMergeStrategyHandler>();
-            _splitStrategyHandlerMock = new Mock<IItemSplitStrategyHandler>();
-
-            _itemFactoryMock = new Mock<IItemFactory>();
-
-            _itemServices = new AggregatedItemServices(_mergeStrategyHandlerMock.Object, _splitStrategyHandlerMock.Object, _itemFactoryMock.Object);
 
         }
 
@@ -55,8 +39,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingItemWillBeSuccessful()
         {
-            SetupDefaultServiceProvider();
-
             var item = _item;
 
             item.Should()
@@ -67,8 +49,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingItemWillSetParametersCorrectly()
         {
-            SetupDefaultServiceProvider();
-
             var item = new RealItem(_realMeta, ServiceUtils.CreateItemServices());
 
             item.Meta.Should().Be(_realMeta);
@@ -112,8 +92,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameUpdatesValueCorrecly()
         {
-            SetupDefaultServiceProvider();
-
             _item.SetDisplayName("Cool");
 
             _item.DisplayName.Should().Be("Cool");
@@ -122,8 +100,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameKeepsValueInDefaultDisplayNameSame()
         {
-            SetupDefaultServiceProvider();
-
             _item.SetDisplayName("Other");
 
             var oldName = _item.DefaultDisplayName;
@@ -137,8 +113,6 @@ namespace Micky5991.Inventory.Tests
         [DataRow(" ")]
         public void SettingDisplayNameToNullThrowsException(string displayName)
         {
-            SetupDefaultServiceProvider();
-
             var oldName = _item.DisplayName;
             Action act = () => _item.SetDisplayName(displayName);
 
@@ -149,8 +123,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CanMergeCheckWithNullSourceItemWillResultInException()
         {
-            SetupDefaultServiceProvider();
-
             Action act = () => _item.CanMergeWith(null);
 
             act.Should().Throw<ArgumentNullException>();
@@ -162,8 +134,6 @@ namespace Micky5991.Inventory.Tests
         [DataRow(100)]
         public void SettingAmountWillUpdateWeightAndAmount(int amountDelta)
         {
-            SetupDefaultServiceProvider();
-
             var singleWeight = _realMeta.DefaultWeight;
             var targetAmount = Item.MinimalItemAmount + amountDelta;
 
@@ -180,8 +150,6 @@ namespace Micky5991.Inventory.Tests
         [DataRow(11)]
         public void TotalWeightIsMultipleOfSingleWeightAndAmount(int amountDelta)
         {
-            SetupDefaultServiceProvider();
-
             var actualAmount = Item.MinimalItemAmount + amountDelta;
 
             _item.SetAmount(actualAmount);
@@ -194,8 +162,6 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-2)]
         public void SettingItemAmountBelowMinimalAllowedItemAmountThrowsException(int amountDelta)
         {
-            SetupDefaultServiceProvider();
-
             var oldAmount = _item.Amount;
             Action act = () => _item.SetAmount(Item.MinimalItemAmount + amountDelta);
 
@@ -208,8 +174,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void SettingCurrentInventoryWillUpdateValue()
         {
-            SetupDefaultServiceProvider();
-
             _item.SetCurrentInventory(_inventoryMock.Object);
             _item.CurrentInventory.Should().Be(_inventoryMock.Object);
 
@@ -220,8 +184,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void DetectionOfMinimalAmountDetectsRightAmount()
         {
-            SetupDefaultServiceProvider();
-
             Item.MinimalItemAmount = -10;
 
             Action act = () => _item.SetAmount(-5);
@@ -233,8 +195,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameTriggersNotification()
         {
-            SetupDefaultServiceProvider();
-
             using var monitoredSubject = _item.Monitor();
 
             _item.SetDisplayName(_item.DisplayName + "ADD");
@@ -245,8 +205,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameToCurrentValueDoesNotTriggerNotification()
         {
-            SetupDefaultServiceProvider();
-
             using var monitoredSubject = _item.Monitor();
 
             _item.SetDisplayName(_item.DisplayName);
@@ -257,8 +215,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingAmountWillNotifyAmountAndTotalWeight()
         {
-            SetupDefaultServiceProvider();
-
             using var monitoredItem = _item.Monitor();
 
             _item.SetAmount(_item.Amount + 1);
@@ -270,8 +226,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingAmountToSameAmountWontTriggerNotification()
         {
-            SetupDefaultServiceProvider();
-
             using var monitoredItem = _item.Monitor();
 
             _item.SetAmount(_item.Amount);
@@ -283,8 +237,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingCurrentInventoryToDifferentValueWillNotify()
         {
-            SetupDefaultServiceProvider();
-
             using var monitoredItem = _item.Monitor();
 
             var otherInventory = new Mock<IInventory>();
@@ -297,8 +249,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingCurrentInventoryToSameValueWontNotify()
         {
-            SetupDefaultServiceProvider();
-
             using var monitoredItem = _item.Monitor();
 
             _item.SetCurrentInventory(null);
@@ -309,8 +259,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void PassingMetaWithWrongTypeThrowsException()
         {
-            SetupDefaultServiceProvider();
-
             var meta = new ItemMeta(ItemHandle, typeof(FakeItem), ItemDisplayName, ItemWeight, ItemFlags);
 
             Action act = () => new RealItem(meta, _itemServices);
@@ -325,8 +273,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task MergingTwoItemsCanMergeSignalsFalseWillThrowException()
         {
-            SetupDefaultServiceProvider();
-
             var realItem = _itemFactory.CreateItem(_realMeta, 1);
             var fakeItem = _itemFactory.CreateItem(_fakeMeta, 1);
 
@@ -341,8 +287,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task MergingWithNullThrowsException()
         {
-            SetupDefaultServiceProvider();
-
             Func<Task> act = () => _item.MergeItemAsync(null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
@@ -351,21 +295,26 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task MergingWithMergableStrategyExecutesCorrectMethod()
         {
-            SetupDefaultServiceProvider();
+            _itemMergeStrategyHandlerMock = new Mock<IItemMergeStrategyHandler>();
 
-            var item = new RealItem(_realMeta, _itemServices);
+            Setup();
 
-            _mergeStrategyHandlerMock.Setup(x => x.CanBeMerged(item, _item)).Returns(true);
+            var otherItem = _itemFactory.CreateItem(_realMeta, 1);
 
-            await item.MergeItemAsync(_item);
+            _itemMergeStrategyHandlerMock.Setup(x => x.CanBeMerged(otherItem, _item)).Returns(true);
 
-            _mergeStrategyHandlerMock.Verify(x => x.MergeItemWithAsync(item, _item), Times.Once);
+            await otherItem.MergeItemAsync(_item);
+
+            _itemMergeStrategyHandlerMock.Verify(x => x.MergeItemWithAsync(otherItem, _item), Times.Once);
         }
 
         [TestMethod]
         public async Task SplittingStrategyExecutesCorrectMethod()
         {
-            SetupDefaultServiceProvider();
+            _itemSplitStrategyHandlerMock = new Mock<IItemSplitStrategyHandler>();
+            _itemFactoryMock = new Mock<IItemFactory>();
+
+            Setup();
 
             var item = new RealItem(_defaultRealMeta, _itemServices);
             var factoryResultItem = new RealItem(_defaultRealMeta, _itemServices);
@@ -378,7 +327,7 @@ namespace Micky5991.Inventory.Tests
                     return factoryResultItem;
                 });
 
-            _splitStrategyHandlerMock
+            _itemSplitStrategyHandlerMock
                 .Setup(x => x.SplitItemAsync(item, It.IsAny<IItem>()))
                 .Returns(Task.CompletedTask);
 
@@ -390,14 +339,12 @@ namespace Micky5991.Inventory.Tests
                 .NotBeNull()
                 .And.Be(factoryResultItem);
 
-            _splitStrategyHandlerMock.Verify(x => x.SplitItemAsync(item, It.IsAny<IItem>()), Times.Once);
+            _itemSplitStrategyHandlerMock.Verify(x => x.SplitItemAsync(item, It.IsAny<IItem>()), Times.Once);
         }
 
         [TestMethod]
         public async Task SplittingItemReturnsCorrectItem()
         {
-            SetupDefaultServiceProvider();
-
             _item.SetAmount(5);
 
             var resultItem = await _item.SplitItemAsync(2);
@@ -413,8 +360,6 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-1)]
         public async Task SplittingWithNegativeAmountThrowsException(int targetAmount)
         {
-            SetupDefaultServiceProvider();
-
             Func<Task> act = () => _item.SplitItemAsync(targetAmount);
 
             (await act.Should().ThrowAsync<ArgumentOutOfRangeException>())
@@ -427,8 +372,6 @@ namespace Micky5991.Inventory.Tests
         [DataRow(2)]
         public async Task SplittingWithAmountHigherThanItemAmountThrowsException(int amountDelta)
         {
-            SetupDefaultServiceProvider();
-
             Func<Task> act = () => _item.SplitItemAsync(_item.Amount + amountDelta);
 
             (await act.Should().ThrowAsync<ArgumentOutOfRangeException>())
