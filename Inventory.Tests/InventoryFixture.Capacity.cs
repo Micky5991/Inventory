@@ -76,8 +76,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task ChangingAmountOfItemChangesUsedCapacityOfInventory()
         {
-            SetupDefaultServiceProvider();
-
             var item = _itemFactory.CreateItem(_realMeta, 1);
 
             await _inventory.InsertItemAsync(item);

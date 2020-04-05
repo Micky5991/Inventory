@@ -5,8 +5,10 @@ using Micky5991.Inventory.Entities.Item;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Extensions;
 using Micky5991.Inventory.Interfaces;
+using Micky5991.Inventory.Interfaces.Strategy;
 using Micky5991.Inventory.Tests.Fakes;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 
 namespace Micky5991.Inventory.Tests
 {
@@ -31,17 +33,27 @@ namespace Micky5991.Inventory.Tests
         protected Item _item;
         protected FakeItem _fakeItem;
 
+        protected IInventory _inventory;
+
         protected IServiceCollection _serviceCollection;
         protected IServiceProvider _serviceProvider;
+
         protected ItemRegistry _itemRegistry;
-        protected IItemFactory _itemFactory;
-        protected IInventoryFactory _inventoryFactory;
         protected AggregatedItemServices _itemServices;
         protected AggregatedInventoryServices _inventoryServices;
 
-        protected void SetupItemTest(Action<IServiceCollection> collectionInitializer = null)
-        {
+        protected Mock<IItemFactory> _itemFactoryMock;
+        protected Mock<IInventoryFactory> _inventoryFactoryMock;
+        protected Mock<IItemSplitStrategyHandler> _itemSplitStrategyHandlerMock;
+        protected Mock<IItemMergeStrategyHandler> _itemMergeStrategyHandlerMock;
 
+        protected IItemFactory _itemFactory;
+        protected IInventoryFactory _inventoryFactory;
+        protected IItemMergeStrategyHandler _itemMergeStrategyHandler;
+        protected IItemSplitStrategyHandler _itemSplitStrategyHandler;
+
+        protected void SetupItemTest()
+        {
             _itemRegistry = new ItemRegistry();
 
             _defaultRealMeta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
@@ -49,13 +61,50 @@ namespace Micky5991.Inventory.Tests
 
             _serviceCollection = new ServiceCollection();
 
-            if (collectionInitializer != null)
+            SetupDependencies();
+
+            SetupDefaultServiceProvider();
+        }
+
+        private void SetupDependencies()
+        {
+            _serviceCollection.AddInventoryServices();
+
+            if (_itemFactoryMock != null)
             {
-                collectionInitializer(_serviceCollection);
+                _serviceCollection.AddTransient(x => _itemFactoryMock.Object);
+            }
+            else
+            {
+                _serviceCollection.AddDefaultItemFactory();
             }
 
-            _serviceCollection.AddDefaultInventoryServices();
+            if (_inventoryFactoryMock != null)
+            {
+                _serviceCollection.AddTransient(x => _inventoryFactoryMock.Object);
+            }
+            else
+            {
+                _serviceCollection.AddDefaultInventoryFactory();
+            }
 
+            if (_itemSplitStrategyHandlerMock != null)
+            {
+                _serviceCollection.AddTransient(x => _itemSplitStrategyHandlerMock.Object);
+            }
+            else
+            {
+                _serviceCollection.AddDefaultInventorySplitStrategy();
+            }
+
+            if (_itemMergeStrategyHandlerMock != null)
+            {
+                _serviceCollection.AddTransient(x => _itemMergeStrategyHandlerMock.Object);
+            }
+            else
+            {
+                _serviceCollection.AddDefaultInventoryMergeStrategy();
+            }
         }
 
         protected void TearDownItemTest()
@@ -69,6 +118,12 @@ namespace Micky5991.Inventory.Tests
 
             _item = null;
             _fakeItem = null;
+            _inventory = null;
+
+            _inventoryFactoryMock = null;
+            _itemFactoryMock = null;
+            _itemMergeStrategyHandlerMock = null;
+            _itemSplitStrategyHandlerMock = null;
         }
 
         protected void SetupServiceProvider(params ItemMeta[] itemMetas)
@@ -83,10 +138,15 @@ namespace Micky5991.Inventory.Tests
 
             _itemFactory = _serviceProvider.GetRequiredService<IItemFactory>();
             _itemServices = _serviceProvider.GetRequiredService<AggregatedItemServices>();
+
             _inventoryFactory = _serviceProvider.GetRequiredService<IInventoryFactory>();
             _inventoryServices = _serviceProvider.GetRequiredService<AggregatedInventoryServices>();
 
+            _itemSplitStrategyHandler = _serviceProvider.GetRequiredService<IItemSplitStrategyHandler>();
+            _itemMergeStrategyHandler = _serviceProvider.GetRequiredService<IItemMergeStrategyHandler>();
+
             _item = (Item) _itemFactory.CreateItem(itemMetas.First(), 1);
+            _inventory = _inventoryFactory.CreateInventory(100);
         }
 
         protected void SetupDefaultServiceProvider()

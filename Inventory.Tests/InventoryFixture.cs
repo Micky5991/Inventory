@@ -13,8 +13,6 @@ namespace Micky5991.Inventory.Tests
     {
         private const int InventoryCapacity = 100;
 
-        private Entities.Inventory.Inventory _inventory;
-
         private Mock<IItem> _itemMock;
 
         [TestInitialize]
@@ -22,9 +20,9 @@ namespace Micky5991.Inventory.Tests
         {
             SetupItemTest();
 
-            _inventory = new Entities.Inventory.Inventory(InventoryCapacity, _inventoryServices);
-
             _itemMock = new Mock<IItem>();
+
+            SetupDefaultServiceProvider();
         }
 
         [TestCleanup]
@@ -100,8 +98,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CallingNullForHandleOnDoesItemFitThrowsException()
         {
-            SetupDefaultServiceProvider();
-
             Action act = () => _inventory.DoesItemFit((ItemMeta) null, 1);
 
             act.Should().Throw<ArgumentNullException>();
@@ -113,8 +109,6 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-2)]
         public void CallingDoesItemFitWithMetaAndNegativeAmountThrowsException(int amount)
         {
-            SetupDefaultServiceProvider();
-
             Action act = () => _inventory.DoesItemFit(_defaultRealMeta, amount);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
@@ -130,7 +124,7 @@ namespace Micky5991.Inventory.Tests
             return item;
         }
 
-        private void AssertInventoryCapacity(int usedCapacity, int capacity = InventoryCapacity, Entities.Inventory.Inventory inventory = null)
+        private void AssertInventoryCapacity(int usedCapacity, int capacity = InventoryCapacity, IInventory inventory = null)
         {
             if (inventory == null)
             {
