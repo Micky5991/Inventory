@@ -20,14 +20,89 @@ namespace Micky5991.Inventory.Extensions
             }
 
             return serviceCollection
-                .AddTransient<IInventoryFactory, InventoryFactory>()
-                .AddTransient<IItemFactory, ItemFactory>()
+                .AddDefaultFactories()
+                .AddDefaultInventoryStrategies()
+                .AddInventoryServices();
+        }
 
-                .AddTransient<IItemMergeStrategyHandler, ItemMergeStrategyHandler>()
-                .AddTransient<IItemSplitStrategyHandler, ItemSplitStrategyHandler>()
+        public static IServiceCollection AddInventoryServices(this IServiceCollection serviceCollection)
+        {
+            if (serviceCollection == null)
+            {
+                throw new ArgumentNullException(nameof(serviceCollection));
+            }
 
+            return serviceCollection
                 .AddTransient<AggregatedItemServices>()
                 .AddTransient<AggregatedInventoryServices>();
+        }
+
+        public static IServiceCollection AddDefaultInventoryStrategies(this IServiceCollection serviceCollection)
+        {
+            if (serviceCollection == null)
+            {
+                throw new ArgumentNullException(nameof(serviceCollection));
+            }
+
+            return serviceCollection
+                .AddDefaultInventoryMergeStrategy()
+                .AddDefaultInventorySplitStrategy();
+        }
+
+        public static IServiceCollection AddDefaultInventoryMergeStrategy(this IServiceCollection serviceCollection)
+        {
+            if (serviceCollection == null)
+            {
+                throw new ArgumentNullException(nameof(serviceCollection));
+            }
+
+            return serviceCollection
+                .AddTransient<IItemMergeStrategyHandler, ItemMergeStrategyHandler>();
+        }
+
+        public static IServiceCollection AddDefaultInventorySplitStrategy(this IServiceCollection serviceCollection)
+        {
+            if (serviceCollection == null)
+            {
+                throw new ArgumentNullException(nameof(serviceCollection));
+            }
+
+            return serviceCollection
+                .AddTransient<IItemSplitStrategyHandler, ItemSplitStrategyHandler>();
+        }
+
+        public static IServiceCollection AddDefaultFactories(this IServiceCollection serviceCollection)
+        {
+            if (serviceCollection == null)
+            {
+                throw new ArgumentNullException(nameof(serviceCollection));
+            }
+
+            return serviceCollection
+                .AddDefaultInventoryFactory()
+                .AddDefaultItemFactory();
+        }
+
+        public static IServiceCollection AddDefaultInventoryFactory(this IServiceCollection serviceCollection)
+        {
+            if (serviceCollection == null)
+            {
+                throw new ArgumentNullException(nameof(serviceCollection));
+            }
+
+            return serviceCollection
+                .AddTransient<IInventoryFactory, InventoryFactory>();
+        }
+
+        public static IServiceCollection AddDefaultItemFactory(this IServiceCollection serviceCollection)
+        {
+            if (serviceCollection == null)
+            {
+                throw new ArgumentNullException(nameof(serviceCollection));
+            }
+
+            return serviceCollection
+                .AddTransient<IItemFactory, ItemFactory>();
         }
 
         public static IServiceCollection AddItemTypes(this IServiceCollection serviceCollection, IItemRegistry itemRegistry)
