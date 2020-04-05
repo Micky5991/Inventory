@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -101,6 +102,83 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
             Action act = () => _inventory.DoesItemFit((ItemMeta) null, 1);
 
             act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(2)]
+        public void CallingDoesItemFitWithFittingItemReturnsTrue(int weightDelta)
+        {
+            _inventory.SetCapacity(_defaultRealMeta.DefaultWeight + weightDelta);
+
+            _inventory.DoesItemFit(_defaultRealMeta).Should().BeTrue();
+        }
+
+        [TestMethod]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        [DataRow(-3)]
+        public void CallingdoesItemFitWithExceedingWeightReturnsFalse(int weightDelta)
+        {
+            _inventory.SetCapacity(_defaultRealMeta.DefaultWeight + weightDelta);
+
+            _inventory.DoesItemFit(_defaultRealMeta).Should().BeFalse();
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void CallingDoesItemFitWithNegativeAmountThrowsException(int amount)
+        {
+            _inventory.SetCapacity(1000);
+
+            Action act = () => _inventory.DoesItemFit(ItemHandle, amount);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .Where(x => x.Message.Contains("1 or higher"));
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void CallingDoesItemFitWithNegativeAmountAndMetaThrowsException(int amount)
+        {
+            _inventory.SetCapacity(1000);
+
+            Action act = () => _inventory.DoesItemFit(_defaultRealMeta, amount);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .Where(x => x.Message.Contains("1 or higher"));
+        }
+
+        [TestMethod]
+        public void CallingDoesItemFitWithKnownHandleAndAvailableSpaceReturnsTrue()
+        {
+            _inventory.SetCapacity(1000);
+
+            _inventory.DoesItemFit(ItemHandle, 1).Should().BeTrue();
+        }
+
+        [TestMethod]
+        [DataRow(null)]
+        [DataRow("")]
+        [DataRow(" ")]
+        public void CallingDoesItemFitWithInvalidHandleThrowsException(string handle)
+        {
+            Action act = () => _inventory.DoesItemFit(handle, 1);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void CallingDoesItemFitWithUnknownHandleThrowsException()
+        {
+            Action act = () => _inventory.DoesItemFit("unknownhandle", 1);
+
+            act.Should().Throw<ItemMetaNotFoundException>();
         }
 
         [TestMethod]

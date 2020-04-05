@@ -49,6 +49,14 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        public void CreatingInventoryShouldHaveRuntimeId()
+        {
+            var inventory = _inventoryFactory.CreateInventory(1);
+
+            inventory.RuntimeId.Should().NotBeEmpty();
+        }
+
+        [TestMethod]
         [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity - 1)]
         [DataRow(Entities.Inventory.Inventory.MinimalInventoryCapacity - 2)]
         [DataRow(int.MinValue)]

@@ -51,6 +51,11 @@ namespace Micky5991.Inventory.Entities.Inventory
 
         public bool DoesItemFit(string handle, int amount = 1)
         {
+            if (string.IsNullOrWhiteSpace(handle))
+            {
+                throw new ArgumentNullException(nameof(handle));
+            }
+
             if (_itemRegistry.TryGetItemMeta(handle, out var meta) == false)
             {
                 throw new ItemMetaNotFoundException($"Could not find the given handle {handle}");
