@@ -97,6 +97,15 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        public void CreatingNonStackableItemFromHandleWithAmountEqualToOneWillCreateItem()
+        {
+            var item = _itemFactory.CreateItem(DefaultNonStackableItemHandle, 1);
+
+            item.Should().NotBeNull();
+            item.Should().BeOfType<FakeItem>();
+        }
+
+        [TestMethod]
         public void CreatingItemWithNullMetaThrowsException()
         {
             Action act = () => _itemFactory.CreateItem((ItemMeta) null, 1);
