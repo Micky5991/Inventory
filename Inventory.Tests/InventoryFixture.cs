@@ -97,6 +97,30 @@ namespace Micky5991.Inventory.Tests
             _inventory.DoesItemFit(item).Should().BeFalse();
         }
 
+        [TestMethod]
+        public void CallingNullForHandleOnDoesItemFitThrowsException()
+        {
+            SetupDefaultServiceProvider();
+
+            Action act = () => _inventory.DoesItemFit((ItemMeta) null, 1);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void CallingDoesItemFitWithMetaAndNegativeAmountThrowsException(int amount)
+        {
+            SetupDefaultServiceProvider();
+
+            Action act = () => _inventory.DoesItemFit(_defaultRealMeta, amount);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .Where(x => x.Message.Contains("1 or higher") && x.Message.Contains("amount"));
+        }
+
         private async Task<FakeItem> AddItemToInventoryAsync(int weight = 10)
         {
             var item = new FakeItem(weight);
