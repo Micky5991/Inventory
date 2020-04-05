@@ -21,10 +21,11 @@ namespace Micky5991.Inventory.Extensions
 
             return serviceCollection
                 .AddTransient<IInventoryFactory, InventoryFactory>()
-                .AddTransient<IItemFactory>(x => new ItemFactory(x.GetRequiredService<IItemRegistry>(), x))
+                .AddTransient<IItemFactory, ItemFactory>()
 
                 .AddTransient<IItemMergeStrategyHandler, ItemMergeStrategyHandler>()
                 .AddTransient<IItemSplitStrategyHandler, ItemSplitStrategyHandler>()
+
                 .AddTransient<AggregatedItemServices>()
                 .AddTransient<AggregatedInventoryServices>();
         }
