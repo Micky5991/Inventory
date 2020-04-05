@@ -11,7 +11,7 @@ namespace Inventory.Example
         {
             yield return CreateItemMeta<AppleItem>(ItemHandle.Apple, "Apple");
             yield return CreateItemMeta<WaterItem>(ItemHandle.Water, "Water");
-            yield return CreateItemMeta<DiceItem>(ItemHandle.Dice, "Dice");
+            yield return CreateItemMeta<DiceItem>(ItemHandle.Dice, "Dice", flags: ItemFlags.NotStackable);
         }
 
         private ItemMeta CreateItemMeta<T>(ItemHandle itemHandle, string displayName, int defaultWeight = 1, ItemFlags flags = ItemFlags.None) where T : BaseItem
