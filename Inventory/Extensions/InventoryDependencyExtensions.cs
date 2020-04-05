@@ -12,7 +12,7 @@ namespace Micky5991.Inventory.Extensions
     public static class InventoryDependencyExtensions
     {
 
-        public static IServiceCollection AddInventoryServices(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddDefaultInventoryServices(this IServiceCollection serviceCollection)
         {
             if (serviceCollection == null)
             {
