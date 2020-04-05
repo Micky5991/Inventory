@@ -54,7 +54,7 @@ namespace Micky5991.Inventory.Tests
                 collectionInitializer(_serviceCollection);
             }
 
-            _serviceCollection.AddInventoryServices();
+            _serviceCollection.AddDefaultInventoryServices();
 
         }
 

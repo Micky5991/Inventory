@@ -27,7 +27,7 @@ namespace Inventory.Example
             var serviceCollection = new ServiceCollection();
 
             serviceCollection
-                .AddInventoryServices()
+                .AddDefaultInventoryServices()
                 .AddItemTypes(new ItemRegistry());
 
             serviceCollection

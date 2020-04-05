@@ -41,7 +41,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void RunningAddServiceExtensionsOnNullThrowsArgumentNullException()
         {
-            Action act = () => InventoryDependencyExtensions.AddInventoryServices(null);
+            Action act = () => InventoryDependencyExtensions.AddDefaultInventoryServices(null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -49,7 +49,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void AddServicesExtensionRegistersNeededServices()
         {
-            InventoryDependencyExtensions.AddInventoryServices(_serviceCollection);
+            InventoryDependencyExtensions.AddDefaultInventoryServices(_serviceCollection);
 
             AddItemRegistryMock();
             BuildServiceProvider();
