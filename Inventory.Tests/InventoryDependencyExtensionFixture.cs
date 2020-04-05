@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Extensions;
 using Micky5991.Inventory.Interfaces;
@@ -36,6 +37,62 @@ namespace Micky5991.Inventory.Tests
         {
             _serviceCollection = null;
             _serviceProvider = null;
+        }
+
+        [TestMethod]
+        public void RunningAddInventoryServicesOnNullThrowsException()
+        {
+            Action act = () => InventoryDependencyExtensions.AddInventoryServices(null);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void RunningAddDefaultInventoryStrategiesOnNullThrowsException()
+        {
+            Action act = () => InventoryDependencyExtensions.AddDefaultInventoryStrategies(null);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void RunningAddDefaultInventoryMergeStrategyOnNullThrowsException()
+        {
+            Action act = () => InventoryDependencyExtensions.AddDefaultInventoryMergeStrategy(null);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void RunningAddDefaultInventorySplitStrategyOnNullThrowsException()
+        {
+            Action act = () => InventoryDependencyExtensions.AddDefaultInventorySplitStrategy(null);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void RunningAddDefaultInventoryFactoryOnNullThrowsException()
+        {
+            Action act = () => InventoryDependencyExtensions.AddDefaultInventoryFactory(null);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void RunningAddDefaultItemFactoryOnNullThrowsException()
+        {
+            Action act = () => InventoryDependencyExtensions.AddDefaultItemFactory(null);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void RunningAddDefaultFactoriesOnNullThrowsException()
+        {
+            Action act = () => InventoryDependencyExtensions.AddDefaultFactories(null);
+
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [TestMethod]
