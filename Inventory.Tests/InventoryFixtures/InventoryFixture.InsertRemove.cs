@@ -132,5 +132,30 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
 
             await act.Should().ThrowAsync<ItemNotAllowedException>();
         }
+
+        [TestMethod]
+        public async Task InsertingItemWithForceEvenWithDisallowingFilterInsertsIt()
+        {
+            _inventory.SetItemFilter(x => false);
+
+            await _inventory.InsertItemAsync(_item, true);
+
+            _inventory.Items.Should()
+                .HaveCount(1)
+                .And.ContainSingle(x => x == _item);
+        }
+
+        [TestMethod]
+        public async Task InsertingItemWithForceEvenWithNotEnoughCapacityShouldAllowInsertion()
+        {
+            _item.SetSingleWeight(10);
+            _inventory.SetCapacity(5);
+
+            await _inventory.InsertItemAsync(_item, true);
+
+            _inventory.Items.Should()
+                .HaveCount(1)
+                .And.ContainSingle(x => x == _item);
+        }
     }
 }

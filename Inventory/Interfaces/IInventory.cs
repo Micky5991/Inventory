@@ -105,10 +105,11 @@ namespace Micky5991.Inventory.Interfaces
         /// it will be merged into the first existing item and the given <paramref name="item"/> will be disposed.
         /// </summary>
         /// <param name="item">The item that should be added</param>
+        /// <param name="force">true if checks regarding capacity and filter should be ignored</param>
         /// <returns>true if the item has been added or merged, false otherwise</returns>
         /// <exception cref="ArgumentNullException"><paramref name="item"/> is null</exception>
         /// <exception cref="InventoryCapacityException">Adding the <paramref name="item"/> would exceed the current inventory capacity</exception>
-        Task<bool> InsertItemAsync([NotNull] IItem item);
+        Task<bool> InsertItemAsync([NotNull] IItem item, bool force = false);
 
         /// <summary>
         /// Tries to remove the given item <paramref name="item"/> from this inventory.

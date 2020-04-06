@@ -8,21 +8,24 @@ namespace Micky5991.Inventory.Entities.Inventory
 {
     public partial class Inventory
     {
-        public async Task<bool> InsertItemAsync(IItem item)
+        public async Task<bool> InsertItemAsync(IItem item, bool force)
         {
             if (item == null)
             {
                 throw new ArgumentNullException(nameof(item));
             }
 
-            if (IsItemAllowed(item) == false)
+            if (force == false)
             {
-                throw new ItemNotAllowedException($"The given item is not allwed in this inventory.");
-            }
+                if (IsItemAllowed(item) == false)
+                {
+                    throw new ItemNotAllowedException($"The given item is not allwed in this inventory.");
+                }
 
-            if (DoesItemFit(item) == false)
-            {
-                throw new InventoryCapacityException(nameof(item), item);
+                if (DoesItemFit(item) == false)
+                {
+                    throw new InventoryCapacityException(nameof(item), item);
+                }
             }
 
             if (item.CurrentInventory == this)
