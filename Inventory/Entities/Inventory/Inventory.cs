@@ -41,6 +41,21 @@ namespace Micky5991.Inventory.Entities.Inventory
             UsedCapacity = _items.Values.Sum(x => x.TotalWeight);
         }
 
+        public bool IsItemAllowed(IItem item)
+        {
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
+            if (_itemFilter == null)
+            {
+                return true;
+            }
+
+            return _itemFilter(item);
+        }
+
         public bool DoesItemFit(IItem item)
         {
             if (item == null)
