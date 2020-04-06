@@ -370,6 +370,14 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
+        public void CallingGetItemFitAmountWithUnknownItemThrowsException()
+        {
+            Action act = () => _inventory.GetItemFitAmount("unknownhandle");
+
+            act.Should().Throw<ItemMetaNotFoundException>();
+        }
+
+        [TestMethod]
         [DataRow(0)]
         [DataRow(-1)]
         [DataRow(-2)]
