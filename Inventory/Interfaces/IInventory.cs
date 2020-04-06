@@ -145,5 +145,41 @@ namespace Micky5991.Inventory.Interfaces
         /// <exception cref="ArgumentNullException"><paramref name="targetInventory"/> is null</exception>
         ICollection<IItem> GetInsertableItems(IInventory targetInventory, bool checkCapacity = true, bool checkFilter = true);
 
+        /// <summary>
+        /// Returns an amount of items that could be inserted into this inventory of the given <paramref name="handle"/>.
+        /// </summary>
+        /// <param name="handle">ItemMeta handle to search for</param>
+        /// <returns>Amount of items that would be able to insert</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="handle"/> is null, empty or whitespace</exception>
+        /// <exception cref="ItemMetaNotFoundException"><paramref name="handle"/> could not be found</exception>
+        int GetItemFitAmount(string handle);
+
+        /// <summary>
+        /// Returns an amount of items that could be inserted into this inventory of the given <paramref name="meta"/>.
+        /// </summary>
+        /// <param name="meta"><see cref="ItemMeta"/> to calculate the amount from.</param>
+        /// <returns>Amount of items that would be able to insert</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="meta"/> is null</exception>
+        int GetItemFitAmount(ItemMeta meta);
+
+        /// <summary>
+        /// Returns an amount of items that could be inserted into this inventory of the given <paramref name="item"/>.
+        ///
+        /// This calculation is based on the available capacity of this inventory. If this item is already in this
+        /// inventory, this will calculate additional items.
+        /// </summary>
+        /// <param name="item">Item to take the <see cref="IItem"/> singleweight from</param>
+        /// <returns>Amount of additional items that would be able to insert</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="item"/> is null</exception>
+        int GetItemFitAmount(IItem item);
+
+        /// <summary>
+        /// Returns an amount of items that could be inserted based on the given <paramref name="itemWeight"/>.
+        /// </summary>
+        /// <param name="itemWeight">Single weight to use as calculation base</param>
+        /// <returns>Amount of additional items that would be able to insert</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="itemWeight"/> is 0 or lower</exception>
+        int GetItemFitAmount(int itemWeight);
+
     }
 }

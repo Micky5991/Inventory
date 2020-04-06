@@ -54,20 +54,17 @@ namespace Micky5991.Inventory.Tests
 
         protected void SetupItemTest()
         {
-            _itemRegistry = new ItemRegistry();
-
             _defaultRealMeta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
             _defaultFakeMeta = new ItemMeta(FakeItemHandle, typeof(FakeItem), FakeItemDisplayName, FakeItemWeight, FakeItemFlags);
-
-            _serviceCollection = new ServiceCollection();
-
-            SetupDependencies();
 
             SetupDefaultServiceProvider();
         }
 
-        private void SetupDependencies()
+        protected void SetupDependencies()
         {
+            _itemRegistry = new ItemRegistry();
+            _serviceCollection = new ServiceCollection();
+
             _serviceCollection.AddInventoryServices();
 
             if (_itemFactoryMock != null)
@@ -112,6 +109,7 @@ namespace Micky5991.Inventory.Tests
             _serviceProvider = null;
             _serviceCollection = null;
             _itemFactory = null;
+            _itemRegistry = null;
 
             _realMeta = null;
             _fakeMeta = null;
@@ -128,6 +126,8 @@ namespace Micky5991.Inventory.Tests
 
         protected void SetupServiceProvider(params ItemMeta[] itemMetas)
         {
+            SetupDependencies();
+
             foreach (var itemMeta in itemMetas)
             {
                 _itemRegistry.AddItemMeta(itemMeta);

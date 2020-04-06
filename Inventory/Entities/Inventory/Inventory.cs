@@ -125,6 +125,51 @@ namespace Micky5991.Inventory.Entities.Inventory
             return true;
         }
 
+        public int GetItemFitAmount(string handle)
+        {
+            if (string.IsNullOrWhiteSpace(handle))
+            {
+                throw new ArgumentNullException(nameof(handle));
+            }
+
+            if (_itemRegistry.TryGetItemMeta(handle, out var meta) == false)
+            {
+                throw new ItemMetaNotFoundException($"Could not find item meta with handle for handle {handle}");
+            }
+
+            return GetItemFitAmount(meta);
+        }
+
+        public int GetItemFitAmount(ItemMeta meta)
+        {
+            if (meta == null)
+            {
+                throw new ArgumentNullException(nameof(meta));
+            }
+
+            return GetItemFitAmount(meta.DefaultWeight);
+        }
+
+        public int GetItemFitAmount(IItem item)
+        {
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
+            return GetItemFitAmount(item.SingleWeight);
+        }
+
+        public int GetItemFitAmount(int itemWeight)
+        {
+            if (itemWeight <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(itemWeight), $"{nameof(itemWeight)} has to be 1 or higher");
+            }
+
+            return Math.DivRem(AvailableCapacity, itemWeight, out _);
+        }
+
         public ICollection<IItem> GetItems(string handle)
         {
             if (string.IsNullOrWhiteSpace(handle))
