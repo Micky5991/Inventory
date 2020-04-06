@@ -122,5 +122,15 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
 
             _inventory.Items.Should().BeEmpty();
         }
+
+        [TestMethod]
+        public async Task InsertingItemThatIsNotAllwedThrowsException()
+        {
+            _inventory.SetItemFilter(x => false);
+
+            Func<Task> act = () => _inventory.InsertItemAsync(_item);
+
+            await act.Should().ThrowAsync<ItemNotAllowedException>();
+        }
     }
 }

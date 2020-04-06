@@ -15,6 +15,11 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(item));
             }
 
+            if (IsItemAllowed(item) == false)
+            {
+                throw new ItemNotAllowedException($"The given item is not allwed in this inventory.");
+            }
+
             if (DoesItemFit(item) == false)
             {
                 throw new InventoryCapacityException(nameof(item), item);
