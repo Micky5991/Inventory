@@ -220,6 +220,14 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
+        public void CallingIsItemAllowedWithNullThrowsException()
+        {
+            Action act = () => _inventory.IsItemAllowed(null);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
         public void CallingCanBeInsertedWithNullThrowsException()
         {
             Action act = () => _inventory.CanBeInserted(null);
