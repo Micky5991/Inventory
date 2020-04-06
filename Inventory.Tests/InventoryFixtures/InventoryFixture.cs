@@ -342,6 +342,114 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
             act.Should().Throw<ArgumentNullException>();
         }
 
+        [TestMethod]
+        [DataRow(null)]
+        [DataRow("")]
+        [DataRow(" ")]
+        public void CallingGetItemFitAmountWithNullHandleThrowsException(string handle)
+        {
+            Action act = () => _inventory.GetItemFitAmount(handle);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void CallingGetItemFitAmountWithNullMetaThrowsException()
+        {
+            Action act = () => _inventory.GetItemFitAmount((ItemMeta) null);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void CallingGetItemFitAmountWithNullItemThrowsException()
+        {
+            Action act = () => _inventory.GetItemFitAmount((IItem) null);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void CallingGetItemFitAmountWithZeroOrLowerThrowsException(int value)
+        {
+            Action act = () => _inventory.GetItemFitAmount(value);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .Where(x => x.Message.Contains("1 or higher"));
+        }
+
+        [TestMethod]
+        [DataRow(1, 100, 100)]
+        [DataRow(2, 100, 50)]
+        [DataRow(3, 100, 33)]
+        [DataRow(4, 100, 25)]
+        [DataRow(11, 100, 9)]
+        [DataRow(51, 100, 1)]
+        [DataRow(2, 3, 1)]
+        public void GetItemFitAmountSetsValueCorrectly(int singleWeight, int capacity, int result)
+        {
+            _item.SetSingleWeight(singleWeight);
+            _inventory.SetCapacity(capacity);
+
+            _item.SingleWeight.Should().Be(singleWeight);
+            _inventory.Capacity.Should().Be(capacity);
+
+            var amount = _inventory.GetItemFitAmount(_item);
+
+            amount.Should().Be(result);
+        }
+
+        [TestMethod]
+        [DataRow(1, 100, 100)]
+        [DataRow(2, 100, 50)]
+        [DataRow(3, 100, 33)]
+        [DataRow(4, 100, 25)]
+        [DataRow(11, 100, 9)]
+        [DataRow(51, 100, 1)]
+        [DataRow(2, 3, 1)]
+        public void GetItemFitAmountWithMetaReturnsCorrectValue(int singleWeight, int capacity, int result)
+        {
+            var meta = new ItemMeta(_defaultRealMeta.Handle, _defaultRealMeta.Type, _defaultRealMeta.DisplayName, singleWeight);
+
+            _inventory.SetCapacity(capacity);
+            _inventory.Capacity.Should().Be(capacity);
+
+            var amount = _inventory.GetItemFitAmount(meta);
+
+            amount.Should().Be(result);
+        }
+
+        [TestMethod]
+        [DataRow(1, 100, 100)]
+        [DataRow(2, 100, 50)]
+        [DataRow(3, 100, 33)]
+        [DataRow(4, 100, 25)]
+        [DataRow(11, 100, 9)]
+        [DataRow(51, 100, 1)]
+        [DataRow(2, 3, 1)]
+        public void GetItemFitAmountWithHandleReturnsCorrectValue(int singleWeight, int capacity, int result)
+        {
+            _defaultRealMeta = new ItemMeta(_defaultRealMeta.Handle, _defaultRealMeta.Type,
+                _defaultRealMeta.DisplayName, singleWeight);
+
+            SetupDefaultServiceProvider();
+
+            var success = _itemRegistry.TryGetItemMeta(_defaultRealMeta.Handle, out var meta);
+            success.Should().BeTrue();
+
+            meta.DefaultWeight.Should().Be(singleWeight);
+
+            _inventory.SetCapacity(capacity);
+            _inventory.Capacity.Should().Be(capacity);
+
+            var amount = _inventory.GetItemFitAmount(_defaultRealMeta.Handle);
+
+            amount.Should().Be(result);
+        }
+
         private async Task<FakeItem> AddItemToInventoryAsync(int weight = 10)
         {
             var item = new FakeItem(weight);
