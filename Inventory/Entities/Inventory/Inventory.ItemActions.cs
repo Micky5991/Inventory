@@ -95,5 +95,9 @@ namespace Micky5991.Inventory.Entities.Inventory
             return true;
         }
 
+        public void SetItemFilter(InventoryDelegates.ItemFilterDelegate? filter)
+        {
+            _itemFilter = filter;
+        }
     }
 }

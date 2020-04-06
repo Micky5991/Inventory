@@ -110,5 +110,12 @@ namespace Micky5991.Inventory.Interfaces
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity"/> was too low</exception>
         bool SetCapacity(int capacity);
 
+        /// <summary>
+        /// Sets the filter of this inventory to only accept certain items into inventory. To remove the current filter
+        /// and allow all items again, set the <paramref name="filter"/> to null.
+        /// </summary>
+        /// <param name="filter">Filter to set to</param>
+        void SetItemFilter(InventoryDelegates.ItemFilterDelegate? filter);
+
     }
 }

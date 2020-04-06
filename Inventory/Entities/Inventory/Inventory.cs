@@ -16,6 +16,8 @@ namespace Micky5991.Inventory.Entities.Inventory
 
         private readonly IItemRegistry _itemRegistry;
 
+        private InventoryDelegates.ItemFilterDelegate? _itemFilter;
+
         public Inventory(int capacity, AggregatedInventoryServices inventoryServices)
         {
             if (capacity < MinimalInventoryCapacity)
