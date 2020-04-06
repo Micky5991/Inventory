@@ -53,6 +53,14 @@ namespace Micky5991.Inventory.Interfaces
         ICollection<T> GetItems<T>(string? handle = null) where T : IItem;
 
         /// <summary>
+        /// Determines if the given item is allowed in inventory
+        /// </summary>
+        /// <param name="item">Item that should be checked</param>
+        /// <returns>true if item is allwed, false otherwise</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="item"/> is null</exception>
+        bool IsItemAllowed([NotNull] IItem item);
+
+        /// <summary>
         /// Determines if the given item would fit into this inventory
         /// </summary>
         /// <param name="item">Item that should be checked</param>
