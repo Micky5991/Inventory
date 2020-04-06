@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Micky5991.Inventory.Exceptions;
@@ -106,6 +108,36 @@ namespace Micky5991.Inventory.Entities.Inventory
         public void SetItemFilter(InventoryDelegates.ItemFilterDelegate? filter)
         {
             _itemFilter = filter;
+        }
+
+        public ICollection<IItem> GetInsertableItems(IInventory targetInventory, bool checkCapacity = true, bool checkFilter = true)
+        {
+            if (targetInventory == null)
+            {
+                throw new ArgumentNullException(nameof(targetInventory));
+            }
+
+            bool CapacityFilter(IItem item)
+            {
+                if (checkCapacity == false)
+                {
+                    return true;
+                }
+
+                return targetInventory.DoesItemFit(item);
+            }
+
+            bool AcceptanceFilter(IItem item)
+            {
+                if (checkFilter == false)
+                {
+                    return true;
+                }
+
+                return targetInventory.IsItemAllowed(item);
+            }
+
+            return Items.Where(x => CapacityFilter(x) && AcceptanceFilter(x)).ToList();
         }
     }
 }

@@ -275,6 +275,97 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
             _inventory.CanBeInserted(_item).Should().BeFalse();
         }
 
+        [TestMethod]
+        public async Task InsertingItemWithRightCapacityAndFilterReturnsTrue()
+        {
+            await _inventory.InsertItemAsync(_item);
+            await _inventory.InsertItemAsync(_fakeItem);
+
+            var otherInventory = new Mock<IInventory>();
+
+            otherInventory.Setup(x => x.DoesItemFit(It.IsAny<IItem>())).Returns(true);
+            otherInventory.Setup(x => x.IsItemAllowed(It.IsAny<IItem>())).Returns(true);
+
+            var items = _inventory.GetInsertableItems(otherInventory.Object, true, true);
+
+            otherInventory.Verify(x => x.DoesItemFit(_item), Times.Once);
+            otherInventory.Verify(x => x.DoesItemFit(_fakeItem), Times.Once);
+
+            otherInventory.Verify(x => x.IsItemAllowed(_item), Times.Once);
+            otherInventory.Verify(x => x.IsItemAllowed(_fakeItem), Times.Once);
+
+            items.Should()
+                .HaveCount(2)
+                .And.Contain(_item)
+                .And.Contain(_fakeItem);
+        }
+
+        [TestMethod]
+        [DataRow(true, false)]
+        [DataRow(false, true)]
+        [DataRow(true, true)]
+        public async Task IgnoringFalseFilterReturnsAllItems(bool ignoreCapacity, bool ignoreAllowance)
+        {
+            await _inventory.InsertItemAsync(_item);
+            await _inventory.InsertItemAsync(_fakeItem);
+
+            var otherInventory = new Mock<IInventory>();
+
+            otherInventory.Setup(x => x.DoesItemFit(It.IsAny<IItem>())).Returns(ignoreCapacity == false);
+            otherInventory.Setup(x => x.IsItemAllowed(It.IsAny<IItem>())).Returns(ignoreAllowance == false);
+
+            var items = _inventory.GetInsertableItems(otherInventory.Object, ignoreCapacity == false, ignoreAllowance == false);
+
+            otherInventory.Verify(x => x.DoesItemFit(_item), Times.AtMostOnce);
+            otherInventory.Verify(x => x.DoesItemFit(_fakeItem), Times.AtMostOnce);
+
+            otherInventory.Verify(x => x.IsItemAllowed(_item), Times.AtMostOnce);
+            otherInventory.Verify(x => x.IsItemAllowed(_fakeItem), Times.AtMostOnce);
+
+            items.Should()
+                .HaveCount(2)
+                .And.Contain(_item)
+                .And.Contain(_fakeItem);
+        }
+
+        [TestMethod]
+        [DataRow(false, false)]
+        [DataRow(false, true)]
+        [DataRow(true, false)]
+        public async Task AnyFalseRequirementReturnsEmptyList(bool fitStatus, bool allowanceStatus)
+        {
+            await _inventory.InsertItemAsync(_item);
+            await _inventory.InsertItemAsync(_fakeItem);
+
+            var otherInventory = new Mock<IInventory>();
+
+            otherInventory.Setup(x => x.DoesItemFit(It.IsAny<IItem>())).Returns(fitStatus);
+            otherInventory.Setup(x => x.IsItemAllowed(It.IsAny<IItem>())).Returns(allowanceStatus);
+
+            var items = _inventory.GetInsertableItems(otherInventory.Object, true, true);
+
+            otherInventory.Verify(x => x.DoesItemFit(_item), Times.AtMostOnce);
+            otherInventory.Verify(x => x.DoesItemFit(_fakeItem), Times.AtMostOnce);
+
+            otherInventory.Verify(x => x.IsItemAllowed(_item), Times.AtMostOnce);
+            otherInventory.Verify(x => x.IsItemAllowed(_fakeItem), Times.AtMostOnce);
+
+            items.Should().BeEmpty();
+        }
+
+        [TestMethod]
+        [DataRow(false, false)]
+        [DataRow(false, true)]
+        [DataRow(true, false)]
+        [DataRow(true, true)]
+        public void CallingGetInsertableItemsWithNullTargetInventoryThrowsException(bool capacityFilter,
+            bool acceptanceFilter)
+        {
+            Action act = () => _inventory.GetInsertableItems(null, capacityFilter, acceptanceFilter);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
         private async Task<FakeItem> AddItemToInventoryAsync(int weight = 10)
         {
             var item = new FakeItem(weight);

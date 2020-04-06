@@ -134,5 +134,16 @@ namespace Micky5991.Inventory.Interfaces
         /// <param name="filter">Filter to set to</param>
         void SetItemFilter(InventoryDelegates.ItemFilterDelegate? filter);
 
+        /// <summary>
+        /// Returns a list of items of this inventory which could be inserted into the <paramref name="targetInventory"/>.
+        /// The used filters can be specified.
+        /// </summary>
+        /// <param name="targetInventory"><see cref="IInventory"/> to check items to merge into</param>
+        /// <param name="checkCapacity">true if unavailable capacity removes item from possible items, false otherwise</param>
+        /// <param name="checkFilter">true if false filter result removes item from possible items, false otherwise</param>
+        /// <returns>List of items that fit the created criteria</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="targetInventory"/> is null</exception>
+        ICollection<IItem> GetInsertableItems(IInventory targetInventory, bool checkCapacity = true, bool checkFilter = true);
+
     }
 }
