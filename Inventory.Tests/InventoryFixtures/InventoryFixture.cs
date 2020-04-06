@@ -219,6 +219,54 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
             _inventory.IsItemAllowed(_item).Should().BeTrue();
         }
 
+        [TestMethod]
+        public void CallingCanBeInsertedWithNullThrowsException()
+        {
+            Action act = () => _inventory.CanBeInserted(null);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void CanBeInsertedWithRightWeightAndAllowedFilterReturnsTrue()
+        {
+            _inventory.SetCapacity(_item.TotalWeight + 1);
+            _inventory.SetItemFilter(null);
+
+            _inventory.CanBeInserted(_item).Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void CanBeInsertedWithRightWeightAndDisallowedFilterReturnsFalse()
+        {
+            _inventory.SetCapacity(_item.TotalWeight + 1);
+            _inventory.SetItemFilter(x => false);
+
+            _inventory.CanBeInserted(_item).Should().BeFalse();
+        }
+
+        [TestMethod]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void CanBeInsertedWithTooHighWeightAndAllowedFilterReturnsFalse(int weightDelta)
+        {
+            _inventory.SetCapacity(_item.TotalWeight + weightDelta);
+            _inventory.SetItemFilter(x => true);
+
+            _inventory.CanBeInserted(_item).Should().BeFalse();
+        }
+
+        [TestMethod]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        public void CanBeInsertedWithTooHighWeightAndDisallowedFilterReturnsFalse(int weightDelta)
+        {
+            _inventory.SetCapacity(_item.TotalWeight + weightDelta);
+            _inventory.SetItemFilter(x => false);
+
+            _inventory.CanBeInserted(_item).Should().BeFalse();
+        }
+
         private async Task<FakeItem> AddItemToInventoryAsync(int weight = 10)
         {
             var item = new FakeItem(weight);

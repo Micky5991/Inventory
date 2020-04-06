@@ -66,6 +66,16 @@ namespace Micky5991.Inventory.Entities.Inventory
             return AvailableCapacity >= item.TotalWeight;
         }
 
+        public bool CanBeInserted(IItem item)
+        {
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
+            return DoesItemFit(item) && IsItemAllowed(item);
+        }
+
         public bool DoesItemFit(string handle, int amount = 1)
         {
             if (string.IsNullOrWhiteSpace(handle))

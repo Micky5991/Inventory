@@ -69,6 +69,14 @@ namespace Micky5991.Inventory.Interfaces
         bool DoesItemFit([NotNull] IItem item);
 
         /// <summary>
+        /// Determines if the item could be added to the inventory. Capacity and filter is checked.
+        /// </summary>
+        /// <param name="item">Item that should be checked</param>
+        /// <returns>true if item can be added, false otherwise</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="item"/> is null</exception>
+        bool CanBeInserted([NotNull] IItem item);
+
+        /// <summary>
         /// Determines if the given <paramref name="handle"/> can be inserted <paramref name="amount"/> of times into this inventory.
         /// </summary>
         /// <param name="handle">ItemMeta identifier to search for</param>
