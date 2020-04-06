@@ -276,34 +276,10 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task InsertingItemWithRightCapacityAndFilterReturnsTrue()
-        {
-            await _inventory.InsertItemAsync(_item);
-            await _inventory.InsertItemAsync(_fakeItem);
-
-            var otherInventory = new Mock<IInventory>();
-
-            otherInventory.Setup(x => x.DoesItemFit(It.IsAny<IItem>())).Returns(true);
-            otherInventory.Setup(x => x.IsItemAllowed(It.IsAny<IItem>())).Returns(true);
-
-            var items = _inventory.GetInsertableItems(otherInventory.Object, true, true);
-
-            otherInventory.Verify(x => x.DoesItemFit(_item), Times.Once);
-            otherInventory.Verify(x => x.DoesItemFit(_fakeItem), Times.Once);
-
-            otherInventory.Verify(x => x.IsItemAllowed(_item), Times.Once);
-            otherInventory.Verify(x => x.IsItemAllowed(_fakeItem), Times.Once);
-
-            items.Should()
-                .HaveCount(2)
-                .And.Contain(_item)
-                .And.Contain(_fakeItem);
-        }
-
-        [TestMethod]
         [DataRow(true, false)]
         [DataRow(false, true)]
         [DataRow(true, true)]
+        [DataRow(false, false)]
         public async Task IgnoringFalseFilterReturnsAllItems(bool ignoreCapacity, bool ignoreAllowance)
         {
             await _inventory.InsertItemAsync(_item);
