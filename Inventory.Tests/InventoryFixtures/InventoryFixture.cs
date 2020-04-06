@@ -193,6 +193,32 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
                 .Where(x => x.Message.Contains("1 or higher") && x.Message.Contains("amount"));
         }
 
+        [TestMethod]
+        public void ItemFilterWillCallMethod()
+        {
+            IItem passedItem = null;
+
+            bool Filter(IItem item)
+            {
+                passedItem = item;
+
+                return false;
+            }
+
+            _inventory.SetItemFilter(Filter);
+
+            _inventory.IsItemAllowed(_item).Should().BeFalse();
+            passedItem.Should().Be(_item);
+        }
+
+        [TestMethod]
+        public void ItemFilterWithNullAcceptsAllItems()
+        {
+            _inventory.SetItemFilter(null);
+
+            _inventory.IsItemAllowed(_item).Should().BeTrue();
+        }
+
         private async Task<FakeItem> AddItemToInventoryAsync(int weight = 10)
         {
             var item = new FakeItem(weight);
