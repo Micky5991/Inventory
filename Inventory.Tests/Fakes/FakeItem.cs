@@ -29,6 +29,8 @@ namespace Micky5991.Inventory.Tests.Fakes
         public bool Stackable { get; set; } = true;
 
         public IInventory CurrentInventory { get; private set; }
+        public bool MovingLocked { get; set; }
+        public bool Locked { get; set; }
 
         public Func<IItem, bool> IsMergableCheck { get; set; }
 
