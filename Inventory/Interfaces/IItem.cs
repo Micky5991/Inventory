@@ -73,6 +73,16 @@ namespace Micky5991.Inventory.Interfaces
         IInventory? CurrentInventory { get; }
 
         /// <summary>
+        /// Specifies if the item could be moved in any way. If <see cref="Locked"/> is true, this will be true nonetheless.
+        /// </summary>
+        bool MovingLocked { get; set; }
+
+        /// <summary>
+        /// Specifies if any action to this item is locked.
+        /// </summary>
+        bool Locked { get; set; }
+
+        /// <summary>
         /// Setups the item right after its creation for any handling that is not possible in a virtual constructor.
         /// </summary>
         void Initialize();

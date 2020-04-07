@@ -9,6 +9,8 @@ namespace Micky5991.Inventory.Entities.Item
         private string _displayName;
         private IInventory? _currentInventory;
         private int _singleWeight;
+        private bool _movingLocked;
+        private bool _locked;
 
         public string Handle { get; }
 
@@ -85,6 +87,39 @@ namespace Micky5991.Inventory.Entities.Item
                 _currentInventory = value;
 
                 OnPropertyChanged();
+            }
+        }
+
+        public bool MovingLocked
+        {
+            get => _movingLocked || Locked;
+            set
+            {
+                if (value == _movingLocked)
+                {
+                    return;
+                }
+
+                _movingLocked = value;
+
+                OnPropertyChanged();
+            }
+        }
+
+        public bool Locked
+        {
+            get => _locked;
+            set
+            {
+                if (value == _locked)
+                {
+                    return;
+                }
+
+                _locked = value;
+
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(MovingLocked));
             }
         }
     }
