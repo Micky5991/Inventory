@@ -3,5 +3,7 @@
     <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
         <!-- https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/DOCUMENTATION.md -->
         <Rule Id="SA1633" Action="None"/> <!-- FileMustHaveHeader -->
+
+        <Rule Id="SA1623" Action="Warning"/> <!-- PropertySummaryDocumentationMustMatchAccessors -->
     </Rules>
 </RuleSet>
