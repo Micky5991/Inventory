@@ -140,10 +140,11 @@ namespace Micky5991.Inventory.Interfaces
         /// </summary>
         /// <param name="targetInventory"><see cref="IInventory"/> to check items to merge into</param>
         /// <param name="checkCapacity">true if unavailable capacity removes item from possible items, false otherwise</param>
-        /// <param name="checkFilter">true if false filter result removes item from possible items, false otherwise</param>
+        /// <param name="checkFilter">true if false inventory item filter result removes item from possible items, false otherwise</param>
+        /// <param name="checkMovable">true if unmovable items should be excluded from possible items, false otherwise</param>
         /// <returns>List of items that fit the created criteria</returns>
         /// <exception cref="ArgumentNullException"><paramref name="targetInventory"/> is null</exception>
-        ICollection<IItem> GetInsertableItems(IInventory targetInventory, bool checkCapacity = true, bool checkFilter = true);
+        ICollection<IItem> GetInsertableItems(IInventory targetInventory, bool checkCapacity = true, bool checkFilter = true, bool checkMovable = true);
 
         /// <summary>
         /// Returns an amount of items that could be inserted into this inventory of the given <paramref name="handle"/>.
