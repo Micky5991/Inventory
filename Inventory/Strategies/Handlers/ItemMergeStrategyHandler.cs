@@ -6,8 +6,10 @@ using Micky5991.Inventory.Interfaces.Strategy;
 
 namespace Micky5991.Inventory.Strategies.Handlers
 {
+    /// <inheritdoc cref="IItemMergeStrategyHandler"/>
     public class ItemMergeStrategyHandler : StrategyHandler<IItemMergeStrategy>, IItemMergeStrategyHandler
     {
+        /// <inheritdoc />
         public bool CanBeMerged(IItem targetItem, IItem sourceItem)
         {
             if (targetItem == null)
@@ -23,6 +25,7 @@ namespace Micky5991.Inventory.Strategies.Handlers
             return this.All(x => x.CanBeMerged(targetItem, sourceItem));
         }
 
+        /// <inheritdoc />
         public async Task MergeItemWithAsync(IItem targetItem, IItem sourceItem)
         {
             if (targetItem == null)

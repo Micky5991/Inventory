@@ -5,8 +5,10 @@ using Micky5991.Inventory.Interfaces.Strategy;
 
 namespace Micky5991.Inventory.Strategies
 {
+    /// <inheritdoc />
     public class BasicItemMergeStrategy : IItemMergeStrategy
     {
+        /// <inheritdoc />
         public bool CanBeMerged(IItem targetItem, IItem sourceItem)
         {
             if (targetItem == null)
@@ -26,6 +28,7 @@ namespace Micky5991.Inventory.Strategies
                    && targetItem.SingleWeight == sourceItem.SingleWeight;
         }
 
+        /// <inheritdoc />
         public Task MergeItemWithAsync(IItem targetItem, IItem sourceItem)
         {
             if (targetItem == null)
