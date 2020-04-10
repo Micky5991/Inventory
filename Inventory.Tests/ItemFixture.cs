@@ -479,7 +479,85 @@ namespace Micky5991.Inventory.Tests
                 .Where(x =>
                     x.Message.Contains((_item.Amount - 1).ToString())
                     && x.Message.Contains("or lower")
-                    );
+                );
+        }
+
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void SettingMovingLockedUpdatesMovingLocked(bool newValue)
+        {
+            _item.MovingLocked = newValue == false; // set inverted value to force change
+
+            using var monitoredItem = _item.Monitor();
+
+            _item.MovingLocked = newValue;
+
+            _item.MovingLocked.Should().Be(newValue);
+            monitoredItem.Should().RaisePropertyChangeFor(x => x.MovingLocked);
+        }
+
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void SettingMovingLockedToSameValueDoesNotChangeValue(bool newValue)
+        {
+            _item.MovingLocked = newValue;
+
+            using var monitoredItem = _item.Monitor();
+
+            _item.MovingLocked = newValue;
+
+            monitoredItem.Should().NotRaisePropertyChangeFor(x => x.MovingLocked);
+        }
+
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void SettingLockedToSameValueDoesNotChangeValue(bool newValue)
+        {
+            _item.Locked = newValue;
+
+            using var monitoredItem = _item.Monitor();
+
+            _item.Locked = newValue;
+
+            monitoredItem.Should().NotRaisePropertyChangeFor(x => x.Locked);
+        }
+
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void SettingLockedUpdatesMovingLockedToo(bool newValue)
+        {
+            _item.MovingLocked = false;
+            _item.Locked = newValue == false; // set inverted value to force change
+
+            using var monitoredItem = _item.Monitor();
+
+            _item.Locked = newValue;
+
+            _item.MovingLocked.Should().Be(newValue);
+            _item.Locked.Should().Be(newValue);
+
+            monitoredItem.Should().RaisePropertyChangeFor(x => x.MovingLocked);
+            monitoredItem.Should().RaisePropertyChangeFor(x => x.Locked);
+        }
+
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void SetMovingLockedTrueAndChangeLockedKeepsValue(bool newValue)
+        {
+            _item.MovingLocked = true;
+
+            using var monitoredItem = _item.Monitor();
+
+            _item.Locked = newValue;
+
+            _item.MovingLocked.Should().BeTrue();
+
+            monitoredItem.Should().NotRaisePropertyChangeFor(x => x.MovingLocked);
         }
 
     }
