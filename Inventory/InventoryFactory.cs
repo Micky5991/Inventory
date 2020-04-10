@@ -9,11 +9,11 @@ namespace Micky5991.Inventory
 {
     internal class InventoryFactory : IInventoryFactory
     {
-        private readonly AggregatedInventoryServices _inventoryServices;
+        private readonly AggregatedInventoryServices inventoryServices;
 
         public InventoryFactory(AggregatedInventoryServices inventoryServices)
         {
-            _inventoryServices = inventoryServices;
+            this.inventoryServices = inventoryServices;
         }
 
         public IInventory CreateInventory(int capacity)
@@ -23,7 +23,7 @@ namespace Micky5991.Inventory
                 throw new ArgumentOutOfRangeException(nameof(capacity));
             }
 
-            return new Entities.Inventory.Inventory(capacity, _inventoryServices);
+            return new Entities.Inventory.Inventory(capacity, inventoryServices);
         }
 
     }

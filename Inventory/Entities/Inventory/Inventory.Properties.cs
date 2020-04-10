@@ -7,26 +7,26 @@ namespace Micky5991.Inventory.Entities.Inventory
 {
     public partial class Inventory
     {
-        private readonly ConcurrentDictionary<Guid, IItem> _items;
+        private readonly ConcurrentDictionary<Guid, IItem> items;
 
-        private int _capacity;
-        private int _usedCapacity;
+        private int capacity;
+        private int usedCapacity;
 
         public Guid RuntimeId { get; }
 
-        public ICollection<IItem> Items => _items.Values;
+        public ICollection<IItem> Items => items.Values;
 
         public int Capacity
         {
-            get => _capacity;
+            get => capacity;
             private set
             {
-                if (value == _capacity)
+                if (value == capacity)
                 {
                     return;
                 }
 
-                _capacity = value;
+                capacity = value;
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(AvailableCapacity));
@@ -35,15 +35,15 @@ namespace Micky5991.Inventory.Entities.Inventory
 
         public int UsedCapacity
         {
-            get => _usedCapacity;
+            get => usedCapacity;
             private set
             {
-                if (value == _usedCapacity)
+                if (value == usedCapacity)
                 {
                     return;
                 }
 
-                _usedCapacity = value;
+                usedCapacity = value;
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(AvailableCapacity));

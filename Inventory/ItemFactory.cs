@@ -9,13 +9,13 @@ namespace Micky5991.Inventory
 {
     public class ItemFactory : IItemFactory
     {
-        private readonly IItemRegistry _registry;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IItemRegistry registry;
+        private readonly IServiceProvider serviceProvider;
 
         public ItemFactory(IItemRegistry registry, IServiceProvider serviceProvider)
         {
-            _registry = registry;
-            _serviceProvider = serviceProvider;
+            this.registry = registry;
+            this.serviceProvider = serviceProvider;
         }
 
         public IItem? CreateItem(string handle, int amount)
@@ -30,7 +30,7 @@ namespace Micky5991.Inventory
                 throw new ArgumentOutOfRangeException(nameof(amount), "Item amount has to be 1 or higher");
             }
 
-            if(_registry.TryGetItemMeta(handle, out var meta) == false)
+            if(registry.TryGetItemMeta(handle, out var meta) == false)
             {
                 return null;
             }
@@ -50,12 +50,12 @@ namespace Micky5991.Inventory
                 throw new ArgumentNullException(nameof(handle));
             }
 
-            if(_registry.TryGetItemMeta(handle, out var meta) == false)
+            if(registry.TryGetItemMeta(handle, out var meta) == false)
             {
                 return null;
             }
 
-            return CreateItems(meta, amount);
+            return CreateItems(meta!, amount);
         }
 
         public IItem CreateItem(ItemMeta meta, int amount)
@@ -112,9 +112,9 @@ namespace Micky5991.Inventory
 
         private IItem BuildItemFromMeta(ItemMeta meta)
         {
-            var factory = (ObjectFactory) _serviceProvider.GetService(meta.Type);
+            var factory = (ObjectFactory) serviceProvider.GetService(meta.Type);
 
-            var item = (IItem) factory(_serviceProvider, new [] { (object) meta });
+            var item = (IItem) factory(serviceProvider, new [] { (object) meta });
 
             item.Initialize();
 

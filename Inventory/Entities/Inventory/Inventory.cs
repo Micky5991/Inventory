@@ -12,9 +12,9 @@ namespace Micky5991.Inventory.Entities.Inventory
     {
         internal const int MinimalInventoryCapacity = 0;
 
-        private readonly IItemRegistry _itemRegistry;
+        private readonly IItemRegistry itemRegistry;
 
-        private InventoryDelegates.ItemFilterDelegate? _itemFilter;
+        private InventoryDelegates.ItemFilterDelegate? itemFilter;
 
         public Inventory(int capacity, AggregatedInventoryServices inventoryServices)
         {
@@ -23,9 +23,9 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentOutOfRangeException(nameof(capacity), $"The capacity has to be {MinimalInventoryCapacity} or higher");
             }
 
-            _itemRegistry = inventoryServices.ItemRegistry;
+            itemRegistry = inventoryServices.ItemRegistry;
 
-            _items = new ConcurrentDictionary<Guid, IItem>();
+            items = new ConcurrentDictionary<Guid, IItem>();
 
             RuntimeId = Guid.NewGuid();
             UsedCapacity = 0;
@@ -34,7 +34,7 @@ namespace Micky5991.Inventory.Entities.Inventory
 
         private void RecalculateWeight()
         {
-            UsedCapacity = _items.Values.Sum(x => x.TotalWeight);
+            UsedCapacity = items.Values.Sum(x => x.TotalWeight);
         }
 
         public bool IsItemAllowed(IItem item)
@@ -44,12 +44,12 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(item));
             }
 
-            if (_itemFilter == null)
+            if (itemFilter == null)
             {
                 return true;
             }
 
-            return _itemFilter(item);
+            return itemFilter(item);
         }
 
         public bool DoesItemFit(IItem item)
@@ -79,7 +79,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(handle));
             }
 
-            if (_itemRegistry.TryGetItemMeta(handle, out var meta) == false)
+            if (itemRegistry.TryGetItemMeta(handle, out var meta) == false)
             {
                 throw new ItemMetaNotFoundException($"Could not find the given handle {handle}");
             }
@@ -128,7 +128,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(handle));
             }
 
-            if (_itemRegistry.TryGetItemMeta(handle, out var meta) == false)
+            if (itemRegistry.TryGetItemMeta(handle, out var meta) == false)
             {
                 throw new ItemMetaNotFoundException($"Could not find item meta with handle for handle {handle}");
             }

@@ -56,7 +56,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 return true;
             }
 
-            if (_items.TryAdd(item.RuntimeId, item) == false)
+            if (items.TryAdd(item.RuntimeId, item) == false)
             {
                 return false;
             }
@@ -69,7 +69,7 @@ namespace Micky5991.Inventory.Entities.Inventory
 
         private async Task<bool> TryMergeItemAsync(IItem sourceItem)
         {
-            foreach (var item in _items.Values)
+            foreach (var item in items.Values)
             {
                 if (item.CanMergeWith(sourceItem) == false)
                 {
@@ -102,7 +102,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ItemNotMovableException(item);
             }
 
-            var success = _items.TryRemove(item.RuntimeId, out _);
+            var success = items.TryRemove(item.RuntimeId, out _);
 
             if (success == false)
             {
@@ -117,7 +117,7 @@ namespace Micky5991.Inventory.Entities.Inventory
 
         public void SetItemFilter(InventoryDelegates.ItemFilterDelegate? filter)
         {
-            _itemFilter = filter;
+            itemFilter = filter;
         }
 
         public ICollection<IItem> GetInsertableItems(IInventory targetInventory, bool checkCapacity, bool checkFilter, bool checkMovable)
