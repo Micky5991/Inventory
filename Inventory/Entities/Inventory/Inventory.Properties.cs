@@ -5,6 +5,9 @@ using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Entities.Inventory
 {
+    /// <content>
+    /// Actual implementation of all properties in <see cref="Inventory"/>.
+    /// </content>
     public partial class Inventory
     {
         private readonly ConcurrentDictionary<Guid, IItem> items;
@@ -12,10 +15,13 @@ namespace Micky5991.Inventory.Entities.Inventory
         private int capacity;
         private int usedCapacity;
 
+        /// <inheritdoc />
         public Guid RuntimeId { get; }
 
+        /// <inheritdoc />
         public ICollection<IItem> Items => this.items.Values;
 
+        /// <inheritdoc />
         public int Capacity
         {
             get => this.capacity;
@@ -33,6 +39,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             }
         }
 
+        /// <inheritdoc />
         public int UsedCapacity
         {
             get => this.usedCapacity;
@@ -50,6 +57,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             }
         }
 
+        /// <inheritdoc />
         public int AvailableCapacity => this.Capacity - this.UsedCapacity;
     }
 }

@@ -4,6 +4,9 @@ using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Entities.Inventory
 {
+    /// <content>
+    /// Seperated Handlers for Events during Inventory actions.
+    /// </content>
     public partial class Inventory
     {
         private async Task OnItemAdded(IItem item)
