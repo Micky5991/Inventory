@@ -3,6 +3,9 @@ using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Entities.Item
 {
+    /// <content>
+    /// Implementation of all properties.
+    /// </content>
     public abstract partial class Item
     {
         private int amount;
@@ -12,14 +15,19 @@ namespace Micky5991.Inventory.Entities.Item
         private bool movingLocked;
         private bool locked;
 
+        /// <inheritdoc />
         public string Handle { get; }
 
+        /// <inheritdoc />
         public Guid RuntimeId { get; }
 
+        /// <inheritdoc />
         public ItemMeta Meta { get; }
 
+        /// <inheritdoc />
         public string DefaultDisplayName { get; }
 
+        /// <inheritdoc />
         public string DisplayName
         {
             get => this.displayName;
@@ -36,6 +44,7 @@ namespace Micky5991.Inventory.Entities.Item
             }
         }
 
+        /// <inheritdoc />
         public int Amount
         {
             get => this.amount;
@@ -53,6 +62,7 @@ namespace Micky5991.Inventory.Entities.Item
             }
         }
 
+        /// <inheritdoc />
         public int SingleWeight
         {
             get => this.singleWeight;
@@ -70,10 +80,13 @@ namespace Micky5991.Inventory.Entities.Item
             }
         }
 
+        /// <inheritdoc />
         public int TotalWeight => this.SingleWeight * this.Amount;
 
+        /// <inheritdoc />
         public bool Stackable { get; }
 
+        /// <inheritdoc />
         public IInventory? CurrentInventory
         {
             get => this.currentInventory;
@@ -90,6 +103,7 @@ namespace Micky5991.Inventory.Entities.Item
             }
         }
 
+        /// <inheritdoc />
         public bool MovingLocked
         {
             get => this.movingLocked || this.Locked;
@@ -106,6 +120,7 @@ namespace Micky5991.Inventory.Entities.Item
             }
         }
 
+        /// <inheritdoc />
         public bool Locked
         {
             get => this.locked;
