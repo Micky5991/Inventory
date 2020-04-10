@@ -28,6 +28,11 @@ namespace Micky5991.Inventory.Entities.Inventory
                 {
                     throw new InventoryCapacityException(nameof(item), item);
                 }
+
+                if (item.MovingLocked)
+                {
+                    throw new ItemNotMovableException(item);
+                }
             }
 
             if (item.CurrentInventory == this)
@@ -92,6 +97,11 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(item));
             }
 
+            if (item.MovingLocked)
+            {
+                throw new ItemNotMovableException(item);
+            }
+
             var success = _items.TryRemove(item.RuntimeId, out _);
 
             if (success == false)
@@ -110,7 +120,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             _itemFilter = filter;
         }
 
-        public ICollection<IItem> GetInsertableItems(IInventory targetInventory, bool checkCapacity = true, bool checkFilter = true)
+        public ICollection<IItem> GetInsertableItems(IInventory targetInventory, bool checkCapacity, bool checkFilter, bool checkMovable)
         {
             if (targetInventory == null)
             {
@@ -137,7 +147,17 @@ namespace Micky5991.Inventory.Entities.Inventory
                 return targetInventory.IsItemAllowed(item);
             }
 
-            return Items.Where(x => CapacityFilter(x) && AcceptanceFilter(x)).ToList();
+            bool MovableFilter(IItem item)
+            {
+                if (checkMovable == false)
+                {
+                    return true;
+                }
+
+                return item.MovingLocked == false;
+            }
+
+            return Items.Where(x => CapacityFilter(x) && AcceptanceFilter(x) && MovableFilter(x)).ToList();
         }
     }
 }

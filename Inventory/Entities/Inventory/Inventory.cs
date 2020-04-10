@@ -69,7 +69,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(item));
             }
 
-            return DoesItemFit(item) && IsItemAllowed(item);
+            return DoesItemFit(item) && IsItemAllowed(item) && item.MovingLocked == false;
         }
 
         public bool DoesItemFit(string handle, int amount = 1)
