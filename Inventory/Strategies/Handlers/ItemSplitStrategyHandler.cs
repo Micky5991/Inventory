@@ -5,8 +5,10 @@ using Micky5991.Inventory.Interfaces.Strategy;
 
 namespace Micky5991.Inventory.Strategies.Handlers
 {
+    /// <inheritdoc cref="IItemSplitStrategyHandler"/>
     public class ItemSplitStrategyHandler : StrategyHandler<IItemSplitStrategy>, IItemSplitStrategyHandler
     {
+        /// <inheritdoc />
         public async Task SplitItemAsync(IItem oldItem, IItem newItem)
         {
             if (oldItem == null)
