@@ -9,11 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <!-- Rider 2019.3 supports only supports Microsoft.NET.Test.Sdk in 16.2.0 -->
       <PackageReference Include="FluentAssertions" Version="5.10.3" />
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-      <PackageReference Include="Moq" Version="4.13.1" /> <!-- LATEST VERSION Rider 2019.3 supports -->
-      <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
-      <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
+      <PackageReference Include="Moq" Version="4.13.1" /> 
+      <PackageReference Include="MSTest.TestAdapter" Version="2.1.1" />
+      <PackageReference Include="MSTest.TestFramework" Version="2.1.1" />
     </ItemGroup>
 
     <ItemGroup>
