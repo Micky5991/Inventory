@@ -9,9 +9,10 @@ namespace Micky5991.Inventory
 {
     public abstract class BaseItemRegistry : IItemRegistry
     {
-        private delegate (bool Valid, string? ErrorMessage) ValidatorDelegate(List<ItemMeta> metaCollection);
 
         private IDictionary<string, ItemMeta>? metaCollection;
+
+        private delegate (bool Valid, string? ErrorMessage) ValidatorDelegate(List<ItemMeta> metaCollection);
 
         protected abstract IEnumerable<ItemMeta> LoadItemMeta();
 

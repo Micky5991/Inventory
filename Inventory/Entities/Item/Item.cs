@@ -17,6 +17,11 @@ namespace Micky5991.Inventory.Entities.Item
 
         internal static int MinimalItemAmount { get; set; } = 0;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Item"/> class.
+        /// </summary>
+        /// <param name="meta">Non-NULL instance of the <see cref="ItemMeta"/> that is represented by this instance.</param>
+        /// <param name="itemServices">Non-NULL instance of <see cref="AggregatedItemServices"/> which are necessary for this <see cref="Item"/>.</param>
         protected Item(ItemMeta meta, AggregatedItemServices itemServices)
         {
             if (meta == null)

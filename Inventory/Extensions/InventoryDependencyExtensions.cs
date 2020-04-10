@@ -9,19 +9,22 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Micky5991.Inventory.Extensions
 {
+    /// <summary>
+    /// Extensions which simplify the usage of this library.
+    /// </summary>
     public static class InventoryDependencyExtensions
     {
-
         /// <summary>
-        /// Registers all default inventory and item services
+        /// Registers all default inventory and item services.
         ///
-        /// - <see cref="AddDefaultFactories"/>
-        /// - <see cref="AddDefaultInventoryStrategies"/>
-        /// - <see cref="AddInventoryServices"/>
+        /// Calls the following extensions:
+        /// <see cref="AddDefaultFactories"/>,
+        /// <see cref="AddDefaultInventoryStrategies"/>,
+        /// <see cref="AddInventoryServices"/>.
         /// </summary>
-        /// <param name="serviceCollection">Collection to register the services to</param>
-        /// <returns><paramref name="serviceCollection"/> that has been passed</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null</exception>
+        /// <param name="serviceCollection">Collection to register the services to.</param>
+        /// <returns><paramref name="serviceCollection"/> that has been passed.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultInventoryServices(this IServiceCollection serviceCollection)
         {
             if (serviceCollection == null)
@@ -40,9 +43,9 @@ namespace Micky5991.Inventory.Extensions
         ///
         /// These services have to be registered regardless of usage.
         /// </summary>
-        /// <param name="serviceCollection">Collection to register the services to</param>
-        /// <returns><paramref name="serviceCollection"/> that has been passed</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null</exception>
+        /// <param name="serviceCollection">Collection to register the services to.</param>
+        /// <returns><paramref name="serviceCollection"/> that has been passed.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddInventoryServices(this IServiceCollection serviceCollection)
         {
             if (serviceCollection == null)
@@ -58,12 +61,13 @@ namespace Micky5991.Inventory.Extensions
         /// <summary>
         /// Registers all default inventory strategies to <see cref="IServiceCollection"/>.
         ///
-        /// - <see cref="AddDefaultInventoryMergeStrategy"/>
-        /// - <see cref="AddDefaultInventorySplitStrategy"/>
+        /// Calls the following extensions:
+        /// <see cref="AddDefaultInventoryMergeStrategy"/>,
+        /// <see cref="AddDefaultInventorySplitStrategy"/>.
         /// </summary>
-        /// <param name="serviceCollection">Collection to register the services to</param>
-        /// <returns><paramref name="serviceCollection"/> that has been passed</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null</exception>
+        /// <param name="serviceCollection">Collection to register the services to.</param>
+        /// <returns><paramref name="serviceCollection"/> that has been passed.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultInventoryStrategies(this IServiceCollection serviceCollection)
         {
             if (serviceCollection == null)
@@ -77,13 +81,12 @@ namespace Micky5991.Inventory.Extensions
         }
 
         /// <summary>
-        /// Registers the default <see cref="IItemMergeStrategyHandler"/>.
-        ///
-        /// - <see cref="IItemMergeStrategyHandler"/> -> <see cref="ItemMergeStrategyHandler"/>
+        /// Registers the following services:
+        /// <see cref="ItemMergeStrategyHandler"/> as <see cref="IItemMergeStrategyHandler"/>.
         /// </summary>
-        /// <param name="serviceCollection">Collection to register the services to</param>
-        /// <returns><paramref name="serviceCollection"/> that has been passed</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null</exception>
+        /// <param name="serviceCollection">Collection to register the services to.</param>
+        /// <returns><paramref name="serviceCollection"/> that has been passed.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultInventoryMergeStrategy(this IServiceCollection serviceCollection)
         {
             if (serviceCollection == null)
@@ -96,13 +99,12 @@ namespace Micky5991.Inventory.Extensions
         }
 
         /// <summary>
-        /// Registers the default <see cref="IItemSplitStrategyHandler"/>
-        ///
-        /// -> <see cref="IItemSplitStrategyHandler"/> -> <see cref="ItemSplitStrategyHandler"/>
+        /// Registers the following services:
+        /// <see cref="ItemSplitStrategyHandler"/> as <see cref="IItemSplitStrategyHandler"/>.
         /// </summary>
-        /// <param name="serviceCollection">Collection to register the services to</param>
-        /// <returns><paramref name="serviceCollection"/> that has been passed</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null</exception>
+        /// <param name="serviceCollection">Collection to register the services to.</param>
+        /// <returns><paramref name="serviceCollection"/> that has been passed.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultInventorySplitStrategy(this IServiceCollection serviceCollection)
         {
             if (serviceCollection == null)
@@ -117,12 +119,13 @@ namespace Micky5991.Inventory.Extensions
         /// <summary>
         /// Registers all default inventory and item factories.
         ///
-        /// - <see cref="AddDefaultInventoryFactory"/>
-        /// - <see cref="AddDefaultItemFactory"/>
+        /// Calls the following extensions:
+        /// <see cref="AddDefaultInventoryFactory"/>,
+        /// <see cref="AddDefaultItemFactory"/>.
         /// </summary>
-        /// <param name="serviceCollection">Collection to register the services to</param>
-        /// <returns><paramref name="serviceCollection"/> that has been passed</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null</exception>
+        /// <param name="serviceCollection">Collection to register the services to.</param>
+        /// <returns><paramref name="serviceCollection"/> that has been passed.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultFactories(this IServiceCollection serviceCollection)
         {
             if (serviceCollection == null)
@@ -138,11 +141,12 @@ namespace Micky5991.Inventory.Extensions
         /// <summary>
         /// Registers default <see cref="IInventoryFactory"/>.
         ///
-        /// - <see cref="IInventoryFactory"/> -> <see cref="InventoryFactory"/>
+        /// Registers the following services:
+        /// <see cref="InventoryFactory"/> as <see cref="IInventoryFactory"/>.
         /// </summary>
-        /// <param name="serviceCollection">Collection to register the services to</param>
-        /// <returns><paramref name="serviceCollection"/> that has been passed</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null</exception>
+        /// <param name="serviceCollection">Collection to register the services to.</param>
+        /// <returns><paramref name="serviceCollection"/> that has been passed.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultInventoryFactory(this IServiceCollection serviceCollection)
         {
             if (serviceCollection == null)
@@ -157,11 +161,12 @@ namespace Micky5991.Inventory.Extensions
         /// <summary>
         /// Registers default <see cref="IItemFactory"/>
         ///
-        /// - <see cref="IItemFactory"/> -> <see cref="ItemFactory"/>
+        /// Registers the following services:
+        /// <see cref="ItemFactory"/> as <see cref="IItemFactory"/>.
         /// </summary>
-        /// <param name="serviceCollection">Collection to register the services to</param>
-        /// <returns><paramref name="serviceCollection"/> that has been passed</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null</exception>
+        /// <param name="serviceCollection">Collection to register the services to.</param>
+        /// <returns><paramref name="serviceCollection"/> that has been passed.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultItemFactory(this IServiceCollection serviceCollection)
         {
             if (serviceCollection == null)
@@ -173,6 +178,14 @@ namespace Micky5991.Inventory.Extensions
                 .AddTransient<IItemFactory, ItemFactory>();
         }
 
+        /// <summary>
+        /// Reads the given <paramref name="itemRegistry"/> and registers all <see cref="ItemMeta"/> instances to the <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="serviceCollection"><see cref="IServiceCollection"/> to register all <see cref="ItemMeta"/> to.</param>
+        /// <param name="itemRegistry"><see cref="IItemRegistry"/> that will be read.</param>
+        /// <returns><see cref="IServiceCollection"/> that was passed by <paramref name="serviceCollection"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> or <paramref name="itemRegistry"/> is null.</exception>
+        /// <exception cref="InvalidItemRegistryException"><paramref name="itemRegistry"/> is not valid. See exception for more details.</exception>
         public static IServiceCollection AddItemTypes(this IServiceCollection serviceCollection, IItemRegistry itemRegistry)
         {
             if (serviceCollection == null)
@@ -206,6 +219,5 @@ namespace Micky5991.Inventory.Extensions
 
             return serviceCollection;
         }
-
     }
 }

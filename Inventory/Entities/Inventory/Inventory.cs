@@ -84,7 +84,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ItemMetaNotFoundException($"Could not find the given handle {handle}");
             }
 
-            return DoesItemFit(meta, amount);
+            return DoesItemFit(meta!, amount);
         }
 
         public bool DoesItemFit(ItemMeta meta, int amount = 1)
@@ -133,7 +133,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ItemMetaNotFoundException($"Could not find item meta with handle for handle {handle}");
             }
 
-            return GetItemFitAmount(meta);
+            return GetItemFitAmount(meta!);
         }
 
         public int GetItemFitAmount(ItemMeta meta)

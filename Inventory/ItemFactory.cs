@@ -30,12 +30,12 @@ namespace Micky5991.Inventory
                 throw new ArgumentOutOfRangeException(nameof(amount), "Item amount has to be 1 or higher");
             }
 
-            if(registry.TryGetItemMeta(handle, out var meta) == false)
+            if (registry.TryGetItemMeta(handle, out var meta) == false)
             {
                 return null;
             }
 
-            if ((meta.Flags & ItemFlags.NotStackable) != 0 && amount > 1)
+            if ((meta!.Flags & ItemFlags.NotStackable) != 0 && amount > 1)
             {
                 throw new ItemNotStackableException();
             }
@@ -89,7 +89,7 @@ namespace Micky5991.Inventory
             {
                 return new List<IItem>
                 {
-                    CreateItem(meta, amount)
+                    CreateItem(meta, amount),
                 };
             }
 
@@ -112,9 +112,9 @@ namespace Micky5991.Inventory
 
         private IItem BuildItemFromMeta(ItemMeta meta)
         {
-            var factory = (ObjectFactory) serviceProvider.GetService(meta.Type);
+            var factory = (ObjectFactory)serviceProvider.GetService(meta.Type);
 
-            var item = (IItem) factory(serviceProvider, new [] { (object) meta });
+            var item = (IItem)factory(serviceProvider, new[] { (object)meta });
 
             item.Initialize();
 
