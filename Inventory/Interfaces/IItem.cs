@@ -100,7 +100,7 @@ namespace Micky5991.Inventory.Interfaces
         void SetCurrentInventory(IInventory? inventory);
 
         /// <summary>
-        /// Updates the current count of items in this instance to the specified <see cref="newAmount"/>.
+        /// Updates the current count of items in this instance to the specified <paramref name="newAmount"/>.
         ///
         /// This will change <see cref="TotalWeight"/>.
         ///
