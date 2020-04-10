@@ -51,23 +51,6 @@ namespace Micky5991.Inventory.Entities.Item
 
         internal static int MinimalItemAmount { get; set; } = 0;
 
-        protected virtual void SetupStrategies()
-        {
-            this.itemMergeStrategyHandler.Add(new BasicItemMergeStrategy());
-        }
-
-        private (bool Valid, string? ErrorMessage) ValidateMeta()
-        {
-            var currentType = this.GetType();
-
-            if (this.Meta.Type != currentType)
-            {
-                return (false, "The current type in the provided meta mismatches the actual item type");
-            }
-
-            return (true, null);
-        }
-
         public void Initialize()
         {
             this.SetupStrategies();
@@ -182,6 +165,23 @@ namespace Micky5991.Inventory.Entities.Item
                       .ConfigureAwait(false);
 
             return item;
+        }
+
+        protected virtual void SetupStrategies()
+        {
+            this.itemMergeStrategyHandler.Add(new BasicItemMergeStrategy());
+        }
+
+        private (bool Valid, string? ErrorMessage) ValidateMeta()
+        {
+            var currentType = this.GetType();
+
+            if (this.Meta.Type != currentType)
+            {
+                return (false, "The current type in the provided meta mismatches the actual item type");
+            }
+
+            return (true, null);
         }
     }
 }
