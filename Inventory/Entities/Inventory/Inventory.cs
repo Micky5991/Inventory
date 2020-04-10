@@ -8,6 +8,7 @@ using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Entities.Inventory
 {
+    /// <inheritdoc />
     public partial class Inventory : IInventory
     {
         internal const int MinimalInventoryCapacity = 0;
@@ -16,6 +17,12 @@ namespace Micky5991.Inventory.Entities.Inventory
 
         private InventoryDelegates.ItemFilterDelegate? itemFilter;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Inventory"/> class.
+        /// </summary>
+        /// <param name="capacity">Capacity of this inventory.</param>
+        /// <param name="inventoryServices">Needed services of this inventory.</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity"/> is too low.</exception>
         public Inventory(int capacity, AggregatedInventoryServices inventoryServices)
         {
             if (capacity < MinimalInventoryCapacity)
@@ -32,6 +39,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             this.Capacity = capacity;
         }
 
+        /// <inheritdoc/>
         public bool IsItemAllowed(IItem item)
         {
             if (item == null)
@@ -47,6 +55,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             return this.itemFilter(item);
         }
 
+        /// <inheritdoc/>
         public bool DoesItemFit(IItem item)
         {
             if (item == null)
@@ -57,6 +66,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             return this.AvailableCapacity >= item.TotalWeight;
         }
 
+        /// <inheritdoc/>
         public bool CanBeInserted(IItem item)
         {
             if (item == null)
@@ -67,6 +77,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             return this.DoesItemFit(item) && this.IsItemAllowed(item) && item.MovingLocked == false;
         }
 
+        /// <inheritdoc/>
         public bool DoesItemFit(string handle, int amount = 1)
         {
             if (string.IsNullOrWhiteSpace(handle))
@@ -82,6 +93,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             return this.DoesItemFit(meta!, amount);
         }
 
+        /// <inheritdoc />
         public bool DoesItemFit(ItemMeta meta, int amount = 1)
         {
             if (meta == null)
@@ -99,23 +111,25 @@ namespace Micky5991.Inventory.Entities.Inventory
             return this.AvailableCapacity >= neededSpace;
         }
 
-        public bool SetCapacity(int capacity)
+        /// <inheritdoc />
+        public bool SetCapacity(int newCapacity)
         {
-            if (capacity < MinimalInventoryCapacity)
+            if (newCapacity < MinimalInventoryCapacity)
             {
-                throw new ArgumentOutOfRangeException(nameof(capacity), $"The capacity has to be {MinimalInventoryCapacity} or higher");
+                throw new ArgumentOutOfRangeException(nameof(newCapacity), $"The capacity has to be {MinimalInventoryCapacity} or higher");
             }
 
-            if (this.UsedCapacity > capacity)
+            if (this.UsedCapacity > newCapacity)
             {
                 return false;
             }
 
-            this.Capacity = capacity;
+            this.Capacity = newCapacity;
 
             return true;
         }
 
+        /// <inheritdoc/>
         public int GetItemFitAmount(string handle)
         {
             if (string.IsNullOrWhiteSpace(handle))
@@ -131,6 +145,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             return this.GetItemFitAmount(meta!);
         }
 
+        /// <inheritdoc/>
         public int GetItemFitAmount(ItemMeta meta)
         {
             if (meta == null)
@@ -141,6 +156,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             return this.GetItemFitAmount(meta.DefaultWeight);
         }
 
+        /// <inheritdoc/>
         public int GetItemFitAmount(IItem item)
         {
             if (item == null)
@@ -151,6 +167,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             return this.GetItemFitAmount(item.SingleWeight);
         }
 
+        /// <inheritdoc/>
         public int GetItemFitAmount(int itemWeight)
         {
             if (itemWeight <= 0)
@@ -161,6 +178,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             return Math.DivRem(this.AvailableCapacity, itemWeight, out _);
         }
 
+        /// <inheritdoc/>
         public ICollection<IItem> GetItems(string handle)
         {
             if (string.IsNullOrWhiteSpace(handle))
@@ -171,6 +189,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             return new List<IItem>(this.Items.Where(x => x.Handle == handle));
         }
 
+        /// <inheritdoc />
         public ICollection<T> GetItems<T>(string? handle = null)
             where T : IItem
         {
