@@ -7,14 +7,14 @@ using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory
 {
+    /// <inheritdoc />
     public abstract class BaseItemRegistry : IItemRegistry
     {
         private IDictionary<string, ItemMeta>? metaCollection;
 
         private delegate (bool Valid, string? ErrorMessage) ValidatorDelegate(List<ItemMeta> metaCollection);
 
-        protected abstract IEnumerable<ItemMeta> LoadItemMeta();
-
+        /// <inheritdoc />
         public ICollection<ItemMeta> GetItemMeta()
         {
             this.ValidateAndCacheItemMeta();
@@ -22,6 +22,7 @@ namespace Micky5991.Inventory
             return this.metaCollection!.Values;
         }
 
+        /// <inheritdoc />
         public bool TryGetItemMeta(string handle, out ItemMeta? meta)
         {
             if (string.IsNullOrWhiteSpace(handle))
@@ -34,22 +35,10 @@ namespace Micky5991.Inventory
             return this.metaCollection!.TryGetValue(handle, out meta);
         }
 
-        protected ItemMeta CreateItemMeta<T>(string itemHandle, string displayName, int defaultWeight = 1, ItemFlags flags = ItemFlags.None)
-            where T : IItem
-        {
-            if (string.IsNullOrWhiteSpace(itemHandle))
-            {
-                throw new ArgumentNullException(nameof(itemHandle));
-            }
-
-            if (string.IsNullOrWhiteSpace(displayName))
-            {
-                throw new ArgumentNullException(nameof(displayName));
-            }
-
-            return new ItemMeta(itemHandle, typeof(T), displayName, defaultWeight, flags);
-        }
-
+        /// <summary>
+        /// Validates the supplied <see cref="ItemMeta"/> and throws exception if invalid.
+        /// </summary>
+        /// <exception cref="InvalidItemRegistryException">Any supplied <see cref="ItemMeta"/> was invalid.</exception>
         public void ValidateAndCacheItemMeta()
         {
             if (this.metaCollection != null)
@@ -70,7 +59,39 @@ namespace Micky5991.Inventory
             this.metaCollection = loadedMeta.ToDictionary(x => x.Handle, x => x);
         }
 
-        private void ValidateItemRegistry(List<ItemMeta> metaCollection)
+        /// <summary>
+        /// Executes a single initialization of all <see cref="ItemMeta"/> instances.
+        /// </summary>
+        /// <returns>Returns the list of created <see cref="ItemMeta"/>.</returns>
+        protected abstract IEnumerable<ItemMeta> LoadItemMeta();
+
+        /// <summary>
+        /// Simple utility function to create an <see cref="ItemMeta"/> instance.
+        /// </summary>
+        /// <param name="itemHandle">Unique handle which identifies this <see cref="ItemMeta"/>.</param>
+        /// <param name="displayName">Default display name of this item.</param>
+        /// <param name="defaultWeight">Default single-weight of this item.</param>
+        /// <param name="flags">Flags which specify certain behavor aspects.</param>
+        /// <typeparam name="T">ChildClass that represents this <see cref="ItemMeta"/>.</typeparam>
+        /// <returns>The created <see cref="ItemMeta"/> instance.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="itemHandle"/>, <paramref name="displayName"/> is null.</exception>
+        protected ItemMeta CreateItemMeta<T>(string itemHandle, string displayName, int defaultWeight = 1, ItemFlags flags = ItemFlags.None)
+            where T : IItem
+        {
+            if (string.IsNullOrWhiteSpace(itemHandle))
+            {
+                throw new ArgumentNullException(nameof(itemHandle));
+            }
+
+            if (string.IsNullOrWhiteSpace(displayName))
+            {
+                throw new ArgumentNullException(nameof(displayName));
+            }
+
+            return new ItemMeta(itemHandle, typeof(T), displayName, defaultWeight, flags);
+        }
+
+        private void ValidateItemRegistry(List<ItemMeta> collection)
         {
             var validators = new List<ValidatorDelegate>
             {
@@ -79,7 +100,7 @@ namespace Micky5991.Inventory
 
             foreach (var validator in validators)
             {
-                var (valid, errorMessage) = validator(metaCollection);
+                var (valid, errorMessage) = validator(collection);
 
                 if (valid == false)
                 {
@@ -88,9 +109,9 @@ namespace Micky5991.Inventory
             }
         }
 
-        private (bool Valid, string? ErrorMessage) ValidateUniqueHandles(List<ItemMeta> metaCollection)
+        private (bool Valid, string? ErrorMessage) ValidateUniqueHandles(List<ItemMeta> collection)
         {
-            if (metaCollection.Select(x => x.Handle).Distinct().Count() != metaCollection.Count)
+            if (collection.Select(x => x.Handle).Distinct().Count() != collection.Count)
             {
                 return (false, "There are duplicate handles inside the registered items!");
             }

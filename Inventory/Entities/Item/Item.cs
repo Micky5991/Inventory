@@ -15,8 +15,6 @@ namespace Micky5991.Inventory.Entities.Item
         private readonly IItemSplitStrategyHandler itemSplitStrategyHandler;
         private readonly IItemFactory itemFactory;
 
-        internal static int MinimalItemAmount { get; set; } = 0;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Item"/> class.
         /// </summary>
@@ -50,6 +48,8 @@ namespace Micky5991.Inventory.Entities.Item
             this.DisplayName = this.DefaultDisplayName;
             this.Amount = Math.Max(MinimalItemAmount, 1);
         }
+
+        internal static int MinimalItemAmount { get; set; } = 0;
 
         protected virtual void SetupStrategies()
         {

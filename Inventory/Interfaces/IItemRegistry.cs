@@ -14,7 +14,7 @@ namespace Micky5991.Inventory.Interfaces
         /// <summary>
         /// Returns a list of all available <see cref="ItemMeta"/> instances available to the inventory framework.
         /// </summary>
-        /// <returns>List of <see cref="ItemMeta"/></returns>
+        /// <returns>List of <see cref="ItemMeta"/>.</returns>
         ICollection<ItemMeta> GetItemMeta();
 
         /// <summary>

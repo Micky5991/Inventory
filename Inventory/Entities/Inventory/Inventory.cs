@@ -32,11 +32,6 @@ namespace Micky5991.Inventory.Entities.Inventory
             this.Capacity = capacity;
         }
 
-        private void RecalculateWeight()
-        {
-            this.UsedCapacity = this.items.Values.Sum(x => x.TotalWeight);
-        }
-
         public bool IsItemAllowed(IItem item)
         {
             if (item == null)
@@ -195,6 +190,11 @@ namespace Micky5991.Inventory.Entities.Inventory
             }
 
             return new List<T>(this.Items.Where(IncludeItemCheck).Select(x => (T)x));
+        }
+
+        private void RecalculateWeight()
+        {
+            this.UsedCapacity = this.items.Values.Sum(x => x.TotalWeight);
         }
     }
 }
