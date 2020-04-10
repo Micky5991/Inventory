@@ -23,18 +23,18 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentOutOfRangeException(nameof(capacity), $"The capacity has to be {MinimalInventoryCapacity} or higher");
             }
 
-            itemRegistry = inventoryServices.ItemRegistry;
+            this.itemRegistry = inventoryServices.ItemRegistry;
 
-            items = new ConcurrentDictionary<Guid, IItem>();
+            this.items = new ConcurrentDictionary<Guid, IItem>();
 
-            RuntimeId = Guid.NewGuid();
-            UsedCapacity = 0;
-            Capacity = capacity;
+            this.RuntimeId = Guid.NewGuid();
+            this.UsedCapacity = 0;
+            this.Capacity = capacity;
         }
 
         private void RecalculateWeight()
         {
-            UsedCapacity = items.Values.Sum(x => x.TotalWeight);
+            this.UsedCapacity = this.items.Values.Sum(x => x.TotalWeight);
         }
 
         public bool IsItemAllowed(IItem item)
@@ -44,12 +44,12 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(item));
             }
 
-            if (itemFilter == null)
+            if (this.itemFilter == null)
             {
                 return true;
             }
 
-            return itemFilter(item);
+            return this.itemFilter(item);
         }
 
         public bool DoesItemFit(IItem item)
@@ -59,7 +59,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(item));
             }
 
-            return AvailableCapacity >= item.TotalWeight;
+            return this.AvailableCapacity >= item.TotalWeight;
         }
 
         public bool CanBeInserted(IItem item)
@@ -69,7 +69,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(item));
             }
 
-            return DoesItemFit(item) && IsItemAllowed(item) && item.MovingLocked == false;
+            return this.DoesItemFit(item) && this.IsItemAllowed(item) && item.MovingLocked == false;
         }
 
         public bool DoesItemFit(string handle, int amount = 1)
@@ -79,12 +79,12 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(handle));
             }
 
-            if (itemRegistry.TryGetItemMeta(handle, out var meta) == false)
+            if (this.itemRegistry.TryGetItemMeta(handle, out var meta) == false)
             {
                 throw new ItemMetaNotFoundException($"Could not find the given handle {handle}");
             }
 
-            return DoesItemFit(meta!, amount);
+            return this.DoesItemFit(meta!, amount);
         }
 
         public bool DoesItemFit(ItemMeta meta, int amount = 1)
@@ -101,7 +101,7 @@ namespace Micky5991.Inventory.Entities.Inventory
 
             var neededSpace = meta.DefaultWeight * amount;
 
-            return AvailableCapacity >= neededSpace;
+            return this.AvailableCapacity >= neededSpace;
         }
 
         public bool SetCapacity(int capacity)
@@ -111,12 +111,12 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentOutOfRangeException(nameof(capacity), $"The capacity has to be {MinimalInventoryCapacity} or higher");
             }
 
-            if (UsedCapacity > capacity)
+            if (this.UsedCapacity > capacity)
             {
                 return false;
             }
 
-            Capacity = capacity;
+            this.Capacity = capacity;
 
             return true;
         }
@@ -128,12 +128,12 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(handle));
             }
 
-            if (itemRegistry.TryGetItemMeta(handle, out var meta) == false)
+            if (this.itemRegistry.TryGetItemMeta(handle, out var meta) == false)
             {
                 throw new ItemMetaNotFoundException($"Could not find item meta with handle for handle {handle}");
             }
 
-            return GetItemFitAmount(meta!);
+            return this.GetItemFitAmount(meta!);
         }
 
         public int GetItemFitAmount(ItemMeta meta)
@@ -143,7 +143,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(meta));
             }
 
-            return GetItemFitAmount(meta.DefaultWeight);
+            return this.GetItemFitAmount(meta.DefaultWeight);
         }
 
         public int GetItemFitAmount(IItem item)
@@ -153,7 +153,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(item));
             }
 
-            return GetItemFitAmount(item.SingleWeight);
+            return this.GetItemFitAmount(item.SingleWeight);
         }
 
         public int GetItemFitAmount(int itemWeight)
@@ -163,7 +163,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentOutOfRangeException(nameof(itemWeight), $"{nameof(itemWeight)} has to be 1 or higher");
             }
 
-            return Math.DivRem(AvailableCapacity, itemWeight, out _);
+            return Math.DivRem(this.AvailableCapacity, itemWeight, out _);
         }
 
         public ICollection<IItem> GetItems(string handle)
@@ -173,7 +173,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentNullException(nameof(handle));
             }
 
-            return new List<IItem>(Items.Where(x => x.Handle == handle));
+            return new List<IItem>(this.Items.Where(x => x.Handle == handle));
         }
 
         public ICollection<T> GetItems<T>(string? handle = null)
@@ -194,7 +194,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 return true;
             }
 
-            return new List<T>(Items.Where(IncludeItemCheck).Select(x => (T)x));
+            return new List<T>(this.Items.Where(IncludeItemCheck).Select(x => (T)x));
         }
     }
 }

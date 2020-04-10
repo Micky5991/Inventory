@@ -30,7 +30,7 @@ namespace Micky5991.Inventory
                 throw new ArgumentOutOfRangeException(nameof(amount), "Item amount has to be 1 or higher");
             }
 
-            if (registry.TryGetItemMeta(handle, out var meta) == false)
+            if (this.registry.TryGetItemMeta(handle, out var meta) == false)
             {
                 return null;
             }
@@ -40,7 +40,7 @@ namespace Micky5991.Inventory
                 throw new ItemNotStackableException();
             }
 
-            return SetupItemPostCreate(BuildItemFromMeta(meta!), amount);
+            return this.SetupItemPostCreate(this.BuildItemFromMeta(meta!), amount);
         }
 
         public ICollection<IItem>? CreateItems(string handle, int amount)
@@ -50,12 +50,12 @@ namespace Micky5991.Inventory
                 throw new ArgumentNullException(nameof(handle));
             }
 
-            if (registry.TryGetItemMeta(handle, out var meta) == false)
+            if (this.registry.TryGetItemMeta(handle, out var meta) == false)
             {
                 return null;
             }
 
-            return CreateItems(meta!, amount);
+            return this.CreateItems(meta!, amount);
         }
 
         public IItem CreateItem(ItemMeta meta, int amount)
@@ -75,7 +75,7 @@ namespace Micky5991.Inventory
                 throw new ItemNotStackableException();
             }
 
-            return SetupItemPostCreate(BuildItemFromMeta(meta), amount);
+            return this.SetupItemPostCreate(this.BuildItemFromMeta(meta), amount);
         }
 
         public ICollection<IItem> CreateItems(ItemMeta meta, int amount)
@@ -89,7 +89,7 @@ namespace Micky5991.Inventory
             {
                 return new List<IItem>
                 {
-                    CreateItem(meta, amount),
+                    this.CreateItem(meta, amount),
                 };
             }
 
@@ -97,7 +97,7 @@ namespace Micky5991.Inventory
 
             for (int i = 0; i < amount; i++)
             {
-                items.Add(CreateItem(meta, 1));
+                items.Add(this.CreateItem(meta, 1));
             }
 
             return items;
@@ -112,9 +112,9 @@ namespace Micky5991.Inventory
 
         private IItem BuildItemFromMeta(ItemMeta meta)
         {
-            var factory = (ObjectFactory)serviceProvider.GetService(meta.Type);
+            var factory = (ObjectFactory) this.serviceProvider.GetService(meta.Type);
 
-            var item = (IItem)factory(serviceProvider, new[] { (object)meta });
+            var item = (IItem)factory(this.serviceProvider, new[] { (object)meta });
 
             item.Initialize();
 

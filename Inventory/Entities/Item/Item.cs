@@ -29,38 +29,38 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentNullException(nameof(meta));
             }
 
-            itemMergeStrategyHandler = itemServices.ItemMergeStrategyHandler;
-            itemSplitStrategyHandler = itemServices.ItemSplitStrategyHandler;
-            itemFactory = itemServices.ItemFactory;
+            this.itemMergeStrategyHandler = itemServices.ItemMergeStrategyHandler;
+            this.itemSplitStrategyHandler = itemServices.ItemSplitStrategyHandler;
+            this.itemFactory = itemServices.ItemFactory;
 
-            RuntimeId = Guid.NewGuid();
-            Meta = meta;
+            this.RuntimeId = Guid.NewGuid();
+            this.Meta = meta;
 
-            var (valid, errorMessage) = ValidateMeta();
+            var (valid, errorMessage) = this.ValidateMeta();
             if (valid == false)
             {
                 throw new ArgumentException(errorMessage, nameof(meta));
             }
 
-            SingleWeight = Meta.DefaultWeight;
-            Handle = Meta.Handle;
-            DefaultDisplayName = Meta.DisplayName;
-            Stackable = (Meta.Flags & ItemFlags.NotStackable) == 0;
+            this.SingleWeight = this.Meta.DefaultWeight;
+            this.Handle = this.Meta.Handle;
+            this.DefaultDisplayName = this.Meta.DisplayName;
+            this.Stackable = (this.Meta.Flags & ItemFlags.NotStackable) == 0;
 
-            DisplayName = DefaultDisplayName;
-            Amount = Math.Max(MinimalItemAmount, 1);
+            this.DisplayName = this.DefaultDisplayName;
+            this.Amount = Math.Max(MinimalItemAmount, 1);
         }
 
         protected virtual void SetupStrategies()
         {
-            itemMergeStrategyHandler.Add(new BasicItemMergeStrategy());
+            this.itemMergeStrategyHandler.Add(new BasicItemMergeStrategy());
         }
 
         private (bool Valid, string? ErrorMessage) ValidateMeta()
         {
-            var currentType = GetType();
+            var currentType = this.GetType();
 
-            if (Meta.Type != currentType)
+            if (this.Meta.Type != currentType)
             {
                 return (false, "The current type in the provided meta mismatches the actual item type");
             }
@@ -70,12 +70,12 @@ namespace Micky5991.Inventory.Entities.Item
 
         public void Initialize()
         {
-            SetupStrategies();
+            this.SetupStrategies();
         }
 
         public void SetCurrentInventory(IInventory? inventory)
         {
-            CurrentInventory = inventory;
+            this.CurrentInventory = inventory;
         }
 
         public void SetAmount(int newAmount)
@@ -84,7 +84,7 @@ namespace Micky5991.Inventory.Entities.Item
 
             var minAmount = Math.Max(MinimalItemAmount, hardAmountMinimum);
 
-            if (Stackable == false && newAmount > 1)
+            if (this.Stackable == false && newAmount > 1)
             {
                 throw new ItemNotStackableException();
             }
@@ -94,18 +94,18 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentOutOfRangeException(nameof(newAmount), $"Amount should be {minAmount} or higher.");
             }
 
-            if (Amount < newAmount && CurrentInventory != null)
+            if (this.Amount < newAmount && this.CurrentInventory != null)
             {
-                var amountDelta = newAmount - Amount;
-                var weightDelta = SingleWeight * amountDelta;
+                var amountDelta = newAmount - this.Amount;
+                var weightDelta = this.SingleWeight * amountDelta;
 
-                if (weightDelta > CurrentInventory.AvailableCapacity)
+                if (weightDelta > this.CurrentInventory.AvailableCapacity)
                 {
                     throw new InventoryCapacityException(nameof(newAmount), this);
                 }
             }
 
-            Amount = newAmount;
+            this.Amount = newAmount;
         }
 
         public void SetSingleWeight(int weight)
@@ -115,15 +115,15 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentOutOfRangeException(nameof(weight), "Weight has to be 1 or higher");
             }
 
-            var weightDelta = weight - SingleWeight;
-            var totalDelta = weightDelta * Amount;
+            var weightDelta = weight - this.SingleWeight;
+            var totalDelta = weightDelta * this.Amount;
 
-            if (CurrentInventory != null && weightDelta > 0 && CurrentInventory.AvailableCapacity < totalDelta)
+            if (this.CurrentInventory != null && weightDelta > 0 && this.CurrentInventory.AvailableCapacity < totalDelta)
             {
                 throw new InventoryCapacityException(nameof(weight), this);
             }
 
-            SingleWeight = weight;
+            this.SingleWeight = weight;
         }
 
         public void SetDisplayName(string displayName)
@@ -133,7 +133,7 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentNullException(nameof(displayName));
             }
 
-            DisplayName = displayName;
+            this.DisplayName = displayName;
         }
 
         public bool CanMergeWith(IItem sourceItem)
@@ -143,7 +143,7 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentNullException();
             }
 
-            return itemMergeStrategyHandler.CanBeMerged(this, sourceItem);
+            return this.itemMergeStrategyHandler.CanBeMerged(this, sourceItem);
         }
 
         public async Task MergeItemAsync(IItem sourceItem)
@@ -153,13 +153,13 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentNullException(nameof(sourceItem));
             }
 
-            if (itemMergeStrategyHandler.CanBeMerged(this, sourceItem) == false)
+            if (this.itemMergeStrategyHandler.CanBeMerged(this, sourceItem) == false)
             {
                 throw new ArgumentException("The item cannot be merged with this instance", nameof(sourceItem));
             }
 
-            await itemMergeStrategyHandler.MergeItemWithAsync(this, sourceItem)
-                .ConfigureAwait(false);
+            await this.itemMergeStrategyHandler.MergeItemWithAsync(this, sourceItem)
+                      .ConfigureAwait(false);
         }
 
         public async Task<IItem> SplitItemAsync(int targetAmount)
@@ -169,17 +169,17 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentOutOfRangeException(nameof(targetAmount), $"The given {nameof(targetAmount)} has to be 1 or higher");
             }
 
-            if (targetAmount >= Amount)
+            if (targetAmount >= this.Amount)
             {
-                throw new ArgumentOutOfRangeException(nameof(targetAmount), $"The given {nameof(targetAmount)} has to be {Amount - 1} or lower");
+                throw new ArgumentOutOfRangeException(nameof(targetAmount), $"The given {nameof(targetAmount)} has to be {this.Amount - 1} or lower");
             }
 
-            var item = itemFactory.CreateItem(Meta, targetAmount);
+            var item = this.itemFactory.CreateItem(this.Meta, targetAmount);
 
-            SetAmount(Amount - targetAmount);
+            this.SetAmount(this.Amount - targetAmount);
 
-            await itemSplitStrategyHandler.SplitItemAsync(this, item)
-                .ConfigureAwait(false);
+            await this.itemSplitStrategyHandler.SplitItemAsync(this, item)
+                      .ConfigureAwait(false);
 
             return item;
         }

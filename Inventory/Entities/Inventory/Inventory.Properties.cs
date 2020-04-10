@@ -14,42 +14,42 @@ namespace Micky5991.Inventory.Entities.Inventory
 
         public Guid RuntimeId { get; }
 
-        public ICollection<IItem> Items => items.Values;
+        public ICollection<IItem> Items => this.items.Values;
 
         public int Capacity
         {
-            get => capacity;
+            get => this.capacity;
             private set
             {
-                if (value == capacity)
+                if (value == this.capacity)
                 {
                     return;
                 }
 
-                capacity = value;
+                this.capacity = value;
 
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(AvailableCapacity));
+                this.OnPropertyChanged();
+                this.OnPropertyChanged(nameof(this.AvailableCapacity));
             }
         }
 
         public int UsedCapacity
         {
-            get => usedCapacity;
+            get => this.usedCapacity;
             private set
             {
-                if (value == usedCapacity)
+                if (value == this.usedCapacity)
                 {
                     return;
                 }
 
-                usedCapacity = value;
+                this.usedCapacity = value;
 
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(AvailableCapacity));
+                this.OnPropertyChanged();
+                this.OnPropertyChanged(nameof(this.AvailableCapacity));
             }
         }
 
-        public int AvailableCapacity => Capacity - UsedCapacity;
+        public int AvailableCapacity => this.Capacity - this.UsedCapacity;
     }
 }
