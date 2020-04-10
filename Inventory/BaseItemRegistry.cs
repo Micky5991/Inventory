@@ -11,7 +11,7 @@ namespace Micky5991.Inventory
     {
         private delegate (bool Valid, string? ErrorMessage) ValidatorDelegate(List<ItemMeta> metaCollection);
 
-        private IDictionary<string, ItemMeta>? _metaCollection;
+        private IDictionary<string, ItemMeta>? metaCollection;
 
         protected abstract IEnumerable<ItemMeta> LoadItemMeta();
 
@@ -19,7 +19,7 @@ namespace Micky5991.Inventory
         {
             ValidateAndCacheItemMeta();
 
-            return _metaCollection!.Values;
+            return metaCollection!.Values;
         }
 
         public bool TryGetItemMeta(string handle, out ItemMeta? meta)
@@ -31,7 +31,7 @@ namespace Micky5991.Inventory
 
             ValidateAndCacheItemMeta();
 
-            return _metaCollection!.TryGetValue(handle, out meta);
+            return metaCollection!.TryGetValue(handle, out meta);
         }
 
         protected ItemMeta CreateItemMeta<T>(string itemHandle, string displayName, int defaultWeight = 1, ItemFlags flags = ItemFlags.None) where T : IItem
@@ -51,7 +51,7 @@ namespace Micky5991.Inventory
 
         public void ValidateAndCacheItemMeta()
         {
-            if (_metaCollection != null)
+            if (metaCollection != null)
             {
                 return;
             }
@@ -66,7 +66,7 @@ namespace Micky5991.Inventory
 
             ValidateItemRegistry(loadedMeta);
 
-            _metaCollection = loadedMeta.ToDictionary(x => x.Handle, x => x);
+            metaCollection = loadedMeta.ToDictionary(x => x.Handle, x => x);
         }
 
         private void ValidateItemRegistry(List<ItemMeta> metaCollection)

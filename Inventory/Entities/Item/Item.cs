@@ -11,9 +11,9 @@ namespace Micky5991.Inventory.Entities.Item
 {
     public abstract partial class Item : IItem
     {
-        private readonly IItemMergeStrategyHandler _itemMergeStrategyHandler;
-        private readonly IItemSplitStrategyHandler _itemSplitStrategyHandler;
-        private readonly IItemFactory _itemFactory;
+        private readonly IItemMergeStrategyHandler itemMergeStrategyHandler;
+        private readonly IItemSplitStrategyHandler itemSplitStrategyHandler;
+        private readonly IItemFactory itemFactory;
 
         internal static int MinimalItemAmount { get; set; } = 0;
 
@@ -24,9 +24,9 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentNullException(nameof(meta));
             }
 
-            _itemMergeStrategyHandler = itemServices.ItemMergeStrategyHandler;
-            _itemSplitStrategyHandler = itemServices.ItemSplitStrategyHandler;
-            _itemFactory = itemServices.ItemFactory;
+            itemMergeStrategyHandler = itemServices.ItemMergeStrategyHandler;
+            itemSplitStrategyHandler = itemServices.ItemSplitStrategyHandler;
+            itemFactory = itemServices.ItemFactory;
 
             RuntimeId = Guid.NewGuid();
             Meta = meta;
@@ -48,7 +48,7 @@ namespace Micky5991.Inventory.Entities.Item
 
         protected virtual void SetupStrategies()
         {
-            _itemMergeStrategyHandler.Add(new BasicItemMergeStrategy());
+            itemMergeStrategyHandler.Add(new BasicItemMergeStrategy());
         }
 
         private (bool Valid, string? ErrorMessage) ValidateMeta()
@@ -138,7 +138,7 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentNullException();
             }
 
-            return _itemMergeStrategyHandler.CanBeMerged(this, sourceItem);
+            return itemMergeStrategyHandler.CanBeMerged(this, sourceItem);
         }
 
         public async Task MergeItemAsync(IItem sourceItem)
@@ -148,12 +148,12 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentNullException(nameof(sourceItem));
             }
 
-            if (_itemMergeStrategyHandler.CanBeMerged(this, sourceItem) == false)
+            if (itemMergeStrategyHandler.CanBeMerged(this, sourceItem) == false)
             {
                 throw new ArgumentException("The item cannot be merged with this instance", nameof(sourceItem));
             }
 
-            await _itemMergeStrategyHandler.MergeItemWithAsync(this, sourceItem)
+            await itemMergeStrategyHandler.MergeItemWithAsync(this, sourceItem)
                 .ConfigureAwait(false);
         }
 
@@ -169,11 +169,11 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentOutOfRangeException(nameof(targetAmount), $"The given {nameof(targetAmount)} has to be {Amount - 1} or lower");
             }
 
-            var item = _itemFactory.CreateItem(Meta, targetAmount);
+            var item = itemFactory.CreateItem(Meta, targetAmount);
 
             SetAmount(Amount - targetAmount);
 
-            await _itemSplitStrategyHandler.SplitItemAsync(this, item)
+            await itemSplitStrategyHandler.SplitItemAsync(this, item)
                 .ConfigureAwait(false);
 
             return item;

@@ -5,12 +5,12 @@ namespace Micky5991.Inventory.Entities.Item
 {
     public abstract partial class Item
     {
-        private int _amount;
-        private string _displayName;
-        private IInventory? _currentInventory;
-        private int _singleWeight;
-        private bool _movingLocked;
-        private bool _locked;
+        private int amount;
+        private string displayName;
+        private IInventory? currentInventory;
+        private int singleWeight;
+        private bool movingLocked;
+        private bool locked;
 
         public string Handle { get; }
 
@@ -22,15 +22,15 @@ namespace Micky5991.Inventory.Entities.Item
 
         public string DisplayName
         {
-            get => _displayName;
+            get => displayName;
             private set
             {
-                if (value == _displayName)
+                if (value == displayName)
                 {
                     return;
                 }
 
-                _displayName = value;
+                displayName = value;
 
                 OnPropertyChanged();
             }
@@ -38,15 +38,15 @@ namespace Micky5991.Inventory.Entities.Item
 
         public int Amount
         {
-            get => _amount;
+            get => amount;
             private set
             {
-                if (value == _amount)
+                if (value == amount)
                 {
                     return;
                 }
 
-                _amount = value;
+                amount = value;
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(TotalWeight));
@@ -55,15 +55,15 @@ namespace Micky5991.Inventory.Entities.Item
 
         public int SingleWeight
         {
-            get => _singleWeight;
+            get => singleWeight;
             private set
             {
-                if (value == _singleWeight)
+                if (value == singleWeight)
                 {
                     return;
                 }
 
-                _singleWeight = value;
+                singleWeight = value;
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(TotalWeight));
@@ -76,15 +76,15 @@ namespace Micky5991.Inventory.Entities.Item
 
         public IInventory? CurrentInventory
         {
-            get => _currentInventory;
+            get => currentInventory;
             private set
             {
-                if (Equals(value, _currentInventory))
+                if (Equals(value, currentInventory))
                 {
                     return;
                 }
 
-                _currentInventory = value;
+                currentInventory = value;
 
                 OnPropertyChanged();
             }
@@ -92,15 +92,15 @@ namespace Micky5991.Inventory.Entities.Item
 
         public bool MovingLocked
         {
-            get => _movingLocked || Locked;
+            get => movingLocked || Locked;
             set
             {
-                if (value == _movingLocked)
+                if (value == movingLocked)
                 {
                     return;
                 }
 
-                _movingLocked = value;
+                movingLocked = value;
 
                 OnPropertyChanged();
             }
@@ -108,17 +108,17 @@ namespace Micky5991.Inventory.Entities.Item
 
         public bool Locked
         {
-            get => _locked;
+            get => locked;
             set
             {
-                if (value == _locked)
+                if (value == locked)
                 {
                     return;
                 }
 
                 var oldMovingLockedValue = MovingLocked;
 
-                _locked = value;
+                locked = value;
 
                 OnPropertyChanged();
 
