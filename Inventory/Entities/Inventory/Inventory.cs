@@ -12,8 +12,6 @@ namespace Micky5991.Inventory.Entities.Inventory
     {
         internal const int MinimalInventoryCapacity = 0;
 
-        private readonly AggregatedInventoryServices _inventoryServices;
-
         private readonly IItemRegistry _itemRegistry;
 
         private InventoryDelegates.ItemFilterDelegate? _itemFilter;
@@ -25,9 +23,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ArgumentOutOfRangeException(nameof(capacity), $"The capacity has to be {MinimalInventoryCapacity} or higher");
             }
 
-            _inventoryServices = inventoryServices;
-
-            _itemRegistry = _inventoryServices.ItemRegistry;
+            _itemRegistry = inventoryServices.ItemRegistry;
 
             _items = new ConcurrentDictionary<Guid, IItem>();
 
