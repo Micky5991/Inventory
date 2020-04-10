@@ -14,12 +14,18 @@
         <PackageLicenseUrl>https://github.com/Micky5991/Inventory/blob/master/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/Micky5991/Inventory</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
+        <CodeAnalysisRuleSet>Inventory.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
+      <AdditionalFiles Include="stylecop.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" PrivateAssets="All" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.3" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.3" />
+      <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
