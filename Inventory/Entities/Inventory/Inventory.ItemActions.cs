@@ -8,8 +8,12 @@ using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Entities.Inventory
 {
+    /// <content>
+    /// Partial that contains method with direct item access.
+    /// </content>
     public partial class Inventory
     {
+        /// <inheritdoc />
         public async Task<bool> InsertItemAsync(IItem item, bool force)
         {
             if (item == null)
@@ -67,6 +71,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             return true;
         }
 
+        /// <inheritdoc />
         public async Task<bool> RemoveItemAsync([NotNull] IItem item)
         {
             if (item == null)
@@ -92,11 +97,13 @@ namespace Micky5991.Inventory.Entities.Inventory
             return true;
         }
 
+        /// <inheritdoc />
         public void SetItemFilter(InventoryDelegates.ItemFilterDelegate? filter)
         {
             this.itemFilter = filter;
         }
 
+        /// <inheritdoc />
         public ICollection<IItem> GetInsertableItems(IInventory targetInventory, bool checkCapacity, bool checkFilter, bool checkMovable)
         {
             if (targetInventory == null)
