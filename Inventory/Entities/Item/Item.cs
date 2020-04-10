@@ -9,6 +9,7 @@ using Micky5991.Inventory.Strategies;
 
 namespace Micky5991.Inventory.Entities.Item
 {
+    /// <inheritdoc />
     public abstract partial class Item : IItem
     {
         private readonly IItemMergeStrategyHandler itemMergeStrategyHandler;
@@ -51,16 +52,19 @@ namespace Micky5991.Inventory.Entities.Item
 
         internal static int MinimalItemAmount { get; set; } = 0;
 
+        /// <inheritdoc />
         public void Initialize()
         {
             this.SetupStrategies();
         }
 
+        /// <inheritdoc />
         public void SetCurrentInventory(IInventory? inventory)
         {
             this.CurrentInventory = inventory;
         }
 
+        /// <inheritdoc />
         public void SetAmount(int newAmount)
         {
             const int hardAmountMinimum = 0;
@@ -91,6 +95,7 @@ namespace Micky5991.Inventory.Entities.Item
             this.Amount = newAmount;
         }
 
+        /// <inheritdoc />
         public void SetSingleWeight(int weight)
         {
             if (weight <= 0)
@@ -109,6 +114,7 @@ namespace Micky5991.Inventory.Entities.Item
             this.SingleWeight = weight;
         }
 
+        /// <inheritdoc />
         public void SetDisplayName(string displayName)
         {
             if (string.IsNullOrWhiteSpace(displayName))
@@ -119,6 +125,7 @@ namespace Micky5991.Inventory.Entities.Item
             this.DisplayName = displayName;
         }
 
+        /// <inheritdoc />
         public bool CanMergeWith(IItem sourceItem)
         {
             if (sourceItem == null)
@@ -129,6 +136,7 @@ namespace Micky5991.Inventory.Entities.Item
             return this.itemMergeStrategyHandler.CanBeMerged(this, sourceItem);
         }
 
+        /// <inheritdoc />
         public async Task MergeItemAsync(IItem sourceItem)
         {
             if (sourceItem == null)
@@ -145,6 +153,7 @@ namespace Micky5991.Inventory.Entities.Item
                       .ConfigureAwait(false);
         }
 
+        /// <inheritdoc />
         public async Task<IItem> SplitItemAsync(int targetAmount)
         {
             if (targetAmount <= 0)
@@ -167,6 +176,9 @@ namespace Micky5991.Inventory.Entities.Item
             return item;
         }
 
+        /// <summary>
+        /// Initializer to setup <see cref="itemMergeStrategyHandler"/>.
+        /// </summary>
         protected virtual void SetupStrategies()
         {
             this.itemMergeStrategyHandler.Add(new BasicItemMergeStrategy());
