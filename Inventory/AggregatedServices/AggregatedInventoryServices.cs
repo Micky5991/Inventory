@@ -13,7 +13,7 @@ namespace Micky5991.Inventory.AggregatedServices
         /// <param name="itemRegistry">Non-null instance of <see cref="IItemRegistry"/>.</param>
         public AggregatedInventoryServices(IItemRegistry itemRegistry)
         {
-            ItemRegistry = itemRegistry;
+            this.ItemRegistry = itemRegistry;
         }
 
         /// <summary>

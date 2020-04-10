@@ -69,11 +69,11 @@ namespace Micky5991.Inventory
                 throw new ArgumentOutOfRangeException(nameof(defaultWeight), "The given defaultWeight has to be 1 or higher");
             }
 
-            Handle = handle;
-            Type = type;
-            DisplayName = displayName;
-            DefaultWeight = defaultWeight;
-            Flags = flags;
+            this.Handle = handle;
+            this.Type = type;
+            this.DisplayName = displayName;
+            this.DefaultWeight = defaultWeight;
+            this.Flags = flags;
         }
     }
 }

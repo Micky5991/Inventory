@@ -19,9 +19,9 @@ namespace Micky5991.Inventory.AggregatedServices
             IItemSplitStrategyHandler itemSplitStrategyHandler,
             IItemFactory itemFactory)
         {
-            ItemMergeStrategyHandler = itemMergeStrategyHandler;
-            ItemSplitStrategyHandler = itemSplitStrategyHandler;
-            ItemFactory = itemFactory;
+            this.ItemMergeStrategyHandler = itemMergeStrategyHandler;
+            this.ItemSplitStrategyHandler = itemSplitStrategyHandler;
+            this.ItemFactory = itemFactory;
         }
 
         /// <summary>

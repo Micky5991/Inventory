@@ -19,12 +19,12 @@ namespace Micky5991.Inventory.Entities.Inventory
 
             if (force == false)
             {
-                if (IsItemAllowed(item) == false)
+                if (this.IsItemAllowed(item) == false)
                 {
                     throw new ItemNotAllowedException($"The given item is not allwed in this inventory.");
                 }
 
-                if (DoesItemFit(item) == false)
+                if (this.DoesItemFit(item) == false)
                 {
                     throw new InventoryCapacityException(nameof(item), item);
                 }
@@ -51,33 +51,33 @@ namespace Micky5991.Inventory.Entities.Inventory
                 }
             }
 
-            if (await TryMergeItemAsync(item).ConfigureAwait(false))
+            if (await this.TryMergeItemAsync(item).ConfigureAwait(false))
             {
                 return true;
             }
 
-            if (items.TryAdd(item.RuntimeId, item) == false)
+            if (this.items.TryAdd(item.RuntimeId, item) == false)
             {
                 return false;
             }
 
-            await OnItemAdded(item)
-                .ConfigureAwait(false);
+            await this.OnItemAdded(item)
+                      .ConfigureAwait(false);
 
             return true;
         }
 
         private async Task<bool> TryMergeItemAsync(IItem sourceItem)
         {
-            foreach (var item in items.Values)
+            foreach (var item in this.items.Values)
             {
                 if (item.CanMergeWith(sourceItem) == false)
                 {
                     continue;
                 }
 
-                await MergeItemsAsync(item, sourceItem)
-                    .ConfigureAwait(false);
+                await this.MergeItemsAsync(item, sourceItem)
+                          .ConfigureAwait(false);
 
                 return true;
             }
@@ -102,22 +102,22 @@ namespace Micky5991.Inventory.Entities.Inventory
                 throw new ItemNotMovableException(item);
             }
 
-            var success = items.TryRemove(item.RuntimeId, out _);
+            var success = this.items.TryRemove(item.RuntimeId, out _);
 
             if (success == false)
             {
                 return false;
             }
 
-            await OnItemRemoved(item)
-                .ConfigureAwait(false);
+            await this.OnItemRemoved(item)
+                      .ConfigureAwait(false);
 
             return true;
         }
 
         public void SetItemFilter(InventoryDelegates.ItemFilterDelegate? filter)
         {
-            itemFilter = filter;
+            this.itemFilter = filter;
         }
 
         public ICollection<IItem> GetInsertableItems(IInventory targetInventory, bool checkCapacity, bool checkFilter, bool checkMovable)
@@ -157,7 +157,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 return item.MovingLocked == false;
             }
 
-            return Items.Where(x => CapacityFilter(x) && AcceptanceFilter(x) && MovableFilter(x)).ToList();
+            return this.Items.Where(x => CapacityFilter(x) && AcceptanceFilter(x) && MovableFilter(x)).ToList();
         }
     }
 }

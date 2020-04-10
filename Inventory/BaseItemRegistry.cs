@@ -17,9 +17,9 @@ namespace Micky5991.Inventory
 
         public ICollection<ItemMeta> GetItemMeta()
         {
-            ValidateAndCacheItemMeta();
+            this.ValidateAndCacheItemMeta();
 
-            return metaCollection!.Values;
+            return this.metaCollection!.Values;
         }
 
         public bool TryGetItemMeta(string handle, out ItemMeta? meta)
@@ -29,9 +29,9 @@ namespace Micky5991.Inventory
                 throw new ArgumentNullException(nameof(handle));
             }
 
-            ValidateAndCacheItemMeta();
+            this.ValidateAndCacheItemMeta();
 
-            return metaCollection!.TryGetValue(handle, out meta);
+            return this.metaCollection!.TryGetValue(handle, out meta);
         }
 
         protected ItemMeta CreateItemMeta<T>(string itemHandle, string displayName, int defaultWeight = 1, ItemFlags flags = ItemFlags.None)
@@ -52,29 +52,29 @@ namespace Micky5991.Inventory
 
         public void ValidateAndCacheItemMeta()
         {
-            if (metaCollection != null)
+            if (this.metaCollection != null)
             {
                 return;
             }
 
-            var createdMeta = LoadItemMeta();
+            var createdMeta = this.LoadItemMeta();
             if (createdMeta == null)
             {
-                throw new InvalidItemRegistryException($"The method {nameof(LoadItemMeta)} returns an null enumerable instance!");
+                throw new InvalidItemRegistryException($"The method {nameof(this.LoadItemMeta)} returns an null enumerable instance!");
             }
 
             var loadedMeta = new List<ItemMeta>(createdMeta.Where(x => x != null));
 
-            ValidateItemRegistry(loadedMeta);
+            this.ValidateItemRegistry(loadedMeta);
 
-            metaCollection = loadedMeta.ToDictionary(x => x.Handle, x => x);
+            this.metaCollection = loadedMeta.ToDictionary(x => x.Handle, x => x);
         }
 
         private void ValidateItemRegistry(List<ItemMeta> metaCollection)
         {
             var validators = new List<ValidatorDelegate>
             {
-                ValidateUniqueHandles
+                this.ValidateUniqueHandles
             };
 
             foreach (var validator in validators)

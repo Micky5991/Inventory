@@ -22,109 +22,109 @@ namespace Micky5991.Inventory.Entities.Item
 
         public string DisplayName
         {
-            get => displayName;
+            get => this.displayName;
             private set
             {
-                if (value == displayName)
+                if (value == this.displayName)
                 {
                     return;
                 }
 
-                displayName = value;
+                this.displayName = value;
 
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
         public int Amount
         {
-            get => amount;
+            get => this.amount;
             private set
             {
-                if (value == amount)
+                if (value == this.amount)
                 {
                     return;
                 }
 
-                amount = value;
+                this.amount = value;
 
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(TotalWeight));
+                this.OnPropertyChanged();
+                this.OnPropertyChanged(nameof(this.TotalWeight));
             }
         }
 
         public int SingleWeight
         {
-            get => singleWeight;
+            get => this.singleWeight;
             private set
             {
-                if (value == singleWeight)
+                if (value == this.singleWeight)
                 {
                     return;
                 }
 
-                singleWeight = value;
+                this.singleWeight = value;
 
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(TotalWeight));
+                this.OnPropertyChanged();
+                this.OnPropertyChanged(nameof(this.TotalWeight));
             }
         }
 
-        public int TotalWeight => SingleWeight * Amount;
+        public int TotalWeight => this.SingleWeight * this.Amount;
 
         public bool Stackable { get; }
 
         public IInventory? CurrentInventory
         {
-            get => currentInventory;
+            get => this.currentInventory;
             private set
             {
-                if (Equals(value, currentInventory))
+                if (Equals(value, this.currentInventory))
                 {
                     return;
                 }
 
-                currentInventory = value;
+                this.currentInventory = value;
 
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
         public bool MovingLocked
         {
-            get => movingLocked || Locked;
+            get => this.movingLocked || this.Locked;
             set
             {
-                if (value == movingLocked)
+                if (value == this.movingLocked)
                 {
                     return;
                 }
 
-                movingLocked = value;
+                this.movingLocked = value;
 
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
         public bool Locked
         {
-            get => locked;
+            get => this.locked;
             set
             {
-                if (value == locked)
+                if (value == this.locked)
                 {
                     return;
                 }
 
-                var oldMovingLockedValue = MovingLocked;
+                var oldMovingLockedValue = this.MovingLocked;
 
-                locked = value;
+                this.locked = value;
 
-                OnPropertyChanged();
+                this.OnPropertyChanged();
 
-                if (oldMovingLockedValue != MovingLocked)
+                if (oldMovingLockedValue != this.MovingLocked)
                 {
-                    OnPropertyChanged(nameof(MovingLocked));
+                    this.OnPropertyChanged(nameof(this.MovingLocked));
                 }
             }
         }

@@ -10,27 +10,27 @@ namespace Micky5991.Inventory.Entities.Inventory
         {
             item.SetCurrentInventory(this);
 
-            item.PropertyChanged += OnPropertyChanged;
+            item.PropertyChanged += this.OnPropertyChanged;
 
-            await OnAfterItemAddedOrRemoved(item)
-                .ConfigureAwait(false);
+            await this.OnAfterItemAddedOrRemoved(item)
+                      .ConfigureAwait(false);
         }
 
         private async Task OnItemRemoved(IItem item)
         {
             item.SetCurrentInventory(null);
 
-            item.PropertyChanged -= OnPropertyChanged;
+            item.PropertyChanged -= this.OnPropertyChanged;
 
-            await OnAfterItemAddedOrRemoved(item)
-                .ConfigureAwait(false);
+            await this.OnAfterItemAddedOrRemoved(item)
+                      .ConfigureAwait(false);
         }
 
         private Task OnAfterItemAddedOrRemoved(IItem item)
         {
-            RecalculateWeight();
+            this.RecalculateWeight();
 
-            OnPropertyChanged(nameof(Items));
+            this.OnPropertyChanged(nameof(this.Items));
 
             return Task.CompletedTask;
         }
@@ -40,7 +40,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             switch (args.PropertyName)
             {
                 case nameof(IItem.TotalWeight):
-                    RecalculateWeight();
+                    this.RecalculateWeight();
 
                     break;
             }
