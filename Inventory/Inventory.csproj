@@ -11,7 +11,7 @@
         <Title>General purpose inventory framework </Title>
         <Copyright>2020 Micky5991</Copyright>
         <PackageProjectUrl>https://github.com/Micky5991/Inventory</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/Micky5991/Inventory/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/Micky5991/Inventory</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <CodeAnalysisRuleSet>Inventory.ruleset</CodeAnalysisRuleSet>
