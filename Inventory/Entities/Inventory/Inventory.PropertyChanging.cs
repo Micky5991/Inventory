@@ -6,6 +6,7 @@ namespace Micky5991.Inventory.Entities.Inventory
 {
     public partial class Inventory
     {
+        /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
