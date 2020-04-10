@@ -20,10 +20,10 @@ namespace Micky5991.Inventory.Interfaces
         /// <summary>
         /// Returns the instance of <see cref="ItemMeta"/> for the given <paramref name="handle"/>.
         /// </summary>
-        /// <param name="handle">Unique handle to search for</param>
+        /// <param name="handle">Unique handle to search for.</param>
         /// <param name="meta">Instance of <see cref="ItemMeta"/> that has been found by <paramref name="handle"/>.</param>
-        /// <returns>true if an <see cref="ItemMeta"/> instance has been found, false otherwise</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="meta"/> is null, empty or whitespace</exception>
+        /// <returns>true if an <see cref="ItemMeta"/> instance has been found, false otherwise.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="meta"/> is null, empty or whitespace.</exception>
         bool TryGetItemMeta(string handle, out ItemMeta? meta);
     }
 }
