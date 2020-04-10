@@ -73,6 +73,25 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
+        public async Task RemovingItemFromInventoryWhenItemIsLockedThrowsException()
+        {
+            await _inventory.InsertItemAsync(_item);
+
+            _item.MovingLocked = true;
+
+            Func<Task> act = () => _inventory.RemoveItemAsync(_item);
+
+            (await act.Should().ThrowAsync<ItemNotMovableException>())
+                .Where(x =>
+                    x.Message.Contains(_item.Handle)
+                    && x.Message.Contains(_item.RuntimeId.ToString())
+                    && x.Message.Contains("not movable"));
+
+            _inventory.Items.Should()
+                .ContainSingle(x => x == _item);
+        }
+
+        [TestMethod]
         public async Task AddingItemWithSameRuntimeKeyWillReturnFalse()
         {
             var item = new FakeItem(10);
@@ -124,6 +143,22 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
+        public async Task AddingInMovableItemThrowsException()
+        {
+            _item.MovingLocked = true;
+
+            Func<Task> act = () => _inventory.InsertItemAsync(_item);
+
+            (await act.Should().ThrowAsync<ItemNotMovableException>())
+                .Where(x =>
+                    x.Message.Contains(_item.Handle)
+                    && x.Message.Contains(_item.RuntimeId.ToString())
+                    && x.Message.Contains("not movable"));
+
+            _inventory.Items.Should().BeEmpty();
+        }
+
+        [TestMethod]
         public async Task InsertingItemThatIsNotAllwedThrowsException()
         {
             _inventory.SetItemFilter(x => false);
@@ -150,6 +185,18 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             _item.SetSingleWeight(10);
             _inventory.SetCapacity(5);
+
+            await _inventory.InsertItemAsync(_item, true);
+
+            _inventory.Items.Should()
+                .HaveCount(1)
+                .And.ContainSingle(x => x == _item);
+        }
+
+        [TestMethod]
+        public async Task InsertingItemWithForceEvenInmovableItemShouldAllowInsertion()
+        {
+            _item.MovingLocked = true;
 
             await _inventory.InsertItemAsync(_item, true);
 
