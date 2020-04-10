@@ -121,12 +121,12 @@ namespace Micky5991.Inventory.Interfaces
         Task<bool> RemoveItemAsync([NotNull] IItem item);
 
         /// <summary>
-        /// Sets the capacity of this inventory to the given <paramref name="capacity"/>.
+        /// Sets the capacity of this inventory to the given <paramref name="newCapacity"/>.
         /// </summary>
-        /// <param name="capacity">New capacity to set the inventory to</param>
-        /// <returns>true if the usedcapacity was below or equal <paramref name="capacity"/> and has been changed successfully, false otherwise</returns>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity"/> was too low</exception>
-        bool SetCapacity(int capacity);
+        /// <param name="newCapacity">New capacity to set the inventory to</param>
+        /// <returns>true if the usedcapacity was below or equal <paramref name="newCapacity"/> and has been changed successfully, false otherwise</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="newCapacity"/> was too low</exception>
+        bool SetCapacity(int newCapacity);
 
         /// <summary>
         /// Sets the filter of this inventory to only accept certain items into inventory. To remove the current filter
