@@ -6,7 +6,6 @@ namespace Micky5991.Inventory.Entities.Inventory
 {
     public partial class Inventory
     {
-
         private async Task OnItemAdded(IItem item)
         {
             item.SetCurrentInventory(this);
@@ -46,6 +45,5 @@ namespace Micky5991.Inventory.Entities.Inventory
                     break;
             }
         }
-
     }
 }

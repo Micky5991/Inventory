@@ -6,7 +6,6 @@ namespace Micky5991.Inventory
 {
     public class ItemMeta
     {
-
         /// <summary>
         /// Unique handle of this meta information
         /// </summary>
@@ -76,6 +75,5 @@ namespace Micky5991.Inventory
             DefaultWeight = defaultWeight;
             Flags = flags;
         }
-
     }
 }

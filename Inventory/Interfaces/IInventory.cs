@@ -50,7 +50,8 @@ namespace Micky5991.Inventory.Interfaces
         /// <param name="handle">Restriction of items to only include items with specified handle</param>
         /// <typeparam name="T">Parent type of the items that should be included</typeparam>
         /// <returns>List of items that matched the given criteria</returns>
-        ICollection<T> GetItems<T>(string? handle = null) where T : IItem;
+        ICollection<T> GetItems<T>(string? handle = null)
+            where T : IItem;
 
         /// <summary>
         /// Determines if the given item is allowed in inventory
@@ -181,6 +182,5 @@ namespace Micky5991.Inventory.Interfaces
         /// <returns>Amount of additional items that would be able to insert</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="itemWeight"/> is 0 or lower</exception>
         int GetItemFitAmount(int itemWeight);
-
     }
 }

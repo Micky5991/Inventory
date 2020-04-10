@@ -176,7 +176,8 @@ namespace Micky5991.Inventory.Entities.Inventory
             return new List<IItem>(Items.Where(x => x.Handle == handle));
         }
 
-        public ICollection<T> GetItems<T>(string? handle = null) where T : IItem
+        public ICollection<T> GetItems<T>(string? handle = null)
+            where T : IItem
         {
             bool IncludeItemCheck(IItem item)
             {
@@ -193,7 +194,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 return true;
             }
 
-            return new List<T>( Items.Where(IncludeItemCheck).Select(x => (T) x));
+            return new List<T>(Items.Where(IncludeItemCheck).Select(x => (T)x));
         }
     }
 }
