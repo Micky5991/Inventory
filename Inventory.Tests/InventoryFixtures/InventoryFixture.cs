@@ -236,19 +236,31 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public void CanBeInsertedWithRightWeightAndAllowedFilterReturnsTrue()
+        public void CanBeInsertedWithRightWeightAndAllowedFilterAndMovableItemReturnsTrue()
         {
             _inventory.SetCapacity(_item.TotalWeight + 1);
             _inventory.SetItemFilter(null);
+            _item.MovingLocked = false;
 
             _inventory.CanBeInserted(_item).Should().BeTrue();
         }
 
         [TestMethod]
-        public void CanBeInsertedWithRightWeightAndDisallowedFilterReturnsFalse()
+        public void CanBeInsertedWithRightWeightAndAllowedFilterAndInMovableItemReturnsFalse()
+        {
+            _inventory.SetCapacity(_item.TotalWeight + 1);
+            _inventory.SetItemFilter(null);
+            _item.MovingLocked = true;
+
+            _inventory.CanBeInserted(_item).Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void CanBeInsertedWithRightWeightAndDisallowedFilterAndMovableItemReturnsFalse()
         {
             _inventory.SetCapacity(_item.TotalWeight + 1);
             _inventory.SetItemFilter(x => false);
+            _item.MovingLocked = false;
 
             _inventory.CanBeInserted(_item).Should().BeFalse();
         }
@@ -256,10 +268,11 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         [DataRow(-1)]
         [DataRow(-2)]
-        public void CanBeInsertedWithTooHighWeightAndAllowedFilterReturnsFalse(int weightDelta)
+        public void CanBeInsertedWithTooHighWeightAndAllowedFilterMovableItemReturnsFalse(int weightDelta)
         {
             _inventory.SetCapacity(_item.TotalWeight + weightDelta);
             _inventory.SetItemFilter(x => true);
+            _item.MovingLocked = false;
 
             _inventory.CanBeInserted(_item).Should().BeFalse();
         }
@@ -276,21 +289,31 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        [DataRow(true, false)]
-        [DataRow(false, true)]
-        [DataRow(true, true)]
-        [DataRow(false, false)]
-        public async Task IgnoringFalseFilterReturnsAllItems(bool ignoreCapacity, bool ignoreAllowance)
+        [DataRow(true, false, false)]
+        [DataRow(false, true, false)]
+        [DataRow(true, true, false)]
+        [DataRow(false, false, false)]
+        [DataRow(true, false, true)]
+        [DataRow(false, true, true)]
+        [DataRow(true, true, true)]
+        [DataRow(false, false, true)]
+        public async Task IgnoringFalseFilterReturnsAllItems(bool ignoreCapacity, bool ignoreAllowance, bool ignoreMovable)
         {
             await _inventory.InsertItemAsync(_item);
             await _inventory.InsertItemAsync(_fakeItem);
+
+            _item.MovingLocked = ignoreMovable;
+            _fakeItem.MovingLocked = ignoreMovable;
 
             var otherInventory = new Mock<IInventory>();
 
             otherInventory.Setup(x => x.DoesItemFit(It.IsAny<IItem>())).Returns(ignoreCapacity == false);
             otherInventory.Setup(x => x.IsItemAllowed(It.IsAny<IItem>())).Returns(ignoreAllowance == false);
 
-            var items = _inventory.GetInsertableItems(otherInventory.Object, ignoreCapacity == false, ignoreAllowance == false);
+            var items = _inventory.GetInsertableItems(otherInventory.Object,
+                ignoreCapacity == false,
+                ignoreAllowance == false,
+                ignoreMovable == false);
 
             otherInventory.Verify(x => x.DoesItemFit(_item), Times.AtMostOnce);
             otherInventory.Verify(x => x.DoesItemFit(_fakeItem), Times.AtMostOnce);
