@@ -7,17 +7,24 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Micky5991.Inventory
 {
+    /// <inheritdoc />
     public class ItemFactory : IItemFactory
     {
         private readonly IItemRegistry registry;
         private readonly IServiceProvider serviceProvider;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ItemFactory"/> class.
+        /// </summary>
+        /// <param name="registry">Needed registry-service reference.</param>
+        /// <param name="serviceProvider">Needed serviceprovider reference.</param>
         public ItemFactory(IItemRegistry registry, IServiceProvider serviceProvider)
         {
             this.registry = registry;
             this.serviceProvider = serviceProvider;
         }
 
+        /// <inheritdoc/>
         public IItem? CreateItem(string handle, int amount)
         {
             if (string.IsNullOrWhiteSpace(handle))
@@ -43,6 +50,7 @@ namespace Micky5991.Inventory
             return this.SetupItemPostCreate(this.BuildItemFromMeta(meta!), amount);
         }
 
+        /// <inheritdoc/>
         public ICollection<IItem>? CreateItems(string handle, int amount)
         {
             if (string.IsNullOrWhiteSpace(handle))
@@ -58,6 +66,7 @@ namespace Micky5991.Inventory
             return this.CreateItems(meta!, amount);
         }
 
+        /// <inheritdoc/>
         public IItem CreateItem(ItemMeta meta, int amount)
         {
             if (meta == null)
@@ -78,6 +87,7 @@ namespace Micky5991.Inventory
             return this.SetupItemPostCreate(this.BuildItemFromMeta(meta), amount);
         }
 
+        /// <inheritdoc/>
         public ICollection<IItem> CreateItems(ItemMeta meta, int amount)
         {
             if (meta == null)
