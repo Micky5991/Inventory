@@ -112,7 +112,7 @@ namespace Micky5991.Inventory
 
         private IItem BuildItemFromMeta(ItemMeta meta)
         {
-            var factory = (ObjectFactory) this.serviceProvider.GetService(meta.Type);
+            var factory = (ObjectFactory)this.serviceProvider.GetService(meta.Type);
 
             var item = (IItem)factory(this.serviceProvider, new[] { (object)meta });
 

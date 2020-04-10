@@ -25,6 +25,5 @@ namespace Micky5991.Inventory
 
             return new Entities.Inventory.Inventory(capacity, this.inventoryServices);
         }
-
     }
 }

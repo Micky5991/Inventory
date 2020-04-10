@@ -74,7 +74,7 @@ namespace Micky5991.Inventory
         {
             var validators = new List<ValidatorDelegate>
             {
-                this.ValidateUniqueHandles
+                this.ValidateUniqueHandles,
             };
 
             foreach (var validator in validators)
