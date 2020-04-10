@@ -67,29 +67,6 @@ namespace Micky5991.Inventory.Entities.Inventory
             return true;
         }
 
-        private async Task<bool> TryMergeItemAsync(IItem sourceItem)
-        {
-            foreach (var item in this.items.Values)
-            {
-                if (item.CanMergeWith(sourceItem) == false)
-                {
-                    continue;
-                }
-
-                await this.MergeItemsAsync(item, sourceItem)
-                          .ConfigureAwait(false);
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private Task MergeItemsAsync(IItem targetItem, IItem sourceItem)
-        {
-            return targetItem.MergeItemAsync(sourceItem);
-        }
-
         public async Task<bool> RemoveItemAsync([NotNull] IItem item)
         {
             if (item == null)
@@ -158,6 +135,29 @@ namespace Micky5991.Inventory.Entities.Inventory
             }
 
             return this.Items.Where(x => CapacityFilter(x) && AcceptanceFilter(x) && MovableFilter(x)).ToList();
+        }
+
+        private async Task<bool> TryMergeItemAsync(IItem sourceItem)
+        {
+            foreach (var item in this.items.Values)
+            {
+                if (item.CanMergeWith(sourceItem) == false)
+                {
+                    continue;
+                }
+
+                await this.MergeItemsAsync(item, sourceItem)
+                          .ConfigureAwait(false);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private Task MergeItemsAsync(IItem targetItem, IItem sourceItem)
+        {
+            return targetItem.MergeItemAsync(sourceItem);
         }
     }
 }
