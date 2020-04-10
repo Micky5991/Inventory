@@ -7,7 +7,6 @@ namespace Micky5991.Inventory.Interfaces
     [PublicAPI]
     public interface IItemFactory
     {
-
         /// <summary>
         /// Creates an instance of <see cref="IItem"/> and search <see cref="IItemRegistry"/> for the given <paramref name="handle"/>.
         /// </summary>
@@ -50,6 +49,5 @@ namespace Micky5991.Inventory.Interfaces
         /// <exception cref="ArgumentNullException"><paramref name="meta"/> is null</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="amount"/> is 0 or lower</exception>
         ICollection<IItem> CreateItems(ItemMeta meta, int amount);
-
     }
 }

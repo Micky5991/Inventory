@@ -9,7 +9,6 @@ namespace Micky5991.Inventory
 {
     public abstract class BaseItemRegistry : IItemRegistry
     {
-
         private IDictionary<string, ItemMeta>? metaCollection;
 
         private delegate (bool Valid, string? ErrorMessage) ValidatorDelegate(List<ItemMeta> metaCollection);
@@ -35,7 +34,8 @@ namespace Micky5991.Inventory
             return metaCollection!.TryGetValue(handle, out meta);
         }
 
-        protected ItemMeta CreateItemMeta<T>(string itemHandle, string displayName, int defaultWeight = 1, ItemFlags flags = ItemFlags.None) where T : IItem
+        protected ItemMeta CreateItemMeta<T>(string itemHandle, string displayName, int defaultWeight = 1, ItemFlags flags = ItemFlags.None)
+            where T : IItem
         {
             if (string.IsNullOrWhiteSpace(itemHandle))
             {

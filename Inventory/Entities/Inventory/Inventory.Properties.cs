@@ -51,6 +51,5 @@ namespace Micky5991.Inventory.Entities.Inventory
         }
 
         public int AvailableCapacity => Capacity - UsedCapacity;
-
     }
 }

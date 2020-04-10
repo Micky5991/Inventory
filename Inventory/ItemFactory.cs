@@ -50,7 +50,7 @@ namespace Micky5991.Inventory
                 throw new ArgumentNullException(nameof(handle));
             }
 
-            if(registry.TryGetItemMeta(handle, out var meta) == false)
+            if (registry.TryGetItemMeta(handle, out var meta) == false)
             {
                 return null;
             }

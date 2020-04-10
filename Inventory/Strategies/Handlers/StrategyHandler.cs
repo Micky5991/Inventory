@@ -5,7 +5,8 @@ using Micky5991.Inventory.Interfaces.Strategy;
 
 namespace Micky5991.Inventory.Strategies.Handlers
 {
-    public abstract class StrategyHandler<T> : List<T>, IStrategyHandler<T> where T : IStrategy
+    public abstract class StrategyHandler<T> : List<T>, IStrategyHandler<T>
+        where T : IStrategy
     {
         public new void Add(T item)
         {

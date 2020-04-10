@@ -6,7 +6,6 @@ namespace Micky5991.Inventory.Entities.Item
 {
     public partial class Item
     {
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -14,6 +13,5 @@ namespace Micky5991.Inventory.Entities.Item
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }
