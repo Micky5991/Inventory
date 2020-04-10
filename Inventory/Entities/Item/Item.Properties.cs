@@ -116,10 +116,16 @@ namespace Micky5991.Inventory.Entities.Item
                     return;
                 }
 
+                var oldMovingLockedValue = MovingLocked;
+
                 _locked = value;
 
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(MovingLocked));
+
+                if (oldMovingLockedValue != MovingLocked)
+                {
+                    OnPropertyChanged(nameof(MovingLocked));
+                }
             }
         }
     }
