@@ -31,6 +31,8 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public bool Stackable { get; set; } = true;
 
+        public bool WeightChangable { get; set; }
+
         public IInventory CurrentInventory { get; private set; }
         public bool MovingLocked { get; set; }
         public bool Locked { get; set; }

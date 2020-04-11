@@ -58,6 +58,7 @@ namespace Micky5991.Inventory.Tests
             item.DefaultDisplayName.Should().Be(this.RealMeta.DisplayName);
             item.Amount.Should().Be(Math.Max(Item.MinimalItemAmount, 1));
             item.Stackable.Should().BeTrue();
+            item.WeightChangable.Should().BeFalse();
 
             item.RuntimeId.Should().NotBe(Guid.Empty);
         }
@@ -70,6 +71,16 @@ namespace Micky5991.Inventory.Tests
             this.SetupServiceProvider(new ItemMeta(this.DefaultRealMeta.Handle, typeof(RealItem), this.DefaultRealMeta.DisplayName, this.DefaultRealMeta.DefaultWeight, flags));
 
             this.Item.Stackable.Should().Be(stackable);
+        }
+
+        [TestMethod]
+        [DataRow(ItemFlags.WeightChangable, true)]
+        [DataRow(ItemFlags.None, false)]
+        public void SettingWeightChangableFlagWillBeInterpretedCorrectly(ItemFlags flags, bool weightChangable)
+        {
+            this.SetupServiceProvider(new ItemMeta(this.DefaultRealMeta.Handle, typeof(RealItem), this.DefaultRealMeta.DisplayName, this.DefaultRealMeta.DefaultWeight, flags));
+
+            this.Item.WeightChangable.Should().Be(weightChangable);
         }
 
         [TestMethod]
