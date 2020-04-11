@@ -56,7 +56,7 @@ namespace Micky5991.Inventory.Entities.Item
         /// <inheritdoc />
         public void Initialize()
         {
-            this.SetupStrategies();
+            this.SetupItem();
 
             this.Initialized?.Invoke(this, new ItemInitializedEventArgs(this));
         }
@@ -202,6 +202,14 @@ namespace Micky5991.Inventory.Entities.Item
             this.itemSplitStrategyHandler.SplitItem(this, item);
 
             return item;
+        }
+
+        /// <summary>
+        /// Method that initializes actual item data and settings before first usage.
+        /// </summary>
+        protected virtual void SetupItem()
+        {
+            this.SetupStrategies();
         }
 
         /// <summary>
