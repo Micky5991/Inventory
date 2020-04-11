@@ -564,8 +564,6 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void InitializingItemExecutesEvent()
         {
-            this.SetupDefaultServiceProvider();
-
             var item = new RealItem(this.DefaultRealMeta, this.ItemServices);
 
             using var monitoredItem = item.Monitor();
