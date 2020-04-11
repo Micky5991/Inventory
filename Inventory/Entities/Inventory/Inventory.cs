@@ -211,6 +211,41 @@ namespace Micky5991.Inventory.Entities.Inventory
             return new List<T>(this.Items.Where(IncludeItemCheck).Select(x => (T)x));
         }
 
+        /// <inheritdoc />
+        public IItem? GetItem(Guid runtimeId)
+        {
+            if (runtimeId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(runtimeId));
+            }
+
+            if (this.items.TryGetValue(runtimeId, out var item) == false)
+            {
+                return default;
+            }
+
+            return item;
+        }
+
+        /// <inheritdoc />
+        public T? GetItem<T>(Guid runtimeId)
+            where T : class, IItem
+        {
+            if (runtimeId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(runtimeId));
+            }
+
+            var item = this.GetItem(runtimeId);
+
+            if (item != default(IItem) && item is T convertedItem)
+            {
+                return convertedItem;
+            }
+
+            return default;
+        }
+
         private void RecalculateWeight()
         {
             this.UsedCapacity = this.items.Values.Sum(x => x.TotalWeight);
