@@ -11,22 +11,22 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public async Task AddingItemWillSetCurrentInventoryCorrectly()
         {
-            _itemMock.Setup(x => x.SetCurrentInventory(_inventory));
+            this._itemMock.Setup(x => x.SetCurrentInventory(this._inventory));
 
-            await _inventory.InsertItemAsync(_itemMock.Object);
+            await this._inventory.InsertItemAsync(this._itemMock.Object);
 
-            _itemMock.Verify(x => x.SetCurrentInventory(_inventory));
+            this._itemMock.Verify(x => x.SetCurrentInventory(this._inventory));
         }
 
         [TestMethod]
         public async Task RemovingItemWillSetCurrentInventoryToNull()
         {
-            _itemMock.Setup(x => x.SetCurrentInventory(It.IsAny<IInventory>()));
+            this._itemMock.Setup(x => x.SetCurrentInventory(It.IsAny<IInventory>()));
 
-            await _inventory.InsertItemAsync(_itemMock.Object);
-            await _inventory.RemoveItemAsync(_itemMock.Object);
+            await this._inventory.InsertItemAsync(this._itemMock.Object);
+            await this._inventory.RemoveItemAsync(this._itemMock.Object);
 
-            _itemMock.Verify(x => x.SetCurrentInventory(null), Times.Once);
+            this._itemMock.Verify(x => x.SetCurrentInventory(null), Times.Once);
         }
 
         [TestMethod]
@@ -34,23 +34,23 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             var otherInventoryMock = new Mock<IInventory>();
 
-            _itemMock
+            this._itemMock
                 .SetupGet(x => x.CurrentInventory)
                 .Returns(otherInventoryMock.Object);
 
-            _itemMock
-                .Setup(x => x.SetCurrentInventory(_inventory));
+            this._itemMock
+                .Setup(x => x.SetCurrentInventory(this._inventory));
 
             otherInventoryMock
-                .Setup(x => x.RemoveItemAsync(_itemMock.Object))
+                .Setup(x => x.RemoveItemAsync(this._itemMock.Object))
                 .ReturnsAsync(true);
 
-            await _inventory.InsertItemAsync(_itemMock.Object);
+            await this._inventory.InsertItemAsync(this._itemMock.Object);
 
-            _itemMock.VerifyGet(x => x.CurrentInventory, Times.AtLeastOnce);
-            otherInventoryMock.Verify(x => x.RemoveItemAsync(_itemMock.Object), Times.Once);
+            this._itemMock.VerifyGet(x => x.CurrentInventory, Times.AtLeastOnce);
+            otherInventoryMock.Verify(x => x.RemoveItemAsync(this._itemMock.Object), Times.Once);
 
-            _itemMock.Verify(x => x.SetCurrentInventory(_inventory), Times.Once);
+            this._itemMock.Verify(x => x.SetCurrentInventory(this._inventory), Times.Once);
         }
 
         [TestMethod]
@@ -58,19 +58,19 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             var otherInventoryMock = new Mock<IInventory>();
 
-            _itemMock
+            this._itemMock
                 .SetupGet(x => x.CurrentInventory)
                 .Returns(otherInventoryMock.Object);
 
             otherInventoryMock
-                .Setup(x => x.RemoveItemAsync(_itemMock.Object))
+                .Setup(x => x.RemoveItemAsync(this._itemMock.Object))
                 .ReturnsAsync(false);
 
-            var success = await _inventory.InsertItemAsync(_itemMock.Object);
+            var success = await this._inventory.InsertItemAsync(this._itemMock.Object);
 
             success.Should().BeFalse();
 
-            _itemMock.Verify(x => x.SetCurrentInventory(It.IsAny<IInventory>()), Times.Never);
+            this._itemMock.Verify(x => x.SetCurrentInventory(It.IsAny<IInventory>()), Times.Never);
         }
     }
 }

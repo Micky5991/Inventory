@@ -19,16 +19,16 @@ namespace Micky5991.Inventory.Tests
         [TestInitialize]
         public void Setup()
         {
-            _itemRegistry = new Mock<IItemRegistry>();
-            _inventoryServices = new AggregatedInventoryServices(_itemRegistry.Object);
+            this._itemRegistry = new Mock<IItemRegistry>();
+            this._inventoryServices = new AggregatedInventoryServices(this._itemRegistry.Object);
 
-            _inventoryFactory = new InventoryFactory(_inventoryServices);
+            this._inventoryFactory = new InventoryFactory(this._inventoryServices);
         }
 
         [TestMethod]
         public void InventoryFactoryCreatesInventory()
         {
-            var inventory = _inventoryFactory.CreateInventory(1);
+            var inventory = this._inventoryFactory.CreateInventory(1);
 
             inventory.Should()
                 .NotBeNull()
@@ -43,7 +43,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(int.MaxValue)]
         public void SetsCorrectInitialCapacityToInventory(int capacity)
         {
-            var inventory = _inventoryFactory.CreateInventory(capacity);
+            var inventory = this._inventoryFactory.CreateInventory(capacity);
 
             inventory.Capacity.Should().Be(capacity);
         }
@@ -51,7 +51,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingInventoryShouldHaveRuntimeId()
         {
-            var inventory = _inventoryFactory.CreateInventory(1);
+            var inventory = this._inventoryFactory.CreateInventory(1);
 
             inventory.RuntimeId.Should().NotBeEmpty();
         }
@@ -62,7 +62,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(int.MinValue)]
         public void CreatingInventoryWithInvalidWeightWillThrowException(int capacity)
         {
-            Action act = () => _inventoryFactory.CreateInventory(capacity);
+            Action act = () => this._inventoryFactory.CreateInventory(capacity);
 
             act.Should().Throw<ArgumentOutOfRangeException>();
         }

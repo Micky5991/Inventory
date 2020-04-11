@@ -24,22 +24,22 @@ namespace Micky5991.Inventory.Tests
         {
             Item.MinimalItemAmount = 0;
 
-            SetupItemTest();
+            this.SetupItemTest();
 
-            _inventoryMock = new Mock<IInventory>();
+            this._inventoryMock = new Mock<IInventory>();
 
         }
 
         [TestCleanup]
         public void TearDown()
         {
-            TearDownItemTest();
+            this.TearDownItemTest();
         }
 
         [TestMethod]
         public void CreatingItemWillBeSuccessful()
         {
-            var item = _item;
+            var item = this._item;
 
             item.Should()
                 .NotBeNull()
@@ -49,13 +49,13 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingItemWillSetParametersCorrectly()
         {
-            var item = new RealItem(_realMeta, ServiceUtils.CreateItemServices());
+            var item = new RealItem(this._realMeta, ServiceUtils.CreateItemServices());
 
-            item.Meta.Should().Be(_realMeta);
-            item.Handle.Should().Be(_realMeta.Handle);
-            item.SingleWeight.Should().Be(_realMeta.DefaultWeight);
-            item.DisplayName.Should().Be(_realMeta.DisplayName);
-            item.DefaultDisplayName.Should().Be(_realMeta.DisplayName);
+            item.Meta.Should().Be(this._realMeta);
+            item.Handle.Should().Be(this._realMeta.Handle);
+            item.SingleWeight.Should().Be(this._realMeta.DefaultWeight);
+            item.DisplayName.Should().Be(this._realMeta.DisplayName);
+            item.DefaultDisplayName.Should().Be(this._realMeta.DisplayName);
             item.Amount.Should().Be(Math.Max(Item.MinimalItemAmount, 1));
             item.Stackable.Should().BeTrue();
 
@@ -67,24 +67,24 @@ namespace Micky5991.Inventory.Tests
         [DataRow(ItemFlags.None, true)]
         public void SettingNonStackableFlagWillBeInterpretedCorrectly(ItemFlags flags, bool stackable)
         {
-            SetupServiceProvider(new ItemMeta(_defaultRealMeta.Handle, typeof(RealItem), _defaultRealMeta.DisplayName, _defaultRealMeta.DefaultWeight, flags));
+            this.SetupServiceProvider(new ItemMeta(this._defaultRealMeta.Handle, typeof(RealItem), this._defaultRealMeta.DisplayName, this._defaultRealMeta.DefaultWeight, flags));
 
-            _item.Stackable.Should().Be(stackable);
+            this._item.Stackable.Should().Be(stackable);
         }
 
         [TestMethod]
         public void SettingAmountOfNonStackableItemWillThrowException()
         {
-            SetupServiceProvider(new ItemMeta(_defaultRealMeta.Handle, typeof(RealItem), _defaultRealMeta.DisplayName, _defaultRealMeta.DefaultWeight, ItemFlags.NotStackable));
+            this.SetupServiceProvider(new ItemMeta(this._defaultRealMeta.Handle, typeof(RealItem), this._defaultRealMeta.DisplayName, this._defaultRealMeta.DefaultWeight, ItemFlags.NotStackable));
 
-            Action act = () => _item.SetAmount(2);
+            Action act = () => this._item.SetAmount(2);
             act.Should().Throw<ItemNotStackableException>();
         }
 
         [TestMethod]
         public void CreatingItemWithNullItemMetaWillThrowException()
         {
-            Action act = () => new RealItem(null, _itemServices);
+            Action act = () => new RealItem(null, this._itemServices);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -92,19 +92,19 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameUpdatesValueCorrecly()
         {
-            _item.SetDisplayName("Cool");
+            this._item.SetDisplayName("Cool");
 
-            _item.DisplayName.Should().Be("Cool");
+            this._item.DisplayName.Should().Be("Cool");
         }
 
         [TestMethod]
         public void ChangingDisplayNameKeepsValueInDefaultDisplayNameSame()
         {
-            _item.SetDisplayName("Other");
+            this._item.SetDisplayName("Other");
 
-            var oldName = _item.DefaultDisplayName;
+            var oldName = this._item.DefaultDisplayName;
 
-            _item.DefaultDisplayName.Should().Be(oldName);
+            this._item.DefaultDisplayName.Should().Be(oldName);
         }
 
         [TestMethod]
@@ -113,17 +113,17 @@ namespace Micky5991.Inventory.Tests
         [DataRow(" ")]
         public void SettingDisplayNameToNullThrowsException(string displayName)
         {
-            var oldName = _item.DisplayName;
-            Action act = () => _item.SetDisplayName(displayName);
+            var oldName = this._item.DisplayName;
+            Action act = () => this._item.SetDisplayName(displayName);
 
             act.Should().Throw<ArgumentNullException>();
-            _item.DisplayName.Should().Be(oldName);
+            this._item.DisplayName.Should().Be(oldName);
         }
 
         [TestMethod]
         public void CanMergeCheckWithNullSourceItemWillResultInException()
         {
-            Action act = () => _item.CanMergeWith(null);
+            Action act = () => this._item.CanMergeWith(null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -134,13 +134,13 @@ namespace Micky5991.Inventory.Tests
         [DataRow(100)]
         public void SettingAmountWillUpdateWeightAndAmount(int amountDelta)
         {
-            var singleWeight = _realMeta.DefaultWeight;
+            var singleWeight = this._realMeta.DefaultWeight;
             var targetAmount = Item.MinimalItemAmount + amountDelta;
 
-            _item.SetAmount(targetAmount);
+            this._item.SetAmount(targetAmount);
 
-            _item.Amount.Should().Be(targetAmount);
-            _item.TotalWeight.Should().Be(singleWeight * targetAmount);
+            this._item.Amount.Should().Be(targetAmount);
+            this._item.TotalWeight.Should().Be(singleWeight * targetAmount);
         }
 
         [TestMethod]
@@ -152,9 +152,9 @@ namespace Micky5991.Inventory.Tests
         {
             var actualAmount = Item.MinimalItemAmount + amountDelta;
 
-            _item.SetAmount(actualAmount);
+            this._item.SetAmount(actualAmount);
 
-            (_item.TotalWeight / _item.SingleWeight).Should().Be(actualAmount);
+            (this._item.TotalWeight / this._item.SingleWeight).Should().Be(actualAmount);
         }
 
         [TestMethod]
@@ -162,23 +162,23 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-2)]
         public void SettingItemAmountBelowMinimalAllowedItemAmountThrowsException(int amountDelta)
         {
-            var oldAmount = _item.Amount;
-            Action act = () => _item.SetAmount(Item.MinimalItemAmount + amountDelta);
+            var oldAmount = this._item.Amount;
+            Action act = () => this._item.SetAmount(Item.MinimalItemAmount + amountDelta);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains($"{Math.Max(Item.MinimalItemAmount, 0)} or higher"));
 
-            _item.Amount.Should().Be(oldAmount);
+            this._item.Amount.Should().Be(oldAmount);
         }
 
         [TestMethod]
         public void SettingCurrentInventoryWillUpdateValue()
         {
-            _item.SetCurrentInventory(_inventoryMock.Object);
-            _item.CurrentInventory.Should().Be(_inventoryMock.Object);
+            this._item.SetCurrentInventory(this._inventoryMock.Object);
+            this._item.CurrentInventory.Should().Be(this._inventoryMock.Object);
 
-            _item.SetCurrentInventory(null);
-            _item.CurrentInventory.Should().BeNull();
+            this._item.SetCurrentInventory(null);
+            this._item.CurrentInventory.Should().BeNull();
         }
 
         [TestMethod]
@@ -186,7 +186,7 @@ namespace Micky5991.Inventory.Tests
         {
             Item.MinimalItemAmount = -10;
 
-            Action act = () => _item.SetAmount(-5);
+            Action act = () => this._item.SetAmount(-5);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("0"));
@@ -195,9 +195,9 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameTriggersNotification()
         {
-            using var monitoredSubject = _item.Monitor();
+            using var monitoredSubject = this._item.Monitor();
 
-            _item.SetDisplayName(_item.DisplayName + "ADD");
+            this._item.SetDisplayName(this._item.DisplayName + "ADD");
 
             monitoredSubject.Should().RaisePropertyChangeFor(x => x.DisplayName);
         }
@@ -205,9 +205,9 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingDisplayNameToCurrentValueDoesNotTriggerNotification()
         {
-            using var monitoredSubject = _item.Monitor();
+            using var monitoredSubject = this._item.Monitor();
 
-            _item.SetDisplayName(_item.DisplayName);
+            this._item.SetDisplayName(this._item.DisplayName);
 
             monitoredSubject.Should().NotRaisePropertyChangeFor(x => x.DisplayName);
         }
@@ -215,9 +215,9 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingAmountWillNotifyAmountAndTotalWeight()
         {
-            using var monitoredItem = _item.Monitor();
+            using var monitoredItem = this._item.Monitor();
 
-            _item.SetAmount(_item.Amount + 1);
+            this._item.SetAmount(this._item.Amount + 1);
 
             monitoredItem.Should().RaisePropertyChangeFor(x => x.Amount);
             monitoredItem.Should().RaisePropertyChangeFor(x => x.TotalWeight);
@@ -226,9 +226,9 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingAmountToSameAmountWontTriggerNotification()
         {
-            using var monitoredItem = _item.Monitor();
+            using var monitoredItem = this._item.Monitor();
 
-            _item.SetAmount(_item.Amount);
+            this._item.SetAmount(this._item.Amount);
 
             monitoredItem.Should().NotRaisePropertyChangeFor(x => x.Amount);
             monitoredItem.Should().NotRaisePropertyChangeFor(x => x.TotalWeight);
@@ -237,11 +237,11 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingCurrentInventoryToDifferentValueWillNotify()
         {
-            using var monitoredItem = _item.Monitor();
+            using var monitoredItem = this._item.Monitor();
 
             var otherInventory = new Mock<IInventory>();
 
-            _item.SetCurrentInventory(otherInventory.Object);
+            this._item.SetCurrentInventory(otherInventory.Object);
 
             monitoredItem.Should().RaisePropertyChangeFor(x => x.CurrentInventory);
         }
@@ -249,9 +249,9 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ChangingCurrentInventoryToSameValueWontNotify()
         {
-            using var monitoredItem = _item.Monitor();
+            using var monitoredItem = this._item.Monitor();
 
-            _item.SetCurrentInventory(null);
+            this._item.SetCurrentInventory(null);
 
             monitoredItem.Should().NotRaisePropertyChangeFor(x => x.CurrentInventory);
         }
@@ -262,7 +262,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-2)]
         public void ChangingSingleWeightToNegativeAmountThrowsException(int singleWeight)
         {
-            Action act = () => _item.SetSingleWeight(singleWeight);
+            Action act = () => this._item.SetSingleWeight(singleWeight);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("1 or higher"));
@@ -274,9 +274,9 @@ namespace Micky5991.Inventory.Tests
         [DataRow(3)]
         public void ChangingSingleWeightToPositiveAmountRaisesEvent(int singleWeight)
         {
-            using var monitoredItem = _item.Monitor();
+            using var monitoredItem = this._item.Monitor();
 
-            _item.SetSingleWeight(singleWeight);
+            this._item.SetSingleWeight(singleWeight);
 
             monitoredItem.Should().RaisePropertyChangeFor(x => x.SingleWeight);
             monitoredItem.Should().RaisePropertyChangeFor(x => x.TotalWeight);
@@ -285,9 +285,9 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void SettingSingleWeightToOldValueDoesNotRaiseNotification()
         {
-            using var monitoredItem = _item.Monitor();
+            using var monitoredItem = this._item.Monitor();
 
-            _item.SetSingleWeight(_item.SingleWeight);
+            this._item.SetSingleWeight(this._item.SingleWeight);
 
             monitoredItem.Should().NotRaisePropertyChangeFor(x => x.SingleWeight);
             monitoredItem.Should().NotRaisePropertyChangeFor(x => x.TotalWeight);
@@ -296,9 +296,9 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void SettingSingleWeightAboveInventoryCapacityThrowsException()
         {
-            _inventory.InsertItemAsync(_item);
+            this._inventory.InsertItemAsync(this._item);
 
-            Action act = () => _item.SetSingleWeight(_inventory.Capacity + 1);
+            Action act = () => this._item.SetSingleWeight(this._inventory.Capacity + 1);
 
             act.Should().Throw<InventoryCapacityException>();
         }
@@ -308,13 +308,13 @@ namespace Micky5991.Inventory.Tests
         [DataRow(2)]
         public void SettingAmountAboveInventoryCapacityThrowsException(int amountDelta)
         {
-            _inventory.SetCapacity(10);
-            _item.SetSingleWeight(1);
-            _item.SetAmount(1);
+            this._inventory.SetCapacity(10);
+            this._item.SetSingleWeight(1);
+            this._item.SetAmount(1);
 
-            _inventory.InsertItemAsync(_item);
+            this._inventory.InsertItemAsync(this._item);
 
-            Action act = () => _item.SetAmount(10 + amountDelta);
+            Action act = () => this._item.SetAmount(10 + amountDelta);
 
             act.Should().Throw<InventoryCapacityException>();
         }
@@ -322,13 +322,13 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void SettingSingleWeightAboveCapacityWithAmountAboveOneThrowsException()
         {
-            _inventory.SetCapacity(10);
-            _item.SetAmount(10);
-            _item.SetSingleWeight(1);
+            this._inventory.SetCapacity(10);
+            this._item.SetAmount(10);
+            this._item.SetSingleWeight(1);
 
-            _inventory.InsertItemAsync(_item);
+            this._inventory.InsertItemAsync(this._item);
 
-            Action act = () => _item.SetSingleWeight(2);
+            Action act = () => this._item.SetSingleWeight(2);
 
             act.Should().Throw<InventoryCapacityException>();
         }
@@ -339,9 +339,9 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-2)]
         public void SettingSingleWeightToCapacityDoesNotThrowInventoryCapacityException(int capacityDelta)
         {
-            _inventory.InsertItemAsync(_item);
+            this._inventory.InsertItemAsync(this._item);
 
-            Action act = () => _item.SetSingleWeight(_inventory.Capacity + capacityDelta);
+            Action act = () => this._item.SetSingleWeight(this._inventory.Capacity + capacityDelta);
 
             act.Should().NotThrow<InventoryCapacityException>();
         }
@@ -352,9 +352,9 @@ namespace Micky5991.Inventory.Tests
         [DataRow(3)]
         public void SettingSingleWeightUpdatesValue(int singleWeight)
         {
-            _item.SetSingleWeight(singleWeight);
+            this._item.SetSingleWeight(singleWeight);
 
-            _item.SingleWeight.Should().Be(singleWeight);
+            this._item.SingleWeight.Should().Be(singleWeight);
         }
 
         [TestMethod]
@@ -362,7 +362,7 @@ namespace Micky5991.Inventory.Tests
         {
             var meta = new ItemMeta(ItemHandle, typeof(FakeItem), ItemDisplayName, ItemWeight, ItemFlags);
 
-            Action act = () => new RealItem(meta, _itemServices);
+            Action act = () => new RealItem(meta, this._itemServices);
 
             act.Should().Throw<ArgumentException>()
                 .Where(x =>
@@ -374,8 +374,8 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task MergingTwoItemsCanMergeSignalsFalseWillThrowException()
         {
-            var realItem = _itemFactory.CreateItem(_realMeta, 1);
-            var fakeItem = _itemFactory.CreateItem(_fakeMeta, 1);
+            var realItem = this._itemFactory.CreateItem(this._realMeta, 1);
+            var fakeItem = this._itemFactory.CreateItem(this._fakeMeta, 1);
 
             realItem.CanMergeWith(fakeItem).Should().BeFalse();
 
@@ -388,7 +388,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task MergingWithNullThrowsException()
         {
-            Func<Task> act = () => _item.MergeItemAsync(null);
+            Func<Task> act = () => this._item.MergeItemAsync(null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
         }
@@ -396,31 +396,31 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task MergingWithMergableStrategyExecutesCorrectMethod()
         {
-            _itemMergeStrategyHandlerMock = new Mock<IItemMergeStrategyHandler>();
+            this._itemMergeStrategyHandlerMock = new Mock<IItemMergeStrategyHandler>();
 
-            Setup();
+            this.Setup();
 
-            var otherItem = _itemFactory.CreateItem(_realMeta, 1);
+            var otherItem = this._itemFactory.CreateItem(this._realMeta, 1);
 
-            _itemMergeStrategyHandlerMock.Setup(x => x.CanBeMerged(otherItem, _item)).Returns(true);
+            this._itemMergeStrategyHandlerMock.Setup(x => x.CanBeMerged(otherItem, this._item)).Returns(true);
 
-            await otherItem.MergeItemAsync(_item);
+            await otherItem.MergeItemAsync(this._item);
 
-            _itemMergeStrategyHandlerMock.Verify(x => x.MergeItemWithAsync(otherItem, _item), Times.Once);
+            this._itemMergeStrategyHandlerMock.Verify(x => x.MergeItemWithAsync(otherItem, this._item), Times.Once);
         }
 
         [TestMethod]
         public async Task SplittingStrategyExecutesCorrectMethod()
         {
-            _itemSplitStrategyHandlerMock = new Mock<IItemSplitStrategyHandler>();
-            _itemFactoryMock = new Mock<IItemFactory>();
+            this._itemSplitStrategyHandlerMock = new Mock<IItemSplitStrategyHandler>();
+            this._itemFactoryMock = new Mock<IItemFactory>();
 
-            Setup();
+            this.Setup();
 
-            var item = new RealItem(_defaultRealMeta, _itemServices);
-            var factoryResultItem = new RealItem(_defaultRealMeta, _itemServices);
+            var item = new RealItem(this._defaultRealMeta, this._itemServices);
+            var factoryResultItem = new RealItem(this._defaultRealMeta, this._itemServices);
 
-            _itemFactoryMock.Setup(x => x.CreateItem(_realMeta, 2))
+            this._itemFactoryMock.Setup(x => x.CreateItem(this._realMeta, 2))
                 .Returns<ItemMeta, int>((meta, amount) =>
                 {
                     factoryResultItem.SetAmount(amount);
@@ -428,7 +428,7 @@ namespace Micky5991.Inventory.Tests
                     return factoryResultItem;
                 });
 
-            _itemSplitStrategyHandlerMock
+            this._itemSplitStrategyHandlerMock
                 .Setup(x => x.SplitItemAsync(item, It.IsAny<IItem>()))
                 .Returns(Task.CompletedTask);
 
@@ -440,19 +440,19 @@ namespace Micky5991.Inventory.Tests
                 .NotBeNull()
                 .And.Be(factoryResultItem);
 
-            _itemSplitStrategyHandlerMock.Verify(x => x.SplitItemAsync(item, It.IsAny<IItem>()), Times.Once);
+            this._itemSplitStrategyHandlerMock.Verify(x => x.SplitItemAsync(item, It.IsAny<IItem>()), Times.Once);
         }
 
         [TestMethod]
         public async Task SplittingItemReturnsCorrectItem()
         {
-            _item.SetAmount(5);
+            this._item.SetAmount(5);
 
-            var resultItem = await _item.SplitItemAsync(2);
+            var resultItem = await this._item.SplitItemAsync(2);
 
-            _item.Amount.Should().Be(3);
+            this._item.Amount.Should().Be(3);
 
-            resultItem.Should().BeOfType(_item.GetType());
+            resultItem.Should().BeOfType(this._item.GetType());
             resultItem.Amount.Should().Be(2);
         }
 
@@ -461,7 +461,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-1)]
         public async Task SplittingWithNegativeAmountThrowsException(int targetAmount)
         {
-            Func<Task> act = () => _item.SplitItemAsync(targetAmount);
+            Func<Task> act = () => this._item.SplitItemAsync(targetAmount);
 
             (await act.Should().ThrowAsync<ArgumentOutOfRangeException>())
                 .Where(x => x.Message.Contains("1 or higher"));
@@ -473,11 +473,11 @@ namespace Micky5991.Inventory.Tests
         [DataRow(2)]
         public async Task SplittingWithAmountHigherThanItemAmountThrowsException(int amountDelta)
         {
-            Func<Task> act = () => _item.SplitItemAsync(_item.Amount + amountDelta);
+            Func<Task> act = () => this._item.SplitItemAsync(this._item.Amount + amountDelta);
 
             (await act.Should().ThrowAsync<ArgumentOutOfRangeException>())
                 .Where(x =>
-                    x.Message.Contains((_item.Amount - 1).ToString())
+                    x.Message.Contains((this._item.Amount - 1).ToString())
                     && x.Message.Contains("or lower")
                 );
         }
@@ -487,13 +487,13 @@ namespace Micky5991.Inventory.Tests
         [DataRow(false)]
         public void SettingMovingLockedUpdatesMovingLocked(bool newValue)
         {
-            _item.MovingLocked = newValue == false; // set inverted value to force change
+            this._item.MovingLocked = newValue == false; // set inverted value to force change
 
-            using var monitoredItem = _item.Monitor();
+            using var monitoredItem = this._item.Monitor();
 
-            _item.MovingLocked = newValue;
+            this._item.MovingLocked = newValue;
 
-            _item.MovingLocked.Should().Be(newValue);
+            this._item.MovingLocked.Should().Be(newValue);
             monitoredItem.Should().RaisePropertyChangeFor(x => x.MovingLocked);
         }
 
@@ -502,11 +502,11 @@ namespace Micky5991.Inventory.Tests
         [DataRow(false)]
         public void SettingMovingLockedToSameValueDoesNotChangeValue(bool newValue)
         {
-            _item.MovingLocked = newValue;
+            this._item.MovingLocked = newValue;
 
-            using var monitoredItem = _item.Monitor();
+            using var monitoredItem = this._item.Monitor();
 
-            _item.MovingLocked = newValue;
+            this._item.MovingLocked = newValue;
 
             monitoredItem.Should().NotRaisePropertyChangeFor(x => x.MovingLocked);
         }
@@ -516,11 +516,11 @@ namespace Micky5991.Inventory.Tests
         [DataRow(false)]
         public void SettingLockedToSameValueDoesNotChangeValue(bool newValue)
         {
-            _item.Locked = newValue;
+            this._item.Locked = newValue;
 
-            using var monitoredItem = _item.Monitor();
+            using var monitoredItem = this._item.Monitor();
 
-            _item.Locked = newValue;
+            this._item.Locked = newValue;
 
             monitoredItem.Should().NotRaisePropertyChangeFor(x => x.Locked);
         }
@@ -530,15 +530,15 @@ namespace Micky5991.Inventory.Tests
         [DataRow(false)]
         public void SettingLockedUpdatesMovingLockedToo(bool newValue)
         {
-            _item.MovingLocked = false;
-            _item.Locked = newValue == false; // set inverted value to force change
+            this._item.MovingLocked = false;
+            this._item.Locked = newValue == false; // set inverted value to force change
 
-            using var monitoredItem = _item.Monitor();
+            using var monitoredItem = this._item.Monitor();
 
-            _item.Locked = newValue;
+            this._item.Locked = newValue;
 
-            _item.MovingLocked.Should().Be(newValue);
-            _item.Locked.Should().Be(newValue);
+            this._item.MovingLocked.Should().Be(newValue);
+            this._item.Locked.Should().Be(newValue);
 
             monitoredItem.Should().RaisePropertyChangeFor(x => x.MovingLocked);
             monitoredItem.Should().RaisePropertyChangeFor(x => x.Locked);
@@ -549,13 +549,13 @@ namespace Micky5991.Inventory.Tests
         [DataRow(false)]
         public void SetMovingLockedTrueAndChangeLockedKeepsValue(bool newValue)
         {
-            _item.MovingLocked = true;
+            this._item.MovingLocked = true;
 
-            using var monitoredItem = _item.Monitor();
+            using var monitoredItem = this._item.Monitor();
 
-            _item.Locked = newValue;
+            this._item.Locked = newValue;
 
-            _item.MovingLocked.Should().BeTrue();
+            this._item.MovingLocked.Should().BeTrue();
 
             monitoredItem.Should().NotRaisePropertyChangeFor(x => x.MovingLocked);
         }

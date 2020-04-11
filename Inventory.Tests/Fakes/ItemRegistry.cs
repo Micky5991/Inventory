@@ -12,25 +12,25 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         protected override IEnumerable<ItemMeta> LoadItemMeta()
         {
-            LoadedAmount++;
+            this.LoadedAmount++;
 
-            return _itemMetas;
+            return this._itemMetas;
         }
 
         public void AddItemMeta(ItemMeta meta)
         {
-            _itemMetas.Add(meta);
+            this._itemMetas.Add(meta);
         }
 
         public void SetItemMetasNull()
         {
-            _itemMetas = null;
+            this._itemMetas = null;
         }
 
         public ItemMeta CreateItemMetaForward<T>(string itemHandle, string displayName, int defaultWeight = 1,
             ItemFlags flags = ItemFlags.None) where T : IItem
         {
-            return CreateItemMeta<T>(itemHandle, displayName, defaultWeight, flags);
+            return this.CreateItemMeta<T>(itemHandle, displayName, defaultWeight, flags);
         }
     }
 }

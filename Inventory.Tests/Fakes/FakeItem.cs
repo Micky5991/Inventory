@@ -17,7 +17,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public ItemMeta Meta { get; }
 
-        public string DefaultDisplayName => Meta.DisplayName;
+        public string DefaultDisplayName => this.Meta.DisplayName;
 
         public string DisplayName { get; set; }
 
@@ -25,9 +25,9 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public int SingleWeight { get; set; }
 
-        public string Handle => Meta.Handle;
+        public string Handle => this.Meta.Handle;
 
-        public int TotalWeight => Meta.DefaultWeight;
+        public int TotalWeight => this.Meta.DefaultWeight;
 
         public bool Stackable { get; set; } = true;
 
@@ -39,25 +39,25 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public FakeItem(ItemMeta meta)
         {
-            RuntimeId = Guid.NewGuid();
-            Meta = meta;
+            this.RuntimeId = Guid.NewGuid();
+            this.Meta = meta;
 
-            DisplayName = meta.DisplayName;
-            Amount = 1;
-            Stackable = (Meta.Flags & ItemFlags.NotStackable) == 0;
-            SingleWeight = Meta.DefaultWeight;
+            this.DisplayName = meta.DisplayName;
+            this.Amount = 1;
+            this.Stackable = (this.Meta.Flags & ItemFlags.NotStackable) == 0;
+            this.SingleWeight = this.Meta.DefaultWeight;
         }
 
         public FakeItem(int defaultWeight, string handle = "testitem", string displayName = "FakeItem", ItemFlags flags = ItemFlags.None)
         {
-            RuntimeId = Guid.NewGuid();
+            this.RuntimeId = Guid.NewGuid();
 
-            Meta = new ItemMeta(handle, typeof(FakeItem), displayName, defaultWeight, flags);
+            this.Meta = new ItemMeta(handle, typeof(FakeItem), displayName, defaultWeight, flags);
 
-            Stackable = (Meta.Flags & ItemFlags.NotStackable) == 0;
-            DisplayName = Meta.DisplayName;
-            SingleWeight = defaultWeight;
-            Amount = 1;
+            this.Stackable = (this.Meta.Flags & ItemFlags.NotStackable) == 0;
+            this.DisplayName = this.Meta.DisplayName;
+            this.SingleWeight = defaultWeight;
+            this.Amount = 1;
         }
 
         public void Initialize()
@@ -67,17 +67,17 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public void SetCurrentInventory(IInventory inventory)
         {
-            CurrentInventory = inventory;
+            this.CurrentInventory = inventory;
         }
 
         public void SetAmount(int newAmount)
         {
-            Amount = newAmount;
+            this.Amount = newAmount;
         }
 
         public void SetSingleWeight(int weight)
         {
-            SingleWeight = weight;
+            this.SingleWeight = weight;
         }
 
         public void SetDisplayName(string displayName)
@@ -87,7 +87,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 
         public bool CanMergeWith(IItem sourceItem)
         {
-            return IsMergableCheck == null || IsMergableCheck(sourceItem);
+            return this.IsMergableCheck == null || this.IsMergableCheck(sourceItem);
         }
 
         public Task MergeItemAsync(IItem sourceItem)
@@ -105,7 +105,7 @@ namespace Micky5991.Inventory.Tests.Fakes
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

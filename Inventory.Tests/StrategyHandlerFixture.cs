@@ -14,13 +14,13 @@ namespace Micky5991.Inventory.Tests
         [TestInitialize]
         public void Setup()
         {
-            _strategyHandler = new RealStrategyHandler();
+            this._strategyHandler = new RealStrategyHandler();
         }
 
         [TestMethod]
         public void AddingNullToHandlerWillThrowException()
         {
-            Action act = () => _strategyHandler.Add(null);
+            Action act = () => this._strategyHandler.Add(null);
 
             act.Should().Throw<ArgumentNullException>();
         }

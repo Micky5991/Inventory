@@ -23,38 +23,38 @@ namespace Micky5991.Inventory.Tests
         [TestInitialize]
         public void Setup()
         {
-            _strategyHandler = new ItemSplitStrategyHandler();
-            _splitStrategies = new List<Mock<IItemSplitStrategy>>
+            this._strategyHandler = new ItemSplitStrategyHandler();
+            this._splitStrategies = new List<Mock<IItemSplitStrategy>>
             {
                 new Mock<IItemSplitStrategy>(),
                 new Mock<IItemSplitStrategy>(),
                 new Mock<IItemSplitStrategy>()
             };
 
-            foreach (var splitStrategy in _splitStrategies)
+            foreach (var splitStrategy in this._splitStrategies)
             {
-                _strategyHandler.Add(splitStrategy.Object);
+                this._strategyHandler.Add(splitStrategy.Object);
             }
 
-            _oldItem = new Mock<IItem>();
-            _newItem = new Mock<IItem>();
+            this._oldItem = new Mock<IItem>();
+            this._newItem = new Mock<IItem>();
         }
 
         [TestMethod]
         public async Task ExecutingSplittingStrategyWillCallEveryStrategy()
         {
-            await _strategyHandler.SplitItemAsync(_oldItem.Object, _newItem.Object);
+            await this._strategyHandler.SplitItemAsync(this._oldItem.Object, this._newItem.Object);
 
-            foreach (var splitStrategy in _splitStrategies)
+            foreach (var splitStrategy in this._splitStrategies)
             {
-                splitStrategy.Verify(x => x.SplitItemAsync(_oldItem.Object, _newItem.Object), Times.Once);
+                splitStrategy.Verify(x => x.SplitItemAsync(this._oldItem.Object, this._newItem.Object), Times.Once);
             }
         }
 
         [TestMethod]
         public async Task ExecutingStrategyWithNullOldItemWillThrowException()
         {
-            Func<Task> act = () => _strategyHandler.SplitItemAsync(null, _newItem.Object);
+            Func<Task> act = () => this._strategyHandler.SplitItemAsync(null, this._newItem.Object);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
         }
@@ -62,7 +62,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task ExecutingStrategyWithNullNewItemWillThrowException()
         {
-            Func<Task> act = () => _strategyHandler.SplitItemAsync(_oldItem.Object, null);
+            Func<Task> act = () => this._strategyHandler.SplitItemAsync(this._oldItem.Object, null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
         }

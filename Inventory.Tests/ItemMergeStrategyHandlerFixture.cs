@@ -22,27 +22,27 @@ namespace Micky5991.Inventory.Tests
         [TestInitialize]
         public void Setup()
         {
-            _strategyHandler = new ItemMergeStrategyHandler();
-            _mergeStrategies = new List<Mock<IItemMergeStrategy>>
+            this._strategyHandler = new ItemMergeStrategyHandler();
+            this._mergeStrategies = new List<Mock<IItemMergeStrategy>>
             {
                 new Mock<IItemMergeStrategy>(),
                 new Mock<IItemMergeStrategy>(),
                 new Mock<IItemMergeStrategy>()
             };
 
-            foreach (var mergeStrategy in _mergeStrategies)
+            foreach (var mergeStrategy in this._mergeStrategies)
             {
-                _strategyHandler.Add(mergeStrategy.Object);
+                this._strategyHandler.Add(mergeStrategy.Object);
             }
 
-            _sourceItem = new Mock<IItem>();
-            _targetItem = new Mock<IItem>();
+            this._sourceItem = new Mock<IItem>();
+            this._targetItem = new Mock<IItem>();
         }
 
         [TestMethod]
         public void CanBeMergedWithTargetNullThrowsException()
         {
-            Action act = () => _strategyHandler.CanBeMerged(null, _sourceItem.Object);
+            Action act = () => this._strategyHandler.CanBeMerged(null, this._sourceItem.Object);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -50,7 +50,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CanBeMergedWithSourceNullThrowsException()
         {
-            Action act = () => _strategyHandler.CanBeMerged(_targetItem.Object, null);
+            Action act = () => this._strategyHandler.CanBeMerged(this._targetItem.Object, null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -58,7 +58,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void MergeWithAsyncWithTargetNullThrowsException()
         {
-            Func<Task> act = () => _strategyHandler.MergeItemWithAsync(null, _sourceItem.Object);
+            Func<Task> act = () => this._strategyHandler.MergeItemWithAsync(null, this._sourceItem.Object);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -66,7 +66,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void MergeWithAsyncWithSourceNullThrowsException()
         {
-            Func<Task> act = () => _strategyHandler.MergeItemWithAsync(_targetItem.Object, null);
+            Func<Task> act = () => this._strategyHandler.MergeItemWithAsync(this._targetItem.Object, null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -74,25 +74,25 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void HandlerImplementsStrategyHandlerBase()
         {
-            _strategyHandler.Should().BeAssignableTo<StrategyHandler<IItemMergeStrategy>>();
+            this._strategyHandler.Should().BeAssignableTo<StrategyHandler<IItemMergeStrategy>>();
         }
 
         [TestMethod]
         public void CanBeMergedWillCallAllStrategies()
         {
-            foreach (var strategy in _mergeStrategies)
+            foreach (var strategy in this._mergeStrategies)
             {
                 strategy
-                    .Setup(x => x.CanBeMerged(_targetItem.Object, _sourceItem.Object))
+                    .Setup(x => x.CanBeMerged(this._targetItem.Object, this._sourceItem.Object))
                     .Returns(true);
             }
 
-            _strategyHandler.CanBeMerged(_targetItem.Object, _sourceItem.Object);
+            this._strategyHandler.CanBeMerged(this._targetItem.Object, this._sourceItem.Object);
 
-            foreach (var strategy in _mergeStrategies)
+            foreach (var strategy in this._mergeStrategies)
             {
                 strategy
-                    .Verify(x => x.CanBeMerged(_targetItem.Object, _sourceItem.Object), Times.Once);
+                    .Verify(x => x.CanBeMerged(this._targetItem.Object, this._sourceItem.Object), Times.Once);
             }
         }
 
@@ -101,15 +101,15 @@ namespace Micky5991.Inventory.Tests
         {
             const int firstFalseStrategy = 2;
 
-            for (var i = 0; i < _mergeStrategies.Count; i++)
+            for (var i = 0; i < this._mergeStrategies.Count; i++)
             {
-                _mergeStrategies[i].Setup(x => x.CanBeMerged(_targetItem.Object, _sourceItem.Object))
+                this._mergeStrategies[i].Setup(x => x.CanBeMerged(this._targetItem.Object, this._sourceItem.Object))
                     .Returns(i < firstFalseStrategy);
             }
 
-            _strategyHandler.CanBeMerged(_targetItem.Object, _sourceItem.Object);
+            this._strategyHandler.CanBeMerged(this._targetItem.Object, this._sourceItem.Object);
 
-            for (var i = 0; i < _mergeStrategies.Count; i++)
+            for (var i = 0; i < this._mergeStrategies.Count; i++)
             {
                 var times = Times.Once();
 
@@ -118,27 +118,27 @@ namespace Micky5991.Inventory.Tests
                     times = Times.Never();
                 }
 
-                _mergeStrategies[i]
-                    .Verify(x => x.CanBeMerged(_targetItem.Object, _sourceItem.Object), times);
+                this._mergeStrategies[i]
+                    .Verify(x => x.CanBeMerged(this._targetItem.Object, this._sourceItem.Object), times);
             }
         }
 
         [TestMethod]
         public async Task ExecutingMergeStrategyExecutesAllStrategies()
         {
-            for (var i = 0; i < _mergeStrategies.Count; i++)
+            for (var i = 0; i < this._mergeStrategies.Count; i++)
             {
-                _mergeStrategies[i]
-                    .Setup(x => x.MergeItemWithAsync(_targetItem.Object, _sourceItem.Object))
+                this._mergeStrategies[i]
+                    .Setup(x => x.MergeItemWithAsync(this._targetItem.Object, this._sourceItem.Object))
                     .Returns(Task.CompletedTask);
             }
 
-            await _strategyHandler.MergeItemWithAsync(_targetItem.Object, _sourceItem.Object);
+            await this._strategyHandler.MergeItemWithAsync(this._targetItem.Object, this._sourceItem.Object);
 
-            for (var i = 0; i < _mergeStrategies.Count; i++)
+            for (var i = 0; i < this._mergeStrategies.Count; i++)
             {
-                _mergeStrategies[i]
-                    .Verify(x => x.MergeItemWithAsync(_targetItem.Object, _sourceItem.Object), Times.Once);
+                this._mergeStrategies[i]
+                    .Verify(x => x.MergeItemWithAsync(this._targetItem.Object, this._sourceItem.Object), Times.Once);
             }
         }
     }
