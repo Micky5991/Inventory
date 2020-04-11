@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Interfaces.Strategy;
@@ -58,7 +57,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void MergeWithAsyncWithTargetNullThrowsException()
         {
-            Func<Task> act = () => this.strategyHandler.MergeItemWithAsync(null, this.sourceItem.Object);
+            Action act = () => this.strategyHandler.MergeItemWith(null, this.sourceItem.Object);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -66,7 +65,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void MergeWithAsyncWithSourceNullThrowsException()
         {
-            Func<Task> act = () => this.strategyHandler.MergeItemWithAsync(this.targetItem.Object, null);
+            Action act = () => this.strategyHandler.MergeItemWith(this.targetItem.Object, null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -124,21 +123,20 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        public async Task ExecutingMergeStrategyExecutesAllStrategies()
+        public void ExecutingMergeStrategyExecutesAllStrategies()
         {
             for (var i = 0; i < this.mergeStrategies.Count; i++)
             {
                 this.mergeStrategies[i]
-                    .Setup(x => x.MergeItemWithAsync(this.targetItem.Object, this.sourceItem.Object))
-                    .Returns(Task.CompletedTask);
+                    .Setup(x => x.MergeItemWith(this.targetItem.Object, this.sourceItem.Object));
             }
 
-            await this.strategyHandler.MergeItemWithAsync(this.targetItem.Object, this.sourceItem.Object);
+            this.strategyHandler.MergeItemWith(this.targetItem.Object, this.sourceItem.Object);
 
             for (var i = 0; i < this.mergeStrategies.Count; i++)
             {
                 this.mergeStrategies[i]
-                    .Verify(x => x.MergeItemWithAsync(this.targetItem.Object, this.sourceItem.Object), Times.Once);
+                    .Verify(x => x.MergeItemWith(this.targetItem.Object, this.sourceItem.Object), Times.Once);
             }
         }
     }

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Inventory.Example.Extensions;
 using Micky5991.Inventory.Interfaces;
 
@@ -19,22 +18,22 @@ namespace Inventory.Example.Services
             _itemFactory = itemFactory;
         }
 
-        public async Task SetupInventoryAsync()
+        public void SetupInventory()
         {
             _inventory = _inventoryFactory.CreateInventory(10);
 
-            await FillInventoryAsync();
+            this.FillInventory();
         }
 
-        private async Task FillInventoryAsync()
+        private void FillInventory()
         {
             Console.WriteLine("--> Add 1 apple and 3 water to inventory, expect 1 apple and 3 water");
 
             var apple = _itemFactory.CreateItem(ItemHandle.Apple, 1);
             var water = _itemFactory.CreateItem(ItemHandle.Water, 3);
 
-            await _inventory.InsertItemAsync(apple);
-            await _inventory.InsertItemAsync(water);
+            _inventory.InsertItem(apple);
+            _inventory.InsertItem(water);
 
             foreach (var item in _inventory.Items)
             {
@@ -45,7 +44,7 @@ namespace Inventory.Example.Services
 
             var additionalWater = _itemFactory.CreateItem(ItemHandle.Water, 2);
 
-            await _inventory.InsertItemAsync(additionalWater);
+            _inventory.InsertItem(additionalWater);
 
             foreach (var item in _inventory.Items)
             {
@@ -55,7 +54,7 @@ namespace Inventory.Example.Services
             Console.WriteLine("Take 2 Water from inventory and print seperate");
 
             var currentWater = _inventory.GetItems(ItemHandle.Water).First();
-            var splitWater = await currentWater.SplitItemAsync(2);
+            var splitWater = currentWater.SplitItem(2);
 
             Console.WriteLine("[INVENTORY]");
             foreach (var item in _inventory.Items)

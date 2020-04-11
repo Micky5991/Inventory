@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -28,9 +27,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task SettingCapacityBelowUsedCapacityWillReturnFalse()
+        public void SettingCapacityBelowUsedCapacityWillReturnFalse()
         {
-            await this.AddItemToInventoryAsync(50);
+            this.AddItemToInventory(50);
 
             this.Inventory.SetCapacity(51).Should().BeTrue();
             this.Inventory.SetCapacity(50).Should().BeTrue();
@@ -51,9 +50,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task ChangingCapacityBelowUsedCapacityWillKeepValueSame()
+        public void ChangingCapacityBelowUsedCapacityWillKeepValueSame()
         {
-            await this.AddItemToInventoryAsync(50);
+            this.AddItemToInventory(50);
 
             var oldCapacity = this.Inventory.Capacity;
 
@@ -62,9 +61,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task ChangingCapacityWillKeepUsedCapacitySame()
+        public void ChangingCapacityWillKeepUsedCapacitySame()
         {
-            await this.AddItemToInventoryAsync(50);
+            this.AddItemToInventory(50);
 
             var oldUsedCapacity = this.Inventory.UsedCapacity;
 
@@ -74,11 +73,11 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task ChangingAmountOfItemChangesUsedCapacityOfInventory()
+        public void ChangingAmountOfItemChangesUsedCapacityOfInventory()
         {
             var item = this.ItemFactory.CreateItem(this.RealMeta, 1);
 
-            await this.Inventory.InsertItemAsync(item);
+            this.Inventory.InsertItem(item);
 
             this.Inventory.UsedCapacity.Should().Be(this.RealMeta.DefaultWeight);
 

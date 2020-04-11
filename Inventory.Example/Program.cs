@@ -10,11 +10,11 @@ namespace Inventory.Example
     {
         private readonly ServiceProvider _serviceProvider;
 
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             var program = new Program();
 
-            await program.RunInventoryAsync();
+            program.RunInventory();
         }
 
         public Program()
@@ -36,11 +36,11 @@ namespace Inventory.Example
             return serviceCollection.BuildServiceProvider();
         }
 
-        private async Task RunInventoryAsync()
+        private void RunInventory()
         {
             var inventoryBuilder = _serviceProvider.GetService<InventoryBuilderService>();
 
-            await inventoryBuilder.SetupInventoryAsync();
+            inventoryBuilder.SetupInventory();
         }
     }
 }

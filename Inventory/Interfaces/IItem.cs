@@ -153,7 +153,7 @@ namespace Micky5991.Inventory.Interfaces
         /// <summary>
         /// Determines if the current item can be merged with the <paramref name="sourceItem"/>.
         /// </summary>
-        /// <seealso cref="MergeItemAsync"/>
+        /// <seealso cref="MergeItem"/>
         /// <param name="sourceItem">Item to check if merging would work with the current item.</param>
         /// <returns>true if the merge process would succeed and is different from the current instance, false otherwise.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="sourceItem"/> is null.</exception>
@@ -168,8 +168,7 @@ namespace Micky5991.Inventory.Interfaces
         /// <param name="sourceItem">Item to merge into this.</param>
         /// <exception cref="ArgumentNullException"><paramref name="sourceItem"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="sourceItem"/> is already this instance, <paramref name="sourceItem"/> is not mergable with this item.</exception>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task MergeItemAsync([NotNull] IItem sourceItem);
+        void MergeItem([NotNull] IItem sourceItem);
 
         /// <summary>
         /// Splits the current item into two items and returns the created one.
@@ -180,6 +179,6 @@ namespace Micky5991.Inventory.Interfaces
         /// <param name="targetAmount">Amount of created item.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="targetAmount"/> is 0 or lower or equal or higher than <see cref="Amount"/>.</exception>
         /// <returns>Newly created item.</returns>
-        Task<IItem> SplitItemAsync(int targetAmount);
+        IItem SplitItem(int targetAmount);
     }
 }

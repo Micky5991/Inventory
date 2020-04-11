@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
@@ -13,7 +12,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
     {
 
         [TestMethod]
-        public async Task InsertingMergableItemChecksAllItemsForMergability()
+        public void InsertingMergableItemChecksAllItemsForMergability()
         {
             var insertedItemA = new FakeItem(10, "item");
             var insertedItemB = new FakeItem(10, "item");
@@ -34,20 +33,20 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
                 return false;
             };
 
-            await this.Inventory.InsertItemAsync(insertedItemA);
-            await this.Inventory.InsertItemAsync(insertedItemB);
+            this.Inventory.InsertItem(insertedItemA);
+            this.Inventory.InsertItem(insertedItemB);
 
             mergableCheckAmount[0] = 0;
             mergableCheckAmount[1] = 0;
 
-            await this.Inventory.InsertItemAsync(new FakeItem(5));
+            this.Inventory.InsertItem(new FakeItem(5));
 
             mergableCheckAmount[0].Should().Be(1);
             mergableCheckAmount[1].Should().Be(1);
         }
 
         [TestMethod]
-        public async Task InsertingMergableItemMergesOneItemWithMergability()
+        public void InsertingMergableItemMergesOneItemWithMergability()
         {
             var insertedItemA = this.CreateMockItem();
             var insertedItemB = this.CreateMockItem();
@@ -57,13 +56,13 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
             insertedItemA.Setup(x => x.CanMergeWith(additionalItem.Object)).Returns(true);
             insertedItemB.Setup(x => x.CanMergeWith(additionalItem.Object)).Returns(false);
 
-            await this.Inventory.InsertItemAsync(insertedItemA.Object);
-            await this.Inventory.InsertItemAsync(insertedItemB.Object);
+            this.Inventory.InsertItem(insertedItemA.Object);
+            this.Inventory.InsertItem(insertedItemB.Object);
 
-            var result = await this.Inventory.InsertItemAsync(additionalItem.Object);
+            var result = this.Inventory.InsertItem(additionalItem.Object);
 
             result.Should().BeTrue();
-            insertedItemA.Verify(x => x.MergeItemAsync(additionalItem.Object), Times.Once);
+            insertedItemA.Verify(x => x.MergeItem(additionalItem.Object), Times.Once);
         }
 
         private Mock<IItem> CreateMockItem(string handle = "item", int weight = 1)

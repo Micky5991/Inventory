@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Interfaces.Strategy;
@@ -41,30 +40,30 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        public async Task ExecutingSplittingStrategyWillCallEveryStrategy()
+        public void ExecutingSplittingStrategyWillCallEveryStrategy()
         {
-            await this.strategyHandler.SplitItemAsync(this.oldItem.Object, this.newItem.Object);
+            this.strategyHandler.SplitItem(this.oldItem.Object, this.newItem.Object);
 
             foreach (var splitStrategy in this.splitStrategies)
             {
-                splitStrategy.Verify(x => x.SplitItemAsync(this.oldItem.Object, this.newItem.Object), Times.Once);
+                splitStrategy.Verify(x => x.SplitItem(this.oldItem.Object, this.newItem.Object), Times.Once);
             }
         }
 
         [TestMethod]
-        public async Task ExecutingStrategyWithNullOldItemWillThrowException()
+        public void ExecutingStrategyWithNullOldItemWillThrowException()
         {
-            Func<Task> act = () => this.strategyHandler.SplitItemAsync(null, this.newItem.Object);
+            Action act = () => this.strategyHandler.SplitItem(null, this.newItem.Object);
 
-            await act.Should().ThrowAsync<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [TestMethod]
-        public async Task ExecutingStrategyWithNullNewItemWillThrowException()
+        public void ExecutingStrategyWithNullNewItemWillThrowException()
         {
-            Func<Task> act = () => this.strategyHandler.SplitItemAsync(this.oldItem.Object, null);
+            Action act = () => this.strategyHandler.SplitItem(this.oldItem.Object, null);
 
-            await act.Should().ThrowAsync<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
     }
 }

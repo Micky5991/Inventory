@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.EventArgs;
@@ -167,7 +166,7 @@ namespace Micky5991.Inventory.Entities.Item
         }
 
         /// <inheritdoc />
-        public async Task MergeItemAsync(IItem sourceItem)
+        public void MergeItem(IItem sourceItem)
         {
             if (sourceItem == null)
             {
@@ -179,12 +178,11 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentException("The item cannot be merged with this instance", nameof(sourceItem));
             }
 
-            await this.itemMergeStrategyHandler.MergeItemWithAsync(this, sourceItem)
-                      .ConfigureAwait(false);
+            this.itemMergeStrategyHandler.MergeItemWith(this, sourceItem);
         }
 
         /// <inheritdoc />
-        public async Task<IItem> SplitItemAsync(int targetAmount)
+        public IItem SplitItem(int targetAmount)
         {
             if (targetAmount <= 0)
             {
@@ -200,8 +198,7 @@ namespace Micky5991.Inventory.Entities.Item
 
             this.SetAmount(this.Amount - targetAmount);
 
-            await this.itemSplitStrategyHandler.SplitItemAsync(this, item)
-                      .ConfigureAwait(false);
+            this.itemSplitStrategyHandler.SplitItem(this, item);
 
             return item;
         }

@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace Micky5991.Inventory.Interfaces.Strategy
 {
     /// <summary>
@@ -12,7 +10,6 @@ namespace Micky5991.Inventory.Interfaces.Strategy
         /// </summary>
         /// <param name="oldItem">Instance of <see cref="IItem"/> to extract the data from.</param>
         /// <param name="newItem">Instance of <see cref="IItem"/> to apply the splitted data to.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task SplitItemAsync(IItem oldItem, IItem newItem);
+        void SplitItem(IItem oldItem, IItem newItem);
     }
 }

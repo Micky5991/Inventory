@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Strategies;
@@ -51,19 +50,19 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        public async Task PassingNullAsTargetInMergingWillThrowArgumentNullException()
+        public void PassingNullAsTargetInMergingWillThrowArgumentNullException()
         {
-            Func<Task> act = () => this.strategy.MergeItemWithAsync(null, this.sourceItem.Object);
+            Action act = () => this.strategy.MergeItemWith(null, this.sourceItem.Object);
 
-            await act.Should().ThrowAsync<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [TestMethod]
-        public async Task PassingNullAsSourceInMergingWillThrowArgumentNullException()
+        public void PassingNullAsSourceInMergingWillThrowArgumentNullException()
         {
-            Func<Task> act = () => this.strategy.MergeItemWithAsync(this.targetItem.Object, null);
+            Action act = () => this.strategy.MergeItemWith(this.targetItem.Object, null);
 
-            await act.Should().ThrowAsync<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [TestMethod]
@@ -126,7 +125,7 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        public async Task MergingItemExecutesAmountSumAndAmountClearOnSource()
+        public void MergingItemExecutesAmountSumAndAmountClearOnSource()
         {
             this.targetItem.SetupGet(x => x.Amount).Returns(1);
             this.sourceItem.SetupGet(x => x.Amount).Returns(2);
@@ -134,7 +133,7 @@ namespace Micky5991.Inventory.Tests
             this.targetItem.Setup(x => x.SetAmount(1 + 2));
             this.sourceItem.Setup(x => x.SetAmount(0));
 
-            await this.strategy.MergeItemWithAsync(this.targetItem.Object, this.sourceItem.Object);
+            this.strategy.MergeItemWith(this.targetItem.Object, this.sourceItem.Object);
 
             this.targetItem.VerifyGet(x => x.Amount, Times.Once);
             this.sourceItem.VerifyGet(x => x.Amount, Times.Once);
