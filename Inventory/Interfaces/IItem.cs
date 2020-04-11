@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Micky5991.Inventory.EventArgs;
 using Micky5991.Inventory.Interfaces.Strategy;
 
 namespace Micky5991.Inventory.Interfaces
@@ -12,6 +13,11 @@ namespace Micky5991.Inventory.Interfaces
     [PublicAPI]
     public interface IItem : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Triggers when the item has been initialized.
+        /// </summary>
+        event EventHandler<ItemInitializedEventArgs>? Initialized;
+
         /// <summary>
         /// Gets an unique handle that identifies the items meta definition.
         /// </summary>
