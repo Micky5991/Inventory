@@ -75,6 +75,16 @@ namespace Micky5991.Inventory.Tests.Fakes
             this.Amount = newAmount;
         }
 
+        public void IncreaseAmount(int amountIncrease)
+        {
+            this.Amount += amountIncrease;
+        }
+
+        public void ReduceAmount(int amountReduce)
+        {
+            this.Amount -= amountReduce;
+        }
+
         public void SetSingleWeight(int weight)
         {
             this.SingleWeight = weight;

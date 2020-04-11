@@ -99,6 +99,33 @@ namespace Micky5991.Inventory.Entities.Item
         }
 
         /// <inheritdoc />
+        public void IncreaseAmount(int amountIncrease)
+        {
+            if (amountIncrease <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amountIncrease), "Value has to be 1 or higher");
+            }
+
+            this.SetAmount(this.Amount + amountIncrease);
+        }
+
+        /// <inheritdoc />
+        public void ReduceAmount(int amountReduce)
+        {
+            if (amountReduce > this.Amount)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amountReduce), $"Value has to be lower or equal than {this.Amount}");
+            }
+
+            if (amountReduce <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amountReduce), $"Value has to be 1 or higher.");
+            }
+
+            this.SetAmount(this.Amount - amountReduce);
+        }
+
+        /// <inheritdoc />
         public void SetSingleWeight(int weight)
         {
             if (weight <= 0)
