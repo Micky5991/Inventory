@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Micky5991.Inventory.EventArgs;
 using Micky5991.Inventory.Exceptions;
