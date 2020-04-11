@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using FluentAssertions;
+using Micky5991.Inventory.Entities.Factories;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
