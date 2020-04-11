@@ -20,24 +20,24 @@ namespace Micky5991.Inventory.Tests
         [TestInitialize]
         public void Setup()
         {
-            _strategy = new BasicItemMergeStrategy();
+            this._strategy = new BasicItemMergeStrategy();
 
-            _targetItem = new Mock<IItem>();
-            _sourceItem = new Mock<IItem>();
+            this._targetItem = new Mock<IItem>();
+            this._sourceItem = new Mock<IItem>();
 
-            SetupItemTest();
+            this.SetupItemTest();
         }
 
         [TestCleanup]
         public void Teardown()
         {
-            TearDownItemTest();
+            this.TearDownItemTest();
         }
 
         [TestMethod]
         public void PassingNullAsTargetInMergableCheckWillThrowArgumentNullException()
         {
-            Action act = () => _strategy.CanBeMerged(null, _sourceItem.Object);
+            Action act = () => this._strategy.CanBeMerged(null, this._sourceItem.Object);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -45,7 +45,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void PassingNullAsSourceInMergableCheckWillThrowArgumentNullException()
         {
-            Action act = () => _strategy.CanBeMerged(_targetItem.Object, null);
+            Action act = () => this._strategy.CanBeMerged(this._targetItem.Object, null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -53,7 +53,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task PassingNullAsTargetInMergingWillThrowArgumentNullException()
         {
-            Func<Task> act = () => _strategy.MergeItemWithAsync(null, _sourceItem.Object);
+            Func<Task> act = () => this._strategy.MergeItemWithAsync(null, this._sourceItem.Object);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
         }
@@ -61,7 +61,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task PassingNullAsSourceInMergingWillThrowArgumentNullException()
         {
-            Func<Task> act = () => _strategy.MergeItemWithAsync(_targetItem.Object, null);
+            Func<Task> act = () => this._strategy.MergeItemWithAsync(this._targetItem.Object, null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
         }
@@ -72,19 +72,19 @@ namespace Micky5991.Inventory.Tests
         [DataRow(false, false)]
         public void TwoNonStackableItemAreNotMergable(bool targetStackable, bool sourceStackable)
         {
-            SetupMock(_targetItem, targetStackable, "item", 1, 1);
-            SetupMock(_sourceItem, sourceStackable, "item", 1, 1);
+            this.SetupMock(this._targetItem, targetStackable, "item", 1, 1);
+            this.SetupMock(this._sourceItem, sourceStackable, "item", 1, 1);
 
-            _strategy.CanBeMerged(_targetItem.Object, _sourceItem.Object).Should().BeFalse();
+            this._strategy.CanBeMerged(this._targetItem.Object, this._sourceItem.Object).Should().BeFalse();
         }
 
         [TestMethod]
         public void TwoIdenticalStackableItemAreMergable()
         {
-            SetupMock(_targetItem, true, "item", 1, 1);
-            SetupMock(_sourceItem, true, "item", 1, 1);
+            this.SetupMock(this._targetItem, true, "item", 1, 1);
+            this.SetupMock(this._sourceItem, true, "item", 1, 1);
 
-            _strategy.CanBeMerged(_targetItem.Object, _sourceItem.Object).Should().BeTrue();
+            this._strategy.CanBeMerged(this._targetItem.Object, this._sourceItem.Object).Should().BeTrue();
         }
 
         [TestMethod]
@@ -93,54 +93,54 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-2)]
         public void SourceItemWithZeroAmountIsNotMergable(int sourceAmount)
         {
-            SetupMock(_targetItem, true, "item", 1, 1);
-            SetupMock(_sourceItem, true, "item", sourceAmount, 1);
+            this.SetupMock(this._targetItem, true, "item", 1, 1);
+            this.SetupMock(this._sourceItem, true, "item", sourceAmount, 1);
 
-            _strategy.CanBeMerged(_targetItem.Object, _sourceItem.Object).Should().BeFalse();
+            this._strategy.CanBeMerged(this._targetItem.Object, this._sourceItem.Object).Should().BeFalse();
         }
 
         [TestMethod]
         public void StackableItemsWithDifferentHandlesAreNotMergable()
         {
-            SetupMock(_targetItem, true, "item1", 1, 1);
-            SetupMock(_sourceItem, true, "item2", 1, 1);
+            this.SetupMock(this._targetItem, true, "item1", 1, 1);
+            this.SetupMock(this._sourceItem, true, "item2", 1, 1);
 
-            _strategy.CanBeMerged(_targetItem.Object, _sourceItem.Object).Should().BeFalse();
+            this._strategy.CanBeMerged(this._targetItem.Object, this._sourceItem.Object).Should().BeFalse();
         }
 
         [TestMethod]
         public void DifferentSingleWeightWillPreventMerging()
         {
-            SetupMock(_targetItem, true, "item", 1, 1);
-            SetupMock(_sourceItem, true, "item", 1, 2);
+            this.SetupMock(this._targetItem, true, "item", 1, 1);
+            this.SetupMock(this._sourceItem, true, "item", 1, 2);
 
-            _strategy.CanBeMerged(_targetItem.Object, _sourceItem.Object).Should().BeFalse();
+            this._strategy.CanBeMerged(this._targetItem.Object, this._sourceItem.Object).Should().BeFalse();
         }
 
         [TestMethod]
         public void SameItemIsNotMergable()
         {
-            SetupMock(_targetItem, true, "item", 1, 1);
+            this.SetupMock(this._targetItem, true, "item", 1, 1);
 
-            _strategy.CanBeMerged(_targetItem.Object, _targetItem.Object).Should().BeFalse();
+            this._strategy.CanBeMerged(this._targetItem.Object, this._targetItem.Object).Should().BeFalse();
         }
 
         [TestMethod]
         public async Task MergingItemExecutesAmountSumAndAmountClearOnSource()
         {
-            _targetItem.SetupGet(x => x.Amount).Returns(1);
-            _sourceItem.SetupGet(x => x.Amount).Returns(2);
+            this._targetItem.SetupGet(x => x.Amount).Returns(1);
+            this._sourceItem.SetupGet(x => x.Amount).Returns(2);
 
-            _targetItem.Setup(x => x.SetAmount(1 + 2));
-            _sourceItem.Setup(x => x.SetAmount(0));
+            this._targetItem.Setup(x => x.SetAmount(1 + 2));
+            this._sourceItem.Setup(x => x.SetAmount(0));
 
-            await _strategy.MergeItemWithAsync(_targetItem.Object, _sourceItem.Object);
+            await this._strategy.MergeItemWithAsync(this._targetItem.Object, this._sourceItem.Object);
 
-            _targetItem.VerifyGet(x => x.Amount, Times.Once);
-            _sourceItem.VerifyGet(x => x.Amount, Times.Once);
+            this._targetItem.VerifyGet(x => x.Amount, Times.Once);
+            this._sourceItem.VerifyGet(x => x.Amount, Times.Once);
 
-            _targetItem.Verify(x => x.SetAmount(1 + 2), Times.Once);
-            _sourceItem.Verify(x => x.SetAmount(0), Times.Once);
+            this._targetItem.Verify(x => x.SetAmount(1 + 2), Times.Once);
+            this._sourceItem.Verify(x => x.SetAmount(0), Times.Once);
         }
 
         private void SetupMock(Mock<IItem> mock, bool stackable = true, string handle = "item", int amount = 1,

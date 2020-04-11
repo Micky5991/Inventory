@@ -29,21 +29,21 @@ namespace Micky5991.Inventory.Tests
         [TestInitialize]
         public void Setup()
         {
-            _serviceProviderMock = new Mock<IServiceProvider>();
+            this._serviceProviderMock = new Mock<IServiceProvider>();
 
-            _itemRegistry = new ItemRegistry();
+            this._itemRegistry = new ItemRegistry();
 
-            _defaultMeta = InventoryUtils.CreateItemMeta(DefaultItemHandle, typeof(FakeItem), "Fake Item");
-            _nonStackableDefaultMeta = InventoryUtils.CreateItemMeta(DefaultNonStackableItemHandle, typeof(FakeItem), "Fake Item", flags: ItemFlags.NotStackable);
+            this._defaultMeta = InventoryUtils.CreateItemMeta(DefaultItemHandle, typeof(FakeItem), "Fake Item");
+            this._nonStackableDefaultMeta = InventoryUtils.CreateItemMeta(DefaultNonStackableItemHandle, typeof(FakeItem), "Fake Item", flags: ItemFlags.NotStackable);
 
-            _itemRegistry.AddItemMeta(_defaultMeta);
-            _itemRegistry.AddItemMeta(_nonStackableDefaultMeta);
+            this._itemRegistry.AddItemMeta(this._defaultMeta);
+            this._itemRegistry.AddItemMeta(this._nonStackableDefaultMeta);
 
-            _itemRegistry.ValidateAndCacheItemMeta();
+            this._itemRegistry.ValidateAndCacheItemMeta();
 
-            AddItemResolveToServiceProvider<FakeItem>();
+            this.AddItemResolveToServiceProvider<FakeItem>();
 
-            _itemFactory = new ItemFactory(_itemRegistry, _serviceProviderMock.Object);
+            this._itemFactory = new ItemFactory(this._itemRegistry, this._serviceProviderMock.Object);
         }
 
         [TestMethod]
@@ -51,12 +51,12 @@ namespace Micky5991.Inventory.Tests
         [DataRow(2)]
         public void CreatingItemFromHandleWillCreateRightItem(int itemAmount)
         {
-            var item = _itemFactory.CreateItem(DefaultItemHandle, itemAmount);
+            var item = this._itemFactory.CreateItem(DefaultItemHandle, itemAmount);
 
             item.Should().NotBeNull();
             item.Should().BeOfType<FakeItem>();
 
-            item.Meta.Should().Be(_defaultMeta);
+            item.Meta.Should().Be(this._defaultMeta);
             item.Amount.Should().Be(itemAmount);
         }
 
@@ -65,12 +65,12 @@ namespace Micky5991.Inventory.Tests
         [DataRow(2)]
         public void CreatingItemFromMetaWillCreateRightItem(int itemAmount)
         {
-            var item = _itemFactory.CreateItem(_defaultMeta, itemAmount);
+            var item = this._itemFactory.CreateItem(this._defaultMeta, itemAmount);
 
             item.Should().NotBeNull();
             item.Should().BeOfType<FakeItem>();
 
-            item.Meta.Should().Be(_defaultMeta);
+            item.Meta.Should().Be(this._defaultMeta);
             item.Amount.Should().Be(itemAmount);
         }
 
@@ -81,7 +81,7 @@ namespace Micky5991.Inventory.Tests
         {
             var meta = InventoryUtils.CreateItemMeta(flags: ItemFlags.NotStackable);
 
-            Action act = () => _itemFactory.CreateItem(meta, itemAmount);
+            Action act = () => this._itemFactory.CreateItem(meta, itemAmount);
 
             act.Should().Throw<ItemNotStackableException>();
         }
@@ -91,7 +91,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(3)]
         public void CreatingNonStackableItemFromHandleWithAmountOverOneWillThrowException(int itemAmount)
         {
-            Action act = () => _itemFactory.CreateItem(DefaultNonStackableItemHandle, itemAmount);
+            Action act = () => this._itemFactory.CreateItem(DefaultNonStackableItemHandle, itemAmount);
 
             act.Should().Throw<ItemNotStackableException>();
         }
@@ -99,7 +99,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingNonStackableItemFromHandleWithAmountEqualToOneWillCreateItem()
         {
-            var item = _itemFactory.CreateItem(DefaultNonStackableItemHandle, 1);
+            var item = this._itemFactory.CreateItem(DefaultNonStackableItemHandle, 1);
 
             item.Should().NotBeNull();
             item.Should().BeOfType<FakeItem>();
@@ -108,7 +108,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingItemWithNullMetaThrowsException()
         {
-            Action act = () => _itemFactory.CreateItem((ItemMeta) null, 1);
+            Action act = () => this._itemFactory.CreateItem((ItemMeta) null, 1);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -119,7 +119,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-2)]
         public void CreatingItemWithInvalidAmountThrowsException(int amount)
         {
-            Action act = () => _itemFactory.CreateItem(_defaultMeta, amount);
+            Action act = () => this._itemFactory.CreateItem(this._defaultMeta, amount);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("1 or higher"));
@@ -131,7 +131,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-2)]
         public void CreatingItemWithAmountBelowOneWillThrowException(int amount)
         {
-            Action act = () => _itemFactory.CreateItem(DefaultItemHandle, amount);
+            Action act = () => this._itemFactory.CreateItem(DefaultItemHandle, amount);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("1 or higher"));
@@ -143,7 +143,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(" ")]
         public void CreatingItemWithInvalidHandleWillThrowException(string handle = null)
         {
-            Action act = () => _itemFactory.CreateItem(handle, 10);
+            Action act = () => this._itemFactory.CreateItem(handle, 10);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -151,7 +151,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingItemWithUnknownHandleWillReturnNull()
         {
-            var item = _itemFactory.CreateItem("unknown", 10);
+            var item = this._itemFactory.CreateItem("unknown", 10);
 
             item.Should().BeNull();
         }
@@ -162,7 +162,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-2)]
         public void CreatingItemsWithNegativeAmountThrowsException(int amount)
         {
-            Action act = () => _itemFactory.CreateItems(DefaultItemHandle, amount);
+            Action act = () => this._itemFactory.CreateItems(DefaultItemHandle, amount);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("1 or higher"));
@@ -174,7 +174,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-2)]
         public void CreatingItemsWithNegativeAmountInMetaOverloadThrowsException(int amount)
         {
-            Action act = () => _itemFactory.CreateItems(_defaultMeta, amount);
+            Action act = () => this._itemFactory.CreateItems(this._defaultMeta, amount);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("1 or higher"));
@@ -186,7 +186,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(" ")]
         public void CreatingItemsWithInvalidHandleThrowsException(string handle)
         {
-            Action act = () => _itemFactory.CreateItems(handle, 1);
+            Action act = () => this._itemFactory.CreateItems(handle, 1);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -194,7 +194,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingItemsWithNullMetaThrowsException()
         {
-            Action act = () => _itemFactory.CreateItems((ItemMeta) null, 1);
+            Action act = () => this._itemFactory.CreateItems((ItemMeta) null, 1);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -202,35 +202,35 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingItemWithKnownHandleReturnsCorrentItem()
         {
-            var resultItems = _itemFactory.CreateItems(DefaultItemHandle, 1);
+            var resultItems = this._itemFactory.CreateItems(DefaultItemHandle, 1);
 
             resultItems.Should().NotBeNull();
             resultItems.Should().HaveCount(1);
 
             var resultItem = resultItems.First();
 
-            resultItem.Should().NotBeNull().And.BeOfType(_defaultMeta.Type);
+            resultItem.Should().NotBeNull().And.BeOfType(this._defaultMeta.Type);
             resultItem.Amount.Should().Be(1);
         }
 
         [TestMethod]
         public void CreatingItemWithKnownMetaReturnsCorrentItem()
         {
-            var resultItems = _itemFactory.CreateItems(_defaultMeta, 1);
+            var resultItems = this._itemFactory.CreateItems(this._defaultMeta, 1);
 
             resultItems.Should().NotBeNull();
             resultItems.Should().HaveCount(1);
 
             var resultItem = resultItems.First();
 
-            resultItem.Should().NotBeNull().And.BeOfType(_defaultMeta.Type);
+            resultItem.Should().NotBeNull().And.BeOfType(this._defaultMeta.Type);
             resultItem.Amount.Should().Be(1);
         }
 
         [TestMethod]
         public void CreatingItemsWithUnknownHandleReturnsNull()
         {
-            var resultItems = _itemFactory.CreateItems("unknownhandle", 1);
+            var resultItems = this._itemFactory.CreateItems("unknownhandle", 1);
 
             resultItems.Should().BeNull();
         }
@@ -238,12 +238,12 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingItemsWithNonStackableHandleReturnsMultipleItems()
         {
-            var resultItems = _itemFactory.CreateItems(DefaultNonStackableItemHandle, 5);
+            var resultItems = this._itemFactory.CreateItems(DefaultNonStackableItemHandle, 5);
 
             resultItems.Should()
                 .HaveCount(5)
                 .And.OnlyHaveUniqueItems()
-                .And.AllBeOfType(_nonStackableDefaultMeta.Type)
+                .And.AllBeOfType(this._nonStackableDefaultMeta.Type)
                 .And.NotContainNulls()
                 .And.OnlyContain(x => x.Amount == 1);
         }
@@ -251,19 +251,19 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingItemsWithNonStackableMetaReturnsMultipleItems()
         {
-            var resultItems = _itemFactory.CreateItems(_nonStackableDefaultMeta, 5);
+            var resultItems = this._itemFactory.CreateItems(this._nonStackableDefaultMeta, 5);
 
             resultItems.Should()
                 .HaveCount(5)
                 .And.OnlyHaveUniqueItems()
-                .And.AllBeOfType(_nonStackableDefaultMeta.Type)
+                .And.AllBeOfType(this._nonStackableDefaultMeta.Type)
                 .And.NotContainNulls()
                 .And.OnlyContain(x => x.Amount == 1);
         }
 
         private void AddItemResolveToServiceProvider<T>() where T : IItem
         {
-            _serviceProviderMock
+            this._serviceProviderMock
                 .Setup(x => x.GetService(typeof(T)))
                 .Returns<Type>(x =>
                 {

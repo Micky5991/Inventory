@@ -12,7 +12,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(int.MinValue)]
         public void CreatingInventoryWithInvalidCapacityThrowsException(int capacity)
         {
-            Action act = () => new Entities.Inventory.Inventory(capacity, _inventoryServices);
+            Action act = () => new Entities.Inventory.Inventory(capacity, this._inventoryServices);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains($"{Entities.Inventory.Inventory.MinimalInventoryCapacity} or higher"));
@@ -25,9 +25,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(int.MaxValue)]
         public void CreatingInventoryWithCapacityWillSetCapacityValues(int capacity)
         {
-            var inventory = new Entities.Inventory.Inventory(capacity, _inventoryServices);
+            var inventory = new Entities.Inventory.Inventory(capacity, this._inventoryServices);
 
-            AssertInventoryCapacity(0, capacity, inventory);
+            this.AssertInventoryCapacity(0, capacity, inventory);
         }
     }
 }
