@@ -114,7 +114,7 @@ namespace Micky5991.Inventory.Entities.Item
         {
             if (amountReduce > this.Amount)
             {
-                throw new ArgumentOutOfRangeException(nameof(amountReduce), $"Value has to be lower or equal than {this.Amount}");
+                throw new ArgumentOutOfRangeException(nameof(amountReduce), $"Value has to be lower or equal to {this.Amount}");
             }
 
             if (amountReduce <= 0)
