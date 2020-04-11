@@ -86,6 +86,7 @@ namespace Micky5991.Inventory.Entities.Item
         /// <inheritdoc />
         public bool Stackable { get; }
 
+        /// <inheritdoc />
         public bool WeightChangable { get; }
 
         /// <inheritdoc />
