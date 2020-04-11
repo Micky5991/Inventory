@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+    "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/477c0fe6f7a542741b8c37dd1c64cfb6a4cf3bb9/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
     "settings": {
         "documentationRules": {
             "companyName": "Micky5991",
