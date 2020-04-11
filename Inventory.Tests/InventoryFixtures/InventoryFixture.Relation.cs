@@ -72,5 +72,25 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
 
             this.itemMock.Verify(x => x.SetCurrentInventory(It.IsAny<IInventory>()), Times.Never);
         }
+
+        [TestMethod]
+        public async Task SettingItemAmountToZeroRemovesItem()
+        {
+            await this.Inventory.InsertItemAsync(this.Item);
+
+            this.Item.SetAmount(0);
+
+            this.Inventory.Items.Should().BeEmpty();
+        }
+
+        [TestMethod]
+        public async Task ReducingAmountToZeroRemovesItem()
+        {
+            await this.Inventory.InsertItemAsync(this.Item);
+
+            this.Item.ReduceAmount(this.Item.Amount);
+
+            this.Inventory.Items.Should().BeEmpty();
+        }
     }
 }

@@ -46,6 +46,19 @@ namespace Micky5991.Inventory.Entities.Inventory
                     this.RecalculateWeight();
 
                     break;
+
+                case nameof(IItem.Amount):
+                    this.OnItemAmountChange((IItem)sender);
+
+                    break;
+            }
+        }
+
+        private async void OnItemAmountChange(IItem item)
+        {
+            if (item.Amount <= 0)
+            {
+                await this.RemoveItemAsync(item);
             }
         }
     }
