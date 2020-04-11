@@ -16,7 +16,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public void GettingItemsWithNullHandleThrowsException()
         {
-            Action act = () => this._inventory.GetItems(null);
+            Action act = () => this.Inventory.GetItems(null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -26,7 +26,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             var items = await this.AddNonStackableItemsAsync();
 
-            var returnedItem = this._inventory.GetItems(ItemHandle);
+            var returnedItem = this.Inventory.GetItems(ItemHandle);
             var expectedResult = items.Where(x => x.Handle == ItemHandle).ToArray();
 
             returnedItem.Should().OnlyContain(x => expectedResult.Contains(x));
@@ -37,7 +37,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             var items = await this.AddNonStackableItemsAsync();
 
-            var returnedItem = this._inventory.GetItems<IItem>(null);
+            var returnedItem = this.Inventory.GetItems<IItem>(null);
 
             returnedItem.Should().OnlyContain(x => items.Contains(x));
         }
@@ -47,7 +47,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             var items = await this.AddNonStackableItemsAsync();
 
-            var returnedItem = this._inventory.GetItems<IItem>(ItemHandle);
+            var returnedItem = this.Inventory.GetItems<IItem>(ItemHandle);
             var expectedResult = items.Where(x => x.Handle == ItemHandle).ToArray();
 
             returnedItem.Should().OnlyContain(x => expectedResult.Contains(x));
@@ -58,7 +58,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             var items = await this.AddNonStackableItemsAsync();
 
-            var returnedItem = this._inventory.GetItems<RealItem>(ItemHandle);
+            var returnedItem = this.Inventory.GetItems<RealItem>(ItemHandle);
             var expectedResult = items.Where(x => x.GetType() == typeof(RealItem)).ToArray();
 
             returnedItem.Should().OnlyContain(x => expectedResult.Contains(x));
@@ -67,7 +67,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public void GetItemWithEmptyGuidThrowsException()
         {
-            Action act = () => this._inventory.GetItem(Guid.Empty);
+            Action act = () => this.Inventory.GetItem(Guid.Empty);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -75,23 +75,23 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public async Task GetItemWithRightRuntimeIdReturnsCorrectItem()
         {
-            await this._inventory.InsertItemAsync(this._item);
+            await this.Inventory.InsertItemAsync(this.Item);
 
-            this._inventory.GetItem(this._item.RuntimeId)
-                .Should().Be(this._item);
+            this.Inventory.GetItem(this.Item.RuntimeId)
+                .Should().Be(this.Item);
         }
 
         [TestMethod]
         public void GetItemWithUnknownItemReturnsNull()
         {
-            this._inventory.GetItem(this._item.RuntimeId)
+            this.Inventory.GetItem(this.Item.RuntimeId)
                 .Should().BeNull();
         }
 
         [TestMethod]
         public void GetItemWithTypeAndEmptyGuidThrowsException()
         {
-            Action act = () => this._inventory.GetItem<IItem>(Guid.Empty);
+            Action act = () => this.Inventory.GetItem<IItem>(Guid.Empty);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -99,54 +99,54 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public void GetItemWithTypeUnknownItemReturnsNull()
         {
-            this._inventory.GetItem<IItem>(this._item.RuntimeId)
+            this.Inventory.GetItem<IItem>(this.Item.RuntimeId)
                 .Should().BeNull();
         }
 
         [TestMethod]
         public async Task GetItemWithWrongTypeAndKnownItemReturnsNull()
         {
-            await this._inventory.InsertItemAsync(this._item);
+            await this.Inventory.InsertItemAsync(this.Item);
 
-            this._inventory.GetItem<FakeItem>(this._item.RuntimeId)
+            this.Inventory.GetItem<FakeItem>(this.Item.RuntimeId)
                 .Should().BeNull();
         }
 
         [TestMethod]
         public async Task GetItemWithInheritedTypeAndKnownItemReturnsItem()
         {
-            await this._inventory.InsertItemAsync(this._item);
+            await this.Inventory.InsertItemAsync(this.Item);
 
-            this._inventory.GetItem<IItem>(this._item.RuntimeId)
-                .Should().Be(this._item).And.BeAssignableTo<IItem>();
+            this.Inventory.GetItem<IItem>(this.Item.RuntimeId)
+                .Should().Be(this.Item).And.BeAssignableTo<IItem>();
         }
 
         [TestMethod]
         public async Task GetItemWithRightTypeAndKnownItemReturnsItem()
         {
-            await this._inventory.InsertItemAsync(this._item);
+            await this.Inventory.InsertItemAsync(this.Item);
 
-            this._inventory.GetItem<RealItem>(this._item.RuntimeId)
-                .Should().Be(this._item).And.BeOfType<RealItem>();
+            this.Inventory.GetItem<RealItem>(this.Item.RuntimeId)
+                .Should().Be(this.Item).And.BeOfType<RealItem>();
         }
 
         private async Task<ICollection<IItem>> AddNonStackableItemsAsync()
         {
-            var realMeta = this._defaultRealMeta;
-            this._defaultRealMeta = new ItemMeta(realMeta.Handle, realMeta.Type, realMeta.DisplayName, realMeta.DefaultWeight, ItemFlags.NotStackable);
+            var realMeta = this.DefaultRealMeta;
+            this.DefaultRealMeta = new ItemMeta(realMeta.Handle, realMeta.Type, realMeta.DisplayName, realMeta.DefaultWeight, ItemFlags.NotStackable);
 
             this.Setup();
 
-            this._inventory.SetCapacity(1000);
+            this.Inventory.SetCapacity(1000);
 
             var items = new[]
             {
-                this._itemFactory.CreateItem(this._realMeta, 1), this._itemFactory.CreateItem(this._realMeta, 1), this._itemFactory.CreateItem(this._fakeMeta, 1),
+                this.ItemFactory.CreateItem(this.RealMeta, 1), this.ItemFactory.CreateItem(this.RealMeta, 1), this.ItemFactory.CreateItem(this.FakeMeta, 1),
             };
 
             foreach (var item in items)
             {
-                await this._inventory.InsertItemAsync(item);
+                await this.Inventory.InsertItemAsync(item);
             }
 
             return items;

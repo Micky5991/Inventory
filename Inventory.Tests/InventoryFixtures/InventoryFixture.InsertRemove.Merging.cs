@@ -34,13 +34,13 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
                 return false;
             };
 
-            await this._inventory.InsertItemAsync(insertedItemA);
-            await this._inventory.InsertItemAsync(insertedItemB);
+            await this.Inventory.InsertItemAsync(insertedItemA);
+            await this.Inventory.InsertItemAsync(insertedItemB);
 
             mergableCheckAmount[0] = 0;
             mergableCheckAmount[1] = 0;
 
-            await this._inventory.InsertItemAsync(new FakeItem(5));
+            await this.Inventory.InsertItemAsync(new FakeItem(5));
 
             mergableCheckAmount[0].Should().Be(1);
             mergableCheckAmount[1].Should().Be(1);
@@ -57,10 +57,10 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
             insertedItemA.Setup(x => x.CanMergeWith(additionalItem.Object)).Returns(true);
             insertedItemB.Setup(x => x.CanMergeWith(additionalItem.Object)).Returns(false);
 
-            await this._inventory.InsertItemAsync(insertedItemA.Object);
-            await this._inventory.InsertItemAsync(insertedItemB.Object);
+            await this.Inventory.InsertItemAsync(insertedItemA.Object);
+            await this.Inventory.InsertItemAsync(insertedItemB.Object);
 
-            var result = await this._inventory.InsertItemAsync(additionalItem.Object);
+            var result = await this.Inventory.InsertItemAsync(additionalItem.Object);
 
             result.Should().BeTrue();
             insertedItemA.Verify(x => x.MergeItemAsync(additionalItem.Object), Times.Once);

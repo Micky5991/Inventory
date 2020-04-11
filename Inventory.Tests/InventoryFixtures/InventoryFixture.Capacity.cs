@@ -10,7 +10,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public void ChangingCapacityBelowMinimalCapacityWillThrowException()
         {
-            Action act = () => this._inventory.SetCapacity(Entities.Inventory.Inventory.MinimalInventoryCapacity - 1);
+            Action act = () => this.Inventory.SetCapacity(Entities.Inventory.Inventory.MinimalInventoryCapacity - 1);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains($"{Entities.Inventory.Inventory.MinimalInventoryCapacity} or higher"));
@@ -22,7 +22,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(int.MaxValue)]
         public void ChangingCapacityWillChangeCapacityCorrectly(int capacity)
         {
-            this._inventory.SetCapacity(capacity);
+            this.Inventory.SetCapacity(capacity);
 
             this.AssertInventoryCapacity(0, capacity);
         }
@@ -32,20 +32,20 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             await this.AddItemToInventoryAsync(50);
 
-            this._inventory.SetCapacity(51).Should().BeTrue();
-            this._inventory.SetCapacity(50).Should().BeTrue();
-            this._inventory.SetCapacity(49).Should().BeFalse();
+            this.Inventory.SetCapacity(51).Should().BeTrue();
+            this.Inventory.SetCapacity(50).Should().BeTrue();
+            this.Inventory.SetCapacity(49).Should().BeFalse();
         }
 
         [TestMethod]
         public void ChangingCapacityWillAlterAvailableCapacity()
         {
-            var oldCapacity = this._inventory.Capacity;
-            var newCapacity = this._inventory.Capacity - 10;
+            var oldCapacity = this.Inventory.Capacity;
+            var newCapacity = this.Inventory.Capacity - 10;
 
-            this._inventory.SetCapacity(newCapacity);
+            this.Inventory.SetCapacity(newCapacity);
 
-            this._inventory.AvailableCapacity
+            this.Inventory.AvailableCapacity
                 .Should().Be(newCapacity)
                 .And.BeLessThan(oldCapacity);
         }
@@ -55,10 +55,10 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             await this.AddItemToInventoryAsync(50);
 
-            var oldCapacity = this._inventory.Capacity;
+            var oldCapacity = this.Inventory.Capacity;
 
-            this._inventory.SetCapacity(30).Should().BeFalse();
-            this._inventory.Capacity.Should().Be(oldCapacity);
+            this.Inventory.SetCapacity(30).Should().BeFalse();
+            this.Inventory.Capacity.Should().Be(oldCapacity);
         }
 
         [TestMethod]
@@ -66,25 +66,25 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             await this.AddItemToInventoryAsync(50);
 
-            var oldUsedCapacity = this._inventory.UsedCapacity;
+            var oldUsedCapacity = this.Inventory.UsedCapacity;
 
-            this._inventory.SetCapacity(60);
+            this.Inventory.SetCapacity(60);
 
-            this._inventory.UsedCapacity.Should().Be(oldUsedCapacity);
+            this.Inventory.UsedCapacity.Should().Be(oldUsedCapacity);
         }
 
         [TestMethod]
         public async Task ChangingAmountOfItemChangesUsedCapacityOfInventory()
         {
-            var item = this._itemFactory.CreateItem(this._realMeta, 1);
+            var item = this.ItemFactory.CreateItem(this.RealMeta, 1);
 
-            await this._inventory.InsertItemAsync(item);
+            await this.Inventory.InsertItemAsync(item);
 
-            this._inventory.UsedCapacity.Should().Be(this._realMeta.DefaultWeight);
+            this.Inventory.UsedCapacity.Should().Be(this.RealMeta.DefaultWeight);
 
             item.SetAmount(2);
 
-            this._inventory.UsedCapacity.Should().Be(2 * this._realMeta.DefaultWeight);
+            this.Inventory.UsedCapacity.Should().Be(2 * this.RealMeta.DefaultWeight);
         }
     }
 }

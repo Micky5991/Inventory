@@ -14,47 +14,47 @@ namespace Micky5991.Inventory.Tests
     public class ItemSplitStrategyHandlerFixture
     {
 
-        private ItemSplitStrategyHandler _strategyHandler;
-        private List<Mock<IItemSplitStrategy>> _splitStrategies;
+        private ItemSplitStrategyHandler strategyHandler;
+        private List<Mock<IItemSplitStrategy>> splitStrategies;
 
-        private Mock<IItem> _oldItem;
-        private Mock<IItem> _newItem;
+        private Mock<IItem> oldItem;
+        private Mock<IItem> newItem;
 
         [TestInitialize]
         public void Setup()
         {
-            this._strategyHandler = new ItemSplitStrategyHandler();
-            this._splitStrategies = new List<Mock<IItemSplitStrategy>>
+            this.strategyHandler = new ItemSplitStrategyHandler();
+            this.splitStrategies = new List<Mock<IItemSplitStrategy>>
             {
                 new Mock<IItemSplitStrategy>(),
                 new Mock<IItemSplitStrategy>(),
                 new Mock<IItemSplitStrategy>()
             };
 
-            foreach (var splitStrategy in this._splitStrategies)
+            foreach (var splitStrategy in this.splitStrategies)
             {
-                this._strategyHandler.Add(splitStrategy.Object);
+                this.strategyHandler.Add(splitStrategy.Object);
             }
 
-            this._oldItem = new Mock<IItem>();
-            this._newItem = new Mock<IItem>();
+            this.oldItem = new Mock<IItem>();
+            this.newItem = new Mock<IItem>();
         }
 
         [TestMethod]
         public async Task ExecutingSplittingStrategyWillCallEveryStrategy()
         {
-            await this._strategyHandler.SplitItemAsync(this._oldItem.Object, this._newItem.Object);
+            await this.strategyHandler.SplitItemAsync(this.oldItem.Object, this.newItem.Object);
 
-            foreach (var splitStrategy in this._splitStrategies)
+            foreach (var splitStrategy in this.splitStrategies)
             {
-                splitStrategy.Verify(x => x.SplitItemAsync(this._oldItem.Object, this._newItem.Object), Times.Once);
+                splitStrategy.Verify(x => x.SplitItemAsync(this.oldItem.Object, this.newItem.Object), Times.Once);
             }
         }
 
         [TestMethod]
         public async Task ExecutingStrategyWithNullOldItemWillThrowException()
         {
-            Func<Task> act = () => this._strategyHandler.SplitItemAsync(null, this._newItem.Object);
+            Func<Task> act = () => this.strategyHandler.SplitItemAsync(null, this.newItem.Object);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
         }
@@ -62,7 +62,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public async Task ExecutingStrategyWithNullNewItemWillThrowException()
         {
-            Func<Task> act = () => this._strategyHandler.SplitItemAsync(this._oldItem.Object, null);
+            Func<Task> act = () => this.strategyHandler.SplitItemAsync(this.oldItem.Object, null);
 
             await act.Should().ThrowAsync<ArgumentNullException>();
         }

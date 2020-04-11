@@ -24,104 +24,104 @@ namespace Micky5991.Inventory.Tests
         protected const int FakeItemWeight = 50;
         protected const ItemFlags FakeItemFlags = ItemFlags.None;
 
-        protected ItemMeta _realMeta;
-        protected ItemMeta _fakeMeta;
+        protected ItemMeta RealMeta;
+        protected ItemMeta FakeMeta;
 
-        protected ItemMeta _defaultRealMeta;
-        protected ItemMeta _defaultFakeMeta;
+        protected ItemMeta DefaultRealMeta;
+        protected ItemMeta DefaultFakeMeta;
 
-        protected Item _item;
-        protected FakeItem _fakeItem;
+        protected Item Item;
+        protected FakeItem FakeItem;
 
-        protected IInventory _inventory;
+        protected IInventory Inventory;
 
-        protected IServiceCollection _serviceCollection;
-        protected IServiceProvider _serviceProvider;
+        protected IServiceCollection ServiceCollection;
+        protected IServiceProvider ServiceProvider;
 
-        protected ItemRegistry _itemRegistry;
-        protected AggregatedItemServices _itemServices;
-        protected AggregatedInventoryServices _inventoryServices;
+        protected ItemRegistry ItemRegistry;
+        protected AggregatedItemServices ItemServices;
+        protected AggregatedInventoryServices InventoryServices;
 
-        protected Mock<IItemFactory> _itemFactoryMock;
-        protected Mock<IInventoryFactory> _inventoryFactoryMock;
-        protected Mock<IItemSplitStrategyHandler> _itemSplitStrategyHandlerMock;
-        protected Mock<IItemMergeStrategyHandler> _itemMergeStrategyHandlerMock;
+        protected Mock<IItemFactory> ItemFactoryMock;
+        protected Mock<IInventoryFactory> InventoryFactoryMock;
+        protected Mock<IItemSplitStrategyHandler> ItemSplitStrategyHandlerMock;
+        protected Mock<IItemMergeStrategyHandler> ItemMergeStrategyHandlerMock;
 
-        protected IItemFactory _itemFactory;
-        protected IInventoryFactory _inventoryFactory;
-        protected IItemMergeStrategyHandler _itemMergeStrategyHandler;
-        protected IItemSplitStrategyHandler _itemSplitStrategyHandler;
+        protected IItemFactory ItemFactory;
+        protected IInventoryFactory InventoryFactory;
+        protected IItemMergeStrategyHandler ItemMergeStrategyHandler;
+        protected IItemSplitStrategyHandler ItemSplitStrategyHandler;
 
         protected void SetupItemTest()
         {
-            this._defaultRealMeta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
-            this._defaultFakeMeta = new ItemMeta(FakeItemHandle, typeof(FakeItem), FakeItemDisplayName, FakeItemWeight, FakeItemFlags);
+            this.DefaultRealMeta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
+            this.DefaultFakeMeta = new ItemMeta(FakeItemHandle, typeof(FakeItem), FakeItemDisplayName, FakeItemWeight, FakeItemFlags);
 
             this.SetupDefaultServiceProvider();
         }
 
         protected void SetupDependencies()
         {
-            this._itemRegistry = new ItemRegistry();
-            this._serviceCollection = new ServiceCollection();
+            this.ItemRegistry = new ItemRegistry();
+            this.ServiceCollection = new ServiceCollection();
 
-            this._serviceCollection.AddInventoryServices();
+            this.ServiceCollection.AddInventoryServices();
 
-            if (this._itemFactoryMock != null)
+            if (this.ItemFactoryMock != null)
             {
-                this._serviceCollection.AddTransient(x => this._itemFactoryMock.Object);
+                this.ServiceCollection.AddTransient(x => this.ItemFactoryMock.Object);
             }
             else
             {
-                this._serviceCollection.AddDefaultItemFactory();
+                this.ServiceCollection.AddDefaultItemFactory();
             }
 
-            if (this._inventoryFactoryMock != null)
+            if (this.InventoryFactoryMock != null)
             {
-                this._serviceCollection.AddTransient(x => this._inventoryFactoryMock.Object);
+                this.ServiceCollection.AddTransient(x => this.InventoryFactoryMock.Object);
             }
             else
             {
-                this._serviceCollection.AddDefaultInventoryFactory();
+                this.ServiceCollection.AddDefaultInventoryFactory();
             }
 
-            if (this._itemSplitStrategyHandlerMock != null)
+            if (this.ItemSplitStrategyHandlerMock != null)
             {
-                this._serviceCollection.AddTransient(x => this._itemSplitStrategyHandlerMock.Object);
+                this.ServiceCollection.AddTransient(x => this.ItemSplitStrategyHandlerMock.Object);
             }
             else
             {
-                this._serviceCollection.AddDefaultInventorySplitStrategy();
+                this.ServiceCollection.AddDefaultInventorySplitStrategy();
             }
 
-            if (this._itemMergeStrategyHandlerMock != null)
+            if (this.ItemMergeStrategyHandlerMock != null)
             {
-                this._serviceCollection.AddTransient(x => this._itemMergeStrategyHandlerMock.Object);
+                this.ServiceCollection.AddTransient(x => this.ItemMergeStrategyHandlerMock.Object);
             }
             else
             {
-                this._serviceCollection.AddDefaultInventoryMergeStrategy();
+                this.ServiceCollection.AddDefaultInventoryMergeStrategy();
             }
         }
 
         protected void TearDownItemTest()
         {
-            this._serviceProvider = null;
-            this._serviceCollection = null;
-            this._itemFactory = null;
-            this._itemRegistry = null;
+            this.ServiceProvider = null;
+            this.ServiceCollection = null;
+            this.ItemFactory = null;
+            this.ItemRegistry = null;
 
-            this._realMeta = null;
-            this._fakeMeta = null;
+            this.RealMeta = null;
+            this.FakeMeta = null;
 
-            this._item = null;
-            this._fakeItem = null;
-            this._inventory = null;
+            this.Item = null;
+            this.FakeItem = null;
+            this.Inventory = null;
 
-            this._inventoryFactoryMock = null;
-            this._itemFactoryMock = null;
-            this._itemMergeStrategyHandlerMock = null;
-            this._itemSplitStrategyHandlerMock = null;
+            this.InventoryFactoryMock = null;
+            this.ItemFactoryMock = null;
+            this.ItemMergeStrategyHandlerMock = null;
+            this.ItemSplitStrategyHandlerMock = null;
         }
 
         protected void SetupServiceProvider(params ItemMeta[] itemMetas)
@@ -130,34 +130,34 @@ namespace Micky5991.Inventory.Tests
 
             foreach (var itemMeta in itemMetas)
             {
-                this._itemRegistry.AddItemMeta(itemMeta);
+                this.ItemRegistry.AddItemMeta(itemMeta);
             }
 
-            this._serviceCollection.AddItemTypes(this._itemRegistry);
-            this._serviceProvider = this._serviceCollection.BuildServiceProvider();
+            this.ServiceCollection.AddItemTypes(this.ItemRegistry);
+            this.ServiceProvider = this.ServiceCollection.BuildServiceProvider();
 
-            this._itemFactory = this._serviceProvider.GetRequiredService<IItemFactory>();
-            this._itemServices = this._serviceProvider.GetRequiredService<AggregatedItemServices>();
+            this.ItemFactory = this.ServiceProvider.GetRequiredService<IItemFactory>();
+            this.ItemServices = this.ServiceProvider.GetRequiredService<AggregatedItemServices>();
 
-            this._inventoryFactory = this._serviceProvider.GetRequiredService<IInventoryFactory>();
-            this._inventoryServices = this._serviceProvider.GetRequiredService<AggregatedInventoryServices>();
+            this.InventoryFactory = this.ServiceProvider.GetRequiredService<IInventoryFactory>();
+            this.InventoryServices = this.ServiceProvider.GetRequiredService<AggregatedInventoryServices>();
 
-            this._itemSplitStrategyHandler = this._serviceProvider.GetRequiredService<IItemSplitStrategyHandler>();
-            this._itemMergeStrategyHandler = this._serviceProvider.GetRequiredService<IItemMergeStrategyHandler>();
+            this.ItemSplitStrategyHandler = this.ServiceProvider.GetRequiredService<IItemSplitStrategyHandler>();
+            this.ItemMergeStrategyHandler = this.ServiceProvider.GetRequiredService<IItemMergeStrategyHandler>();
 
-            this._item = (Item) this._itemFactory.CreateItem(itemMetas.First(), 1);
-            this._inventory = this._inventoryFactory.CreateInventory(100);
+            this.Item = (Item) this.ItemFactory.CreateItem(itemMetas.First(), 1);
+            this.Inventory = this.InventoryFactory.CreateInventory(100);
         }
 
         protected void SetupDefaultServiceProvider()
         {
-            this._realMeta = this._defaultRealMeta;
-            this._fakeMeta = this._defaultFakeMeta;
+            this.RealMeta = this.DefaultRealMeta;
+            this.FakeMeta = this.DefaultFakeMeta;
 
-            this.SetupServiceProvider(this._defaultRealMeta, this._defaultFakeMeta);
+            this.SetupServiceProvider(this.DefaultRealMeta, this.DefaultFakeMeta);
 
-            this._item = (Item) this._itemFactory.CreateItem(this._defaultRealMeta, 1);
-            this._fakeItem = (FakeItem) this._itemFactory.CreateItem(this._defaultFakeMeta, 1);
+            this.Item = (Item) this.ItemFactory.CreateItem(this.DefaultRealMeta, 1);
+            this.FakeItem = (FakeItem) this.ItemFactory.CreateItem(this.DefaultFakeMeta, 1);
         }
 
     }

@@ -9,18 +9,18 @@ namespace Micky5991.Inventory.Tests
     public class StrategyHandlerFixture
     {
 
-        private RealStrategyHandler _strategyHandler;
+        private RealStrategyHandler strategyHandler;
 
         [TestInitialize]
         public void Setup()
         {
-            this._strategyHandler = new RealStrategyHandler();
+            this.strategyHandler = new RealStrategyHandler();
         }
 
         [TestMethod]
         public void AddingNullToHandlerWillThrowException()
         {
-            Action act = () => this._strategyHandler.Add(null);
+            Action act = () => this.strategyHandler.Add(null);
 
             act.Should().Throw<ArgumentNullException>();
         }

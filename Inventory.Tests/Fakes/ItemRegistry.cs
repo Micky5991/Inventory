@@ -6,7 +6,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 {
     public class ItemRegistry : BaseItemRegistry
     {
-        private IList<ItemMeta> _itemMetas = new List<ItemMeta>();
+        private IList<ItemMeta> itemMetas = new List<ItemMeta>();
 
         public int LoadedAmount { get; private set; }
 
@@ -14,17 +14,17 @@ namespace Micky5991.Inventory.Tests.Fakes
         {
             this.LoadedAmount++;
 
-            return this._itemMetas;
+            return this.itemMetas;
         }
 
         public void AddItemMeta(ItemMeta meta)
         {
-            this._itemMetas.Add(meta);
+            this.itemMetas.Add(meta);
         }
 
         public void SetItemMetasNull()
         {
-            this._itemMetas = null;
+            this.itemMetas = null;
         }
 
         public ItemMeta CreateItemMetaForward<T>(string itemHandle, string displayName, int defaultWeight = 1,

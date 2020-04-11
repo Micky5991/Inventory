@@ -17,26 +17,26 @@ namespace Micky5991.Inventory.Tests
     public class InventoryDependencyExtensionFixture
     {
 
-        private IServiceCollection _serviceCollection;
-        private IServiceProvider _serviceProvider;
+        private IServiceCollection serviceCollection;
+        private IServiceProvider serviceProvider;
 
-        private Mock<IItemRegistry> _itemRegistryMock;
-        private ItemRegistry _itemRegistry;
+        private Mock<IItemRegistry> itemRegistryMock;
+        private ItemRegistry itemRegistry;
 
         [TestInitialize]
         public void Setup()
         {
-            this._serviceCollection = new ServiceCollection();
+            this.serviceCollection = new ServiceCollection();
 
-            this._itemRegistryMock = new Mock<IItemRegistry>();
-            this._itemRegistry = new ItemRegistry();
+            this.itemRegistryMock = new Mock<IItemRegistry>();
+            this.itemRegistry = new ItemRegistry();
         }
 
         [TestCleanup]
         public void Teardown()
         {
-            this._serviceCollection = null;
-            this._serviceProvider = null;
+            this.serviceCollection = null;
+            this.serviceProvider = null;
         }
 
         [TestMethod]
@@ -106,22 +106,22 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void AddServicesExtensionRegistersNeededServices()
         {
-            InventoryDependencyExtensions.AddDefaultInventoryServices(this._serviceCollection);
+            InventoryDependencyExtensions.AddDefaultInventoryServices(this.serviceCollection);
 
             this.AddItemRegistryMock();
             this.BuildServiceProvider();
 
-            this._serviceProvider.GetRequiredService<IInventoryFactory>()
+            this.serviceProvider.GetRequiredService<IInventoryFactory>()
                 .Should().BeOfType<InventoryFactory>();
 
-            this._serviceProvider.GetRequiredService<IItemFactory>()
+            this.serviceProvider.GetRequiredService<IItemFactory>()
                 .Should().BeOfType<ItemFactory>();
         }
 
         [TestMethod]
         public void AddingItemRegistryOnNullServiceCollectionWillThrowException()
         {
-            Action act = () => InventoryDependencyExtensions.AddItemTypes(null, this._itemRegistryMock.Object);
+            Action act = () => InventoryDependencyExtensions.AddItemTypes(null, this.itemRegistryMock.Object);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -129,7 +129,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void AddingNullRegistryToServiceCollectionWillThrowException()
         {
-            Action act = () => InventoryDependencyExtensions.AddItemTypes(this._serviceCollection, null);
+            Action act = () => InventoryDependencyExtensions.AddItemTypes(this.serviceCollection, null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -137,21 +137,21 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void AddItemTypesRegistersItemRegistry()
         {
-            InventoryDependencyExtensions.AddItemTypes(this._serviceCollection, this._itemRegistry);
+            InventoryDependencyExtensions.AddItemTypes(this.serviceCollection, this.itemRegistry);
 
             this.BuildServiceProvider();
 
-            this._serviceProvider.GetRequiredService<IItemRegistry>().Should().Be(this._itemRegistry);
+            this.serviceProvider.GetRequiredService<IItemRegistry>().Should().Be(this.itemRegistry);
         }
 
         [TestMethod]
         public void ReturningNullOnGetItemMetaWillThrowInvalidItemRegistryException()
         {
-            this._itemRegistryMock
+            this.itemRegistryMock
                 .Setup(x => x.GetItemMeta())
                 .Returns<IEnumerable<ItemMeta>>(null);
 
-            Action act = () => InventoryDependencyExtensions.AddItemTypes(this._serviceCollection, this._itemRegistryMock.Object);
+            Action act = () => InventoryDependencyExtensions.AddItemTypes(this.serviceCollection, this.itemRegistryMock.Object);
 
             act.Should().Throw<InvalidItemRegistryException>()
                 .Where(x => x.Message.Contains("returns") && x.Message.Contains("null"));
@@ -160,21 +160,21 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void RegisteredItemsInItemRegistryWillBeResolvable()
         {
-            var meta = this._itemRegistry.CreateItemMetaForward<FakeItem>("item", "Fake Item");
+            var meta = this.itemRegistry.CreateItemMetaForward<FakeItem>("item", "Fake Item");
 
             this.SetupRegistryWithItems(meta);
 
-            InventoryDependencyExtensions.AddItemTypes(this._serviceCollection, this._itemRegistry);
+            InventoryDependencyExtensions.AddItemTypes(this.serviceCollection, this.itemRegistry);
 
             this.BuildServiceProvider();
 
-            var factory = this._serviceProvider.GetRequiredService(typeof(FakeItem));
+            var factory = this.serviceProvider.GetRequiredService(typeof(FakeItem));
 
             factory.Should()
                 .NotBeNull()
                 .And.BeOfType<ObjectFactory>();
 
-            var resolvedItem = ((ObjectFactory) factory)(this._serviceProvider, new [] { meta });
+            var resolvedItem = ((ObjectFactory) factory)(this.serviceProvider, new [] { meta });
 
             resolvedItem.Should()
                 .NotBeNull()
@@ -184,9 +184,9 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ReturningNullAsValueInItemRegistryShouldThrowException()
         {
-            this._itemRegistryMock.Setup(x => x.GetItemMeta()).Returns(new ItemMeta[] {null});
+            this.itemRegistryMock.Setup(x => x.GetItemMeta()).Returns(new ItemMeta[] {null});
 
-            Action act = () => InventoryDependencyExtensions.AddItemTypes(this._serviceCollection, this._itemRegistryMock.Object);
+            Action act = () => InventoryDependencyExtensions.AddItemTypes(this.serviceCollection, this.itemRegistryMock.Object);
 
             act.Should().Throw<InvalidItemRegistryException>()
                 .Where(x =>
@@ -199,30 +199,30 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void GetItemMetaWillBeCalledOnce()
         {
-            this._itemRegistryMock.Setup(x => x.GetItemMeta()).Returns(new ItemMeta[0]);
+            this.itemRegistryMock.Setup(x => x.GetItemMeta()).Returns(new ItemMeta[0]);
 
-            InventoryDependencyExtensions.AddItemTypes(this._serviceCollection, this._itemRegistryMock.Object);
+            InventoryDependencyExtensions.AddItemTypes(this.serviceCollection, this.itemRegistryMock.Object);
 
-            this._itemRegistryMock.Verify(x => x.GetItemMeta(), Times.Once);
+            this.itemRegistryMock.Verify(x => x.GetItemMeta(), Times.Once);
         }
 
         private void BuildServiceProvider()
         {
-            this._serviceProvider = this._serviceCollection.BuildServiceProvider();
+            this.serviceProvider = this.serviceCollection.BuildServiceProvider();
         }
 
         private void AddItemRegistryMock()
         {
-            this._serviceCollection.AddTransient(x => this._itemRegistryMock.Object);
+            this.serviceCollection.AddTransient(x => this.itemRegistryMock.Object);
         }
 
         private void SetupRegistryWithItems(params ItemMeta[] metas)
         {
             foreach (var meta in metas)
             {
-                this._serviceCollection.AddTransient(meta.Type, x => meta);
+                this.serviceCollection.AddTransient(meta.Type, x => meta);
 
-                this._itemRegistry.AddItemMeta(meta);
+                this.itemRegistry.AddItemMeta(meta);
             }
         }
 
