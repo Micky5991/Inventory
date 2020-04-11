@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Entities.Item;
 using Micky5991.Inventory.Enums;
@@ -398,7 +397,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void SettingSingleWeightAboveInventoryCapacityThrowsException()
         {
-            this.Inventory.InsertItemAsync(this.Item);
+            this.Inventory.InsertItem(this.Item);
 
             Action act = () => this.Item.SetSingleWeight(this.Inventory.Capacity + 1);
 
@@ -414,7 +413,7 @@ namespace Micky5991.Inventory.Tests
             this.Item.SetSingleWeight(1);
             this.Item.SetAmount(1);
 
-            this.Inventory.InsertItemAsync(this.Item);
+            this.Inventory.InsertItem(this.Item);
 
             Action act = () => this.Item.SetAmount(10 + amountDelta);
 
@@ -430,7 +429,7 @@ namespace Micky5991.Inventory.Tests
             this.Item.SetSingleWeight(1);
             this.Item.SetAmount(1);
 
-            this.Inventory.InsertItemAsync(this.Item);
+            this.Inventory.InsertItem(this.Item);
 
             this.Item.SetAmount(10);
 
@@ -446,7 +445,7 @@ namespace Micky5991.Inventory.Tests
             this.Item.SetAmount(10);
             this.Item.SetSingleWeight(1);
 
-            this.Inventory.InsertItemAsync(this.Item);
+            this.Inventory.InsertItem(this.Item);
 
             Action act = () => this.Item.SetSingleWeight(2);
 
@@ -459,7 +458,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(-2)]
         public void SettingSingleWeightToCapacityDoesNotThrowInventoryCapacityException(int capacityDelta)
         {
-            this.Inventory.InsertItemAsync(this.Item);
+            this.Inventory.InsertItem(this.Item);
 
             Action act = () => this.Item.SetSingleWeight(this.Inventory.Capacity + capacityDelta);
 
@@ -492,29 +491,29 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        public async Task MergingTwoItemsCanMergeSignalsFalseWillThrowException()
+        public void MergingTwoItemsCanMergeSignalsFalseWillThrowException()
         {
             var realItem = this.ItemFactory.CreateItem(this.RealMeta, 1);
             var fakeItem = this.ItemFactory.CreateItem(this.FakeMeta, 1);
 
             realItem.CanMergeWith(fakeItem).Should().BeFalse();
 
-            Func<Task> act = () => realItem.MergeItemAsync(fakeItem);
+            Action act = () => realItem.MergeItem(fakeItem);
 
-            (await act.Should().ThrowAsync<ArgumentException>())
+            (act.Should().Throw<ArgumentException>())
                 .Where(x => x.Message.Contains("merge") && x.Message.Contains("not"));
         }
 
         [TestMethod]
-        public async Task MergingWithNullThrowsException()
+        public void MergingWithNullThrowsException()
         {
-            Func<Task> act = () => this.Item.MergeItemAsync(null);
+            Action act = () => this.Item.MergeItem(null);
 
-            await act.Should().ThrowAsync<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [TestMethod]
-        public async Task MergingWithMergableStrategyExecutesCorrectMethod()
+        public void MergingWithMergableStrategyExecutesCorrectMethod()
         {
             this.ItemMergeStrategyHandlerMock = new Mock<IItemMergeStrategyHandler>();
 
@@ -524,13 +523,13 @@ namespace Micky5991.Inventory.Tests
 
             this.ItemMergeStrategyHandlerMock.Setup(x => x.CanBeMerged(otherItem, this.Item)).Returns(true);
 
-            await otherItem.MergeItemAsync(this.Item);
+            otherItem.MergeItem(this.Item);
 
-            this.ItemMergeStrategyHandlerMock.Verify(x => x.MergeItemWithAsync(otherItem, this.Item), Times.Once);
+            this.ItemMergeStrategyHandlerMock.Verify(x => x.MergeItemWith(otherItem, this.Item), Times.Once);
         }
 
         [TestMethod]
-        public async Task SplittingStrategyExecutesCorrectMethod()
+        public void SplittingStrategyExecutesCorrectMethod()
         {
             this.ItemSplitStrategyHandlerMock = new Mock<IItemSplitStrategyHandler>();
             this.ItemFactoryMock = new Mock<IItemFactory>();
@@ -549,26 +548,25 @@ namespace Micky5991.Inventory.Tests
                 });
 
             this.ItemSplitStrategyHandlerMock
-                .Setup(x => x.SplitItemAsync(item, It.IsAny<IItem>()))
-                .Returns(Task.CompletedTask);
+                .Setup(x => x.SplitItem(item, It.IsAny<IItem>()));
 
             item.SetAmount(5);
 
-            var resultItem = await item.SplitItemAsync(2);
+            var resultItem = item.SplitItem(2);
 
             resultItem.Should()
                 .NotBeNull()
                 .And.Be(factoryResultItem);
 
-            this.ItemSplitStrategyHandlerMock.Verify(x => x.SplitItemAsync(item, It.IsAny<IItem>()), Times.Once);
+            this.ItemSplitStrategyHandlerMock.Verify(x => x.SplitItem(item, It.IsAny<IItem>()), Times.Once);
         }
 
         [TestMethod]
-        public async Task SplittingItemReturnsCorrectItem()
+        public void SplittingItemReturnsCorrectItem()
         {
             this.Item.SetAmount(5);
 
-            var resultItem = await this.Item.SplitItemAsync(2);
+            var resultItem = this.Item.SplitItem(2);
 
             this.Item.Amount.Should().Be(3);
 
@@ -579,11 +577,11 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         [DataRow(0)]
         [DataRow(-1)]
-        public async Task SplittingWithNegativeAmountThrowsException(int targetAmount)
+        public void SplittingWithNegativeAmountThrowsException(int targetAmount)
         {
-            Func<Task> act = () => this.Item.SplitItemAsync(targetAmount);
+            Action act = () => this.Item.SplitItem(targetAmount);
 
-            (await act.Should().ThrowAsync<ArgumentOutOfRangeException>())
+            (act.Should().Throw<ArgumentOutOfRangeException>())
                 .Where(x => x.Message.Contains("1 or higher"));
         }
 
@@ -591,11 +589,11 @@ namespace Micky5991.Inventory.Tests
         [DataRow(0)]
         [DataRow(1)]
         [DataRow(2)]
-        public async Task SplittingWithAmountHigherThanItemAmountThrowsException(int amountDelta)
+        public void SplittingWithAmountHigherThanItemAmountThrowsException(int amountDelta)
         {
-            Func<Task> act = () => this.Item.SplitItemAsync(this.Item.Amount + amountDelta);
+            Action act = () => this.Item.SplitItem(this.Item.Amount + amountDelta);
 
-            (await act.Should().ThrowAsync<ArgumentOutOfRangeException>())
+            (act.Should().Throw<ArgumentOutOfRangeException>())
                 .Where(x =>
                     x.Message.Contains((this.Item.Amount - 1).ToString())
                     && x.Message.Contains("or lower")

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
@@ -14,7 +13,7 @@ namespace Micky5991.Inventory.Entities.Inventory
     public partial class Inventory
     {
         /// <inheritdoc />
-        public async Task<bool> InsertItemAsync(IItem item, bool force)
+        public bool InsertItem(IItem item, bool force)
         {
             if (item == null)
             {
@@ -46,8 +45,7 @@ namespace Micky5991.Inventory.Entities.Inventory
 
             if (item.CurrentInventory != null)
             {
-                var oldInventoryRemoveSuccess = await item.CurrentInventory.RemoveItemAsync(item)
-                    .ConfigureAwait(false);
+                var oldInventoryRemoveSuccess = item.CurrentInventory.RemoveItem(item);
 
                 if (oldInventoryRemoveSuccess == false)
                 {
@@ -55,7 +53,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 }
             }
 
-            if (await this.TryMergeItemAsync(item).ConfigureAwait(false))
+            if (this.TryMergeItem(item))
             {
                 return true;
             }
@@ -65,14 +63,13 @@ namespace Micky5991.Inventory.Entities.Inventory
                 return false;
             }
 
-            await this.OnItemAdded(item)
-                      .ConfigureAwait(false);
+            this.OnItemAdded(item);
 
             return true;
         }
 
         /// <inheritdoc />
-        public async Task<bool> RemoveItemAsync([NotNull] IItem item)
+        public bool RemoveItem([NotNull] IItem item)
         {
             if (item == null)
             {
@@ -91,8 +88,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                 return false;
             }
 
-            await this.OnItemRemoved(item)
-                      .ConfigureAwait(false);
+            this.OnItemRemoved(item);
 
             return true;
         }
@@ -144,7 +140,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             return this.Items.Where(x => CapacityFilter(x) && AcceptanceFilter(x) && MovableFilter(x)).ToList();
         }
 
-        private async Task<bool> TryMergeItemAsync(IItem sourceItem)
+        private bool TryMergeItem(IItem sourceItem)
         {
             foreach (var item in this.items.Values)
             {
@@ -153,8 +149,7 @@ namespace Micky5991.Inventory.Entities.Inventory
                     continue;
                 }
 
-                await this.MergeItemsAsync(item, sourceItem)
-                          .ConfigureAwait(false);
+                this.MergeItems(item, sourceItem);
 
                 return true;
             }
@@ -162,9 +157,9 @@ namespace Micky5991.Inventory.Entities.Inventory
             return false;
         }
 
-        private Task MergeItemsAsync(IItem targetItem, IItem sourceItem)
+        private void MergeItems(IItem targetItem, IItem sourceItem)
         {
-            return targetItem.MergeItemAsync(sourceItem);
+            targetItem.MergeItem(sourceItem);
         }
     }
 }

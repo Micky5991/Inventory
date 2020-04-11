@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
@@ -33,29 +32,29 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task InsertingItemToInventoryWillChangeCapacity()
+        public void InsertingItemToInventoryWillChangeCapacity()
         {
-            await this.AddItemToInventoryAsync(10);
+            this.AddItemToInventory(10);
 
             this.AssertInventoryCapacity(10);
         }
 
         [TestMethod]
-        public async Task RemovingItemFromInventoryWillChangeCapacity()
+        public void RemovingItemFromInventoryWillChangeCapacity()
         {
-            var item = await this.AddItemToInventoryAsync(10);
+            var item = this.AddItemToInventory(10);
 
             this.AssertInventoryCapacity(10);
 
-            await this.Inventory.RemoveItemAsync(item);
+            this.Inventory.RemoveItem(item);
 
             this.AssertInventoryCapacity(0);
         }
 
         [TestMethod]
-        public async Task CheckIfItemFitsWillReturnCorrectValuesAfterItemCollectionChange()
+        public void CheckIfItemFitsWillReturnCorrectValuesAfterItemCollectionChange()
         {
-            var item = await this.AddItemToInventoryAsync(InventoryCapacity);
+            var item = this.AddItemToInventory(InventoryCapacity);
 
             this.Inventory.DoesItemFit(item).Should().BeFalse();
         }
@@ -77,9 +76,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task CheckingIfSecondFillingItemWillFitIntoInventoryShouldReturnTrue()
+        public void CheckingIfSecondFillingItemWillFitIntoInventoryShouldReturnTrue()
         {
-            await this.AddItemToInventoryAsync(InventoryCapacity - 10);
+            this.AddItemToInventory(InventoryCapacity - 10);
 
             var item = new FakeItem(10);
 
@@ -87,9 +86,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task CheckingIfSecondCapacityExceedingItemWillFitIntoInventoryShouldReturnFalse()
+        public void CheckingIfSecondCapacityExceedingItemWillFitIntoInventoryShouldReturnFalse()
         {
-            await this.AddItemToInventoryAsync(InventoryCapacity - 10);
+            this.AddItemToInventory(InventoryCapacity - 10);
 
             var item = new FakeItem(11);
 
@@ -297,10 +296,10 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(false, true, true)]
         [DataRow(true, true, true)]
         [DataRow(false, false, true)]
-        public async Task IgnoringFalseFilterReturnsAllItems(bool ignoreCapacity, bool ignoreAllowance, bool ignoreMovable)
+        public void IgnoringFalseFilterReturnsAllItems(bool ignoreCapacity, bool ignoreAllowance, bool ignoreMovable)
         {
-            await this.Inventory.InsertItemAsync(this.Item);
-            await this.Inventory.InsertItemAsync(this.FakeItem);
+            this.Inventory.InsertItem(this.Item);
+            this.Inventory.InsertItem(this.FakeItem);
 
             this.Item.MovingLocked = ignoreMovable;
             this.FakeItem.MovingLocked = ignoreMovable;
@@ -331,10 +330,10 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(false, false)]
         [DataRow(false, true)]
         [DataRow(true, false)]
-        public async Task AnyFalseRequirementReturnsEmptyList(bool fitStatus, bool allowanceStatus)
+        public void AnyFalseRequirementReturnsEmptyList(bool fitStatus, bool allowanceStatus)
         {
-            await this.Inventory.InsertItemAsync(this.Item);
-            await this.Inventory.InsertItemAsync(this.FakeItem);
+            this.Inventory.InsertItem(this.Item);
+            this.Inventory.InsertItem(this.FakeItem);
 
             var otherInventory = new Mock<IInventory>();
 
@@ -480,11 +479,11 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
             amount.Should().Be(result);
         }
 
-        private async Task<FakeItem> AddItemToInventoryAsync(int weight = 10)
+        private FakeItem AddItemToInventory(int weight = 10)
         {
             var item = new FakeItem(weight);
 
-            await this.Inventory.InsertItemAsync(item);
+            this.Inventory.InsertItem(item);
 
             return item;
         }

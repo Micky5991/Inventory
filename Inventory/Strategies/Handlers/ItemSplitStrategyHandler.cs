@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Interfaces.Strategy;
 
@@ -9,7 +8,7 @@ namespace Micky5991.Inventory.Strategies.Handlers
     public class ItemSplitStrategyHandler : StrategyHandler<IItemSplitStrategy>, IItemSplitStrategyHandler
     {
         /// <inheritdoc />
-        public async Task SplitItemAsync(IItem oldItem, IItem newItem)
+        public void SplitItem(IItem oldItem, IItem newItem)
         {
             if (oldItem == null)
             {
@@ -23,8 +22,7 @@ namespace Micky5991.Inventory.Strategies.Handlers
 
             foreach (var strategy in this)
             {
-                await strategy.SplitItemAsync(oldItem, newItem)
-                    .ConfigureAwait(false);
+                strategy.SplitItem(oldItem, newItem);
             }
         }
     }

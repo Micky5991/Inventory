@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Interfaces;
@@ -22,9 +21,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task GettingItemsWithHandleOnlyWillReturnCorrectItems()
+        public void GettingItemsWithHandleOnlyWillReturnCorrectItems()
         {
-            var items = await this.AddNonStackableItemsAsync();
+            var items = this.AddNonStackableItems();
 
             var returnedItem = this.Inventory.GetItems(ItemHandle);
             var expectedResult = items.Where(x => x.Handle == ItemHandle).ToArray();
@@ -33,9 +32,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task GettingItemsWithItemInterfaceWithNullHandleReturnsAllItems()
+        public void GettingItemsWithItemInterfaceWithNullHandleReturnsAllItems()
         {
-            var items = await this.AddNonStackableItemsAsync();
+            var items = this.AddNonStackableItems();
 
             var returnedItem = this.Inventory.GetItems<IItem>(null);
 
@@ -43,9 +42,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task GettingItemsWithItemInterfaceWithSpecificHandleReturnsSubsetOfItems()
+        public void GettingItemsWithItemInterfaceWithSpecificHandleReturnsSubsetOfItems()
         {
-            var items = await this.AddNonStackableItemsAsync();
+            var items = this.AddNonStackableItems();
 
             var returnedItem = this.Inventory.GetItems<IItem>(ItemHandle);
             var expectedResult = items.Where(x => x.Handle == ItemHandle).ToArray();
@@ -54,9 +53,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task GetItemsWithSpecificTypeParameterReturnsCorrectItems()
+        public void GetItemsWithSpecificTypeParameterReturnsCorrectItems()
         {
-            var items = await this.AddNonStackableItemsAsync();
+            var items = this.AddNonStackableItems();
 
             var returnedItem = this.Inventory.GetItems<RealItem>(ItemHandle);
             var expectedResult = items.Where(x => x.GetType() == typeof(RealItem)).ToArray();
@@ -73,9 +72,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task GetItemWithRightRuntimeIdReturnsCorrectItem()
+        public void GetItemWithRightRuntimeIdReturnsCorrectItem()
         {
-            await this.Inventory.InsertItemAsync(this.Item);
+            this.Inventory.InsertItem(this.Item);
 
             this.Inventory.GetItem(this.Item.RuntimeId)
                 .Should().Be(this.Item);
@@ -104,33 +103,33 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task GetItemWithWrongTypeAndKnownItemReturnsNull()
+        public void GetItemWithWrongTypeAndKnownItemReturnsNull()
         {
-            await this.Inventory.InsertItemAsync(this.Item);
+            this.Inventory.InsertItem(this.Item);
 
             this.Inventory.GetItem<FakeItem>(this.Item.RuntimeId)
                 .Should().BeNull();
         }
 
         [TestMethod]
-        public async Task GetItemWithInheritedTypeAndKnownItemReturnsItem()
+        public void GetItemWithInheritedTypeAndKnownItemReturnsItem()
         {
-            await this.Inventory.InsertItemAsync(this.Item);
+            this.Inventory.InsertItem(this.Item);
 
             this.Inventory.GetItem<IItem>(this.Item.RuntimeId)
                 .Should().Be(this.Item).And.BeAssignableTo<IItem>();
         }
 
         [TestMethod]
-        public async Task GetItemWithRightTypeAndKnownItemReturnsItem()
+        public void GetItemWithRightTypeAndKnownItemReturnsItem()
         {
-            await this.Inventory.InsertItemAsync(this.Item);
+            this.Inventory.InsertItem(this.Item);
 
             this.Inventory.GetItem<RealItem>(this.Item.RuntimeId)
                 .Should().Be(this.Item).And.BeOfType<RealItem>();
         }
 
-        private async Task<ICollection<IItem>> AddNonStackableItemsAsync()
+        private ICollection<IItem> AddNonStackableItems()
         {
             var realMeta = this.DefaultRealMeta;
             this.DefaultRealMeta = new ItemMeta(realMeta.Handle, realMeta.Type, realMeta.DisplayName, realMeta.DefaultWeight, ItemFlags.NotStackable);
@@ -146,7 +145,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
 
             foreach (var item in items)
             {
-                await this.Inventory.InsertItemAsync(item);
+                this.Inventory.InsertItem(item);
             }
 
             return items;

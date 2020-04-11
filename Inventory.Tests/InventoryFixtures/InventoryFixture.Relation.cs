@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,28 +8,28 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
     public partial class InventoryFixture
     {
         [TestMethod]
-        public async Task AddingItemWillSetCurrentInventoryCorrectly()
+        public void AddingItemWillSetCurrentInventoryCorrectly()
         {
             this.itemMock.Setup(x => x.SetCurrentInventory(this.Inventory));
 
-            await this.Inventory.InsertItemAsync(this.itemMock.Object);
+            this.Inventory.InsertItem(this.itemMock.Object);
 
             this.itemMock.Verify(x => x.SetCurrentInventory(this.Inventory));
         }
 
         [TestMethod]
-        public async Task RemovingItemWillSetCurrentInventoryToNull()
+        public void RemovingItemWillSetCurrentInventoryToNull()
         {
             this.itemMock.Setup(x => x.SetCurrentInventory(It.IsAny<IInventory>()));
 
-            await this.Inventory.InsertItemAsync(this.itemMock.Object);
-            await this.Inventory.RemoveItemAsync(this.itemMock.Object);
+            this.Inventory.InsertItem(this.itemMock.Object);
+            this.Inventory.RemoveItem(this.itemMock.Object);
 
             this.itemMock.Verify(x => x.SetCurrentInventory(null), Times.Once);
         }
 
         [TestMethod]
-        public async Task InsertingItemIntoInventoryWillRemoveItemFromOldInventoryFirst()
+        public void InsertingItemIntoInventoryWillRemoveItemFromOldInventoryFirst()
         {
             var otherInventoryMock = new Mock<IInventory>();
 
@@ -42,19 +41,19 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
                 .Setup(x => x.SetCurrentInventory(this.Inventory));
 
             otherInventoryMock
-                .Setup(x => x.RemoveItemAsync(this.itemMock.Object))
-                .ReturnsAsync(true);
+                .Setup(x => x.RemoveItem(this.itemMock.Object))
+                .Returns(true);
 
-            await this.Inventory.InsertItemAsync(this.itemMock.Object);
+            this.Inventory.InsertItem(this.itemMock.Object);
 
             this.itemMock.VerifyGet(x => x.CurrentInventory, Times.AtLeastOnce);
-            otherInventoryMock.Verify(x => x.RemoveItemAsync(this.itemMock.Object), Times.Once);
+            otherInventoryMock.Verify(x => x.RemoveItem(this.itemMock.Object), Times.Once);
 
             this.itemMock.Verify(x => x.SetCurrentInventory(this.Inventory), Times.Once);
         }
 
         [TestMethod]
-        public async Task FailingRemovingOldInventoryWillResultInFailedInsertion()
+        public void FailingRemovingOldInventoryWillResultInFailedInsertion()
         {
             var otherInventoryMock = new Mock<IInventory>();
 
@@ -63,10 +62,10 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
                 .Returns(otherInventoryMock.Object);
 
             otherInventoryMock
-                .Setup(x => x.RemoveItemAsync(this.itemMock.Object))
-                .ReturnsAsync(false);
+                .Setup(x => x.RemoveItem(this.itemMock.Object))
+                .Returns(false);
 
-            var success = await this.Inventory.InsertItemAsync(this.itemMock.Object);
+            var success = this.Inventory.InsertItem(this.itemMock.Object);
 
             success.Should().BeFalse();
 
@@ -74,9 +73,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task SettingItemAmountToZeroRemovesItem()
+        public void SettingItemAmountToZeroRemovesItem()
         {
-            await this.Inventory.InsertItemAsync(this.Item);
+            this.Inventory.InsertItem(this.Item);
 
             this.Item.SetAmount(0);
 
@@ -84,9 +83,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task ReducingAmountToZeroRemovesItem()
+        public void ReducingAmountToZeroRemovesItem()
         {
-            await this.Inventory.InsertItemAsync(this.Item);
+            this.Inventory.InsertItem(this.Item);
 
             this.Item.ReduceAmount(this.Item.Amount);
 

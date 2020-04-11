@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.Threading.Tasks;
 using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Entities.Inventory
@@ -9,33 +8,29 @@ namespace Micky5991.Inventory.Entities.Inventory
     /// </content>
     public partial class Inventory
     {
-        private async Task OnItemAdded(IItem item)
+        private void OnItemAdded(IItem item)
         {
             item.SetCurrentInventory(this);
 
             item.PropertyChanged += this.OnPropertyChanged;
 
-            await this.OnAfterItemAddedOrRemoved(item)
-                      .ConfigureAwait(false);
+            this.OnAfterItemAddedOrRemoved(item);
         }
 
-        private async Task OnItemRemoved(IItem item)
+        private void OnItemRemoved(IItem item)
         {
             item.SetCurrentInventory(null);
 
             item.PropertyChanged -= this.OnPropertyChanged;
 
-            await this.OnAfterItemAddedOrRemoved(item)
-                      .ConfigureAwait(false);
+            this.OnAfterItemAddedOrRemoved(item);
         }
 
-        private Task OnAfterItemAddedOrRemoved(IItem item)
+        private void OnAfterItemAddedOrRemoved(IItem item)
         {
             this.RecalculateWeight();
 
             this.OnPropertyChanged(nameof(this.Items));
-
-            return Task.CompletedTask;
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -54,11 +49,11 @@ namespace Micky5991.Inventory.Entities.Inventory
             }
         }
 
-        private async void OnItemAmountChange(IItem item)
+        private void OnItemAmountChange(IItem item)
         {
             if (item.Amount <= 0)
             {
-                await this.RemoveItemAsync(item);
+                this.RemoveItem(item);
             }
         }
     }

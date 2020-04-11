@@ -100,12 +100,12 @@ namespace Micky5991.Inventory.Tests.Fakes
             return this.IsMergableCheck == null || this.IsMergableCheck(sourceItem);
         }
 
-        public Task MergeItemAsync(IItem sourceItem)
+        public void MergeItem(IItem sourceItem)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IItem> SplitItemAsync(int targetAmount)
+        public IItem SplitItem(int targetAmount)
         {
             throw new NotImplementedException();
         }

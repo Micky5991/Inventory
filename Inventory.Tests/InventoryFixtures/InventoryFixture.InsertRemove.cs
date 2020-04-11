@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Tests.Fakes;
@@ -10,78 +9,78 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
     public partial class InventoryFixture
     {
         [TestMethod]
-        public async Task RemovingNullFromInventoryWillThrowException()
+        public void RemovingNullFromInventoryWillThrowException()
         {
-            Func<Task> act = () => this.Inventory.RemoveItemAsync(null);
+            Action act = () => this.Inventory.RemoveItem(null);
 
-            await act.Should().ThrowAsync<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [TestMethod]
-        public async Task InsertingNullFromInventoryWillThrowException()
+        public void InsertingNullFromInventoryWillThrowException()
         {
-            Func<Task> act = () => this.Inventory.InsertItemAsync(null);
+            Action act = () => this.Inventory.InsertItem(null);
 
-            (await act.Should().ThrowAsync<ArgumentNullException>())
-                .Where(x => string.IsNullOrWhiteSpace(x.Message) == false);
+            act.Should().Throw<ArgumentNullException>()
+               .Where(x => string.IsNullOrWhiteSpace(x.Message) == false);
         }
 
         [TestMethod]
-        public async Task InsertedItemsWillAppearInItemsList()
+        public void InsertedItemsWillAppearInItemsList()
         {
-            var item = await this.AddItemToInventoryAsync();
+            var item = this.AddItemToInventory();
 
             this.Inventory.Items.Should()
                 .ContainSingle(x => x == item);
         }
 
         [TestMethod]
-        public async Task InsertingItemMultipleTimesWillNotChangeDictionaryLength()
+        public void InsertingItemMultipleTimesWillNotChangeDictionaryLength()
         {
-            var item = await this.AddItemToInventoryAsync();
+            var item = this.AddItemToInventory();
 
-            await this.Inventory.InsertItemAsync(item);
+            this.Inventory.InsertItem(item);
 
             this.Inventory.Items.Should()
                 .ContainSingle(x => x == item);
         }
 
         [TestMethod]
-        public async Task InsertingItemToInventoryTwiceWillMarkFollowingCallsAsUnsuccessful()
+        public void InsertingItemToInventoryTwiceWillMarkFollowingCallsAsUnsuccessful()
         {
             var item = new FakeItem(10);
 
-            (await this.Inventory.InsertItemAsync(item)).Should().BeTrue();
-            (await this.Inventory.InsertItemAsync(item)).Should().BeFalse();
+            (this.Inventory.InsertItem(item)).Should().BeTrue();
+            (this.Inventory.InsertItem(item)).Should().BeFalse();
         }
 
         [TestMethod]
-        public async Task RemovingItemFromInventoryWillReturnFalseIfNotFound()
+        public void RemovingItemFromInventoryWillReturnFalseIfNotFound()
         {
-            var item = await this.AddItemToInventoryAsync();
+            var item = this.AddItemToInventory();
 
-            (await this.Inventory.RemoveItemAsync(item)).Should().BeTrue();
-            (await this.Inventory.RemoveItemAsync(item)).Should().BeFalse();
+            (this.Inventory.RemoveItem(item)).Should().BeTrue();
+            (this.Inventory.RemoveItem(item)).Should().BeFalse();
         }
 
         [TestMethod]
-        public async Task RemovingItemFromInventoryThatWasNotAddedWillReturnFalse()
+        public void RemovingItemFromInventoryThatWasNotAddedWillReturnFalse()
         {
             var item = new FakeItem(10);
 
-            (await this.Inventory.RemoveItemAsync(item)).Should().BeFalse();
+            (this.Inventory.RemoveItem(item)).Should().BeFalse();
         }
 
         [TestMethod]
-        public async Task RemovingItemFromInventoryWhenItemIsLockedThrowsException()
+        public void RemovingItemFromInventoryWhenItemIsLockedThrowsException()
         {
-            await this.Inventory.InsertItemAsync(this.Item);
+            this.Inventory.InsertItem(this.Item);
 
             this.Item.MovingLocked = true;
 
-            Func<Task> act = () => this.Inventory.RemoveItemAsync(this.Item);
+            Action act = () => this.Inventory.RemoveItem(this.Item);
 
-            (await act.Should().ThrowAsync<ItemNotMovableException>())
+            (act.Should().Throw<ItemNotMovableException>())
                 .Where(x =>
                     x.Message.Contains(this.Item.Handle)
                     && x.Message.Contains(this.Item.RuntimeId.ToString())
@@ -92,7 +91,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task AddingItemWithSameRuntimeKeyWillReturnFalse()
+        public void AddingItemWithSameRuntimeKeyWillReturnFalse()
         {
             var item = new FakeItem(10);
             var otherFake = new FakeItem(10);
@@ -100,30 +99,30 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
             otherFake.RuntimeId = item.RuntimeId;
             item.IsMergableCheck = x => false;
 
-            (await this.Inventory.InsertItemAsync(item)).Should().BeTrue();
-            (await this.Inventory.InsertItemAsync(otherFake)).Should().BeFalse();
+            (this.Inventory.InsertItem(item)).Should().BeTrue();
+            (this.Inventory.InsertItem(otherFake)).Should().BeFalse();
 
             otherFake.CurrentInventory.Should().BeNull();
         }
 
         [TestMethod]
-        public async Task AddingItemWithCurrentInventoryAlreadyToTargetInventorySetWillReturnFalse()
+        public void AddingItemWithCurrentInventoryAlreadyToTargetInventorySetWillReturnFalse()
         {
             var item = new FakeItem(10);
 
             item.SetCurrentInventory(this.Inventory);
 
-            (await this.Inventory.InsertItemAsync(item)).Should().BeFalse();
+            (this.Inventory.InsertItem(item)).Should().BeFalse();
         }
 
         [TestMethod]
-        public async Task AddingItemWithHigherWeightThanCapacityWillThrowException()
+        public void AddingItemWithHigherWeightThanCapacityWillThrowException()
         {
             var item = new FakeItem(InventoryCapacity + 1);
 
-            Func<Task> act = () => this.Inventory.InsertItemAsync(item);
+            Action act = () => this.Inventory.InsertItem(item);
 
-            (await act.Should().ThrowAsync<InventoryCapacityException>())
+            (act.Should().Throw<InventoryCapacityException>())
                 .Where(x =>
                             x.Message.Contains(item.Handle) &&
                             x.Message.Contains(item.RuntimeId.ToString())
@@ -131,25 +130,25 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task AddingInvalidItemWillNotAddItemToInventory()
+        public void AddingInvalidItemWillNotAddItemToInventory()
         {
             var item = new FakeItem(InventoryCapacity + 1);
 
-            Func<Task> act = () => this.Inventory.InsertItemAsync(item);
+            Action act = () => this.Inventory.InsertItem(item);
 
-            await act.Should().ThrowAsync<InventoryCapacityException>();
+            act.Should().Throw<InventoryCapacityException>();
 
             this.Inventory.Items.Should().BeEmpty();
         }
 
         [TestMethod]
-        public async Task AddingInMovableItemThrowsException()
+        public void AddingInMovableItemThrowsException()
         {
             this.Item.MovingLocked = true;
 
-            Func<Task> act = () => this.Inventory.InsertItemAsync(this.Item);
+            Action act = () => this.Inventory.InsertItem(this.Item);
 
-            (await act.Should().ThrowAsync<ItemNotMovableException>())
+            (act.Should().Throw<ItemNotMovableException>())
                 .Where(x =>
                     x.Message.Contains(this.Item.Handle)
                     && x.Message.Contains(this.Item.RuntimeId.ToString())
@@ -159,21 +158,21 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task InsertingItemThatIsNotAllwedThrowsException()
+        public void InsertingItemThatIsNotAllwedThrowsException()
         {
             this.Inventory.SetItemFilter(x => false);
 
-            Func<Task> act = () => this.Inventory.InsertItemAsync(this.Item);
+            Action act = () => this.Inventory.InsertItem(this.Item);
 
-            await act.Should().ThrowAsync<ItemNotAllowedException>();
+            act.Should().Throw<ItemNotAllowedException>();
         }
 
         [TestMethod]
-        public async Task InsertingItemWithForceEvenWithDisallowingFilterInsertsIt()
+        public void InsertingItemWithForceEvenWithDisallowingFilterInsertsIt()
         {
             this.Inventory.SetItemFilter(x => false);
 
-            await this.Inventory.InsertItemAsync(this.Item, true);
+            this.Inventory.InsertItem(this.Item, true);
 
             this.Inventory.Items.Should()
                 .HaveCount(1)
@@ -181,12 +180,12 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task InsertingItemWithForceEvenWithNotEnoughCapacityShouldAllowInsertion()
+        public void InsertingItemWithForceEvenWithNotEnoughCapacityShouldAllowInsertion()
         {
             this.Item.SetSingleWeight(10);
             this.Inventory.SetCapacity(5);
 
-            await this.Inventory.InsertItemAsync(this.Item, true);
+            this.Inventory.InsertItem(this.Item, true);
 
             this.Inventory.Items.Should()
                 .HaveCount(1)
@@ -194,11 +193,11 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task InsertingItemWithForceEvenInmovableItemShouldAllowInsertion()
+        public void InsertingItemWithForceEvenInmovableItemShouldAllowInsertion()
         {
             this.Item.MovingLocked = true;
 
-            await this.Inventory.InsertItemAsync(this.Item, true);
+            this.Inventory.InsertItem(this.Item, true);
 
             this.Inventory.Items.Should()
                 .HaveCount(1)

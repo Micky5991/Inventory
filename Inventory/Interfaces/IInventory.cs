@@ -129,7 +129,7 @@ namespace Micky5991.Inventory.Interfaces
         /// <returns>true if the item has been added or merged, false otherwise.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="item"/> is null.</exception>
         /// <exception cref="InventoryCapacityException">Adding the <paramref name="item"/> would exceed the current inventory capacity.</exception>
-        Task<bool> InsertItemAsync([NotNull] IItem item, bool force = false);
+        bool InsertItem([NotNull] IItem item, bool force = false);
 
         /// <summary>
         /// Tries to remove the given item <paramref name="item"/> from this inventory.
@@ -137,7 +137,7 @@ namespace Micky5991.Inventory.Interfaces
         /// <param name="item">Item to remove.</param>
         /// <returns>true if the given <paramref name="item"/> was found and successfully removed, false otherwise.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="item"/> is null.</exception>
-        Task<bool> RemoveItemAsync([NotNull] IItem item);
+        bool RemoveItem([NotNull] IItem item);
 
         /// <summary>
         /// Sets the capacity of this inventory to the given <paramref name="newCapacity"/>.

@@ -7,33 +7,33 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
     public partial class InventoryFixture
     {
         [TestMethod]
-        public async Task AddingItemWillNotifyUsedCapacityAndAvailableCapacity()
+        public void AddingItemWillNotifyUsedCapacityAndAvailableCapacity()
         {
             using var monitoredInventory = this.Inventory.Monitor();
 
-            await this.AddItemToInventoryAsync(10);
+            this.AddItemToInventory(10);
 
             monitoredInventory.Should().RaisePropertyChangeFor(x => x.UsedCapacity);
             monitoredInventory.Should().RaisePropertyChangeFor(x => x.AvailableCapacity);
         }
 
         [TestMethod]
-        public async Task RemovingItemWillNotifyUsedCapacityAndAvailableCapacity()
+        public void RemovingItemWillNotifyUsedCapacityAndAvailableCapacity()
         {
-            var item = await this.AddItemToInventoryAsync(10);
+            var item = this.AddItemToInventory(10);
 
             using var monitoredInventory = this.Inventory.Monitor();
 
-            await this.Inventory.RemoveItemAsync(item);
+            this.Inventory.RemoveItem(item);
 
             monitoredInventory.Should().RaisePropertyChangeFor(x => x.UsedCapacity);
             monitoredInventory.Should().RaisePropertyChangeFor(x => x.AvailableCapacity);
         }
 
         [TestMethod]
-        public async Task ChangingCapacityOfInventoryWillNotify()
+        public void ChangingCapacityOfInventoryWillNotify()
         {
-            var item = await this.AddItemToInventoryAsync(10);
+            var item = this.AddItemToInventory(10);
 
             using var monitoredInventory = this.Inventory.Monitor();
 
@@ -44,9 +44,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         }
 
         [TestMethod]
-        public async Task SettingCapacityOfInventoryWontNotify()
+        public void SettingCapacityOfInventoryWontNotify()
         {
-            await this.AddItemToInventoryAsync(10);
+            this.AddItemToInventory(10);
 
             using var monitoredInventory = this.Inventory.Monitor();
 

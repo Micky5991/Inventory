@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Interfaces.Strategy;
 
@@ -29,7 +28,7 @@ namespace Micky5991.Inventory.Strategies
         }
 
         /// <inheritdoc />
-        public Task MergeItemWithAsync(IItem targetItem, IItem sourceItem)
+        public void MergeItemWith(IItem targetItem, IItem sourceItem)
         {
             if (targetItem == null)
             {
@@ -43,8 +42,6 @@ namespace Micky5991.Inventory.Strategies
 
             targetItem.SetAmount(targetItem.Amount + sourceItem.Amount);
             sourceItem.SetAmount(0);
-
-            return Task.CompletedTask;
         }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Interfaces.Strategy;
 
@@ -26,7 +25,7 @@ namespace Micky5991.Inventory.Strategies.Handlers
         }
 
         /// <inheritdoc />
-        public async Task MergeItemWithAsync(IItem targetItem, IItem sourceItem)
+        public void MergeItemWith(IItem targetItem, IItem sourceItem)
         {
             if (targetItem == null)
             {
@@ -40,8 +39,7 @@ namespace Micky5991.Inventory.Strategies.Handlers
 
             foreach (var strategy in this)
             {
-                await strategy.MergeItemWithAsync(targetItem, sourceItem)
-                    .ConfigureAwait(false);
+                strategy.MergeItemWith(targetItem, sourceItem);
             }
         }
     }

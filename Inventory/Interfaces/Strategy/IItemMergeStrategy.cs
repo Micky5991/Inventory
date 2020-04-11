@@ -20,7 +20,6 @@ namespace Micky5991.Inventory.Interfaces.Strategy
         /// </summary>
         /// <param name="targetItem">Instance of <see cref="IItem"/> that should merge <paramref name="sourceItem"/> into itself.</param>
         /// <param name="sourceItem">Instance of <see cref="IItem"/> that privides any needed data.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task MergeItemWithAsync(IItem targetItem, IItem sourceItem);
+        void MergeItemWith(IItem targetItem, IItem sourceItem);
     }
 }
