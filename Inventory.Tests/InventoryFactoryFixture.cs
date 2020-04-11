@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions;
 using Micky5991.Inventory.AggregatedServices;
+using Micky5991.Inventory.Entities.Factories;
 using Micky5991.Inventory.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

@@ -5,7 +5,7 @@ using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Micky5991.Inventory
+namespace Micky5991.Inventory.Entities.Factories
 {
     /// <inheritdoc />
     public class ItemFactory : IItemFactory

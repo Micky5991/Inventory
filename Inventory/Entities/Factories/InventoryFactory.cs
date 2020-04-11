@@ -5,7 +5,7 @@ using Micky5991.Inventory.Interfaces;
 
 [assembly:InternalsVisibleTo("Micky5991.Inventory.Tests")]
 
-namespace Micky5991.Inventory
+namespace Micky5991.Inventory.Entities.Factories
 {
     internal class InventoryFactory : IInventoryFactory
     {
