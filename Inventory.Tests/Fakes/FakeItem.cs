@@ -4,12 +4,15 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Micky5991.Inventory.Enums;
+using Micky5991.Inventory.EventArgs;
 using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Tests.Fakes
 {
     public class FakeItem : IItem
     {
+        public event EventHandler<ItemInitializedEventArgs> Initialized;
+
         public Guid RuntimeId { get; set; }
 
         public ItemMeta Meta { get; }

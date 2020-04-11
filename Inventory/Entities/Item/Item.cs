@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Enums;
+using Micky5991.Inventory.EventArgs;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Interfaces.Strategy;
@@ -56,6 +57,8 @@ namespace Micky5991.Inventory.Entities.Item
         public void Initialize()
         {
             this.SetupStrategies();
+
+            this.Initialized?.Invoke(this, new ItemInitializedEventArgs(this));
         }
 
         /// <inheritdoc />
