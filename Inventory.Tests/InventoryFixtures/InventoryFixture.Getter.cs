@@ -64,6 +64,72 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
             returnedItem.Should().OnlyContain(x => expectedResult.Contains(x));
         }
 
+        [TestMethod]
+        public void GetItemWithEmptyGuidThrowsException()
+        {
+            Action act = () => this._inventory.GetItem(Guid.Empty);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public async Task GetItemWithRightRuntimeIdReturnsCorrectItem()
+        {
+            await this._inventory.InsertItemAsync(this._item);
+
+            this._inventory.GetItem(this._item.RuntimeId)
+                .Should().Be(this._item);
+        }
+
+        [TestMethod]
+        public void GetItemWithUnknownItemReturnsNull()
+        {
+            this._inventory.GetItem(this._item.RuntimeId)
+                .Should().BeNull();
+        }
+
+        [TestMethod]
+        public void GetItemWithTypeAndEmptyGuidThrowsException()
+        {
+            Action act = () => this._inventory.GetItem<IItem>(Guid.Empty);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestMethod]
+        public void GetItemWithTypeUnknownItemReturnsNull()
+        {
+            this._inventory.GetItem<IItem>(this._item.RuntimeId)
+                .Should().BeNull();
+        }
+
+        [TestMethod]
+        public async Task GetItemWithWrongTypeAndKnownItemReturnsNull()
+        {
+            await this._inventory.InsertItemAsync(this._item);
+
+            this._inventory.GetItem<FakeItem>(this._item.RuntimeId)
+                .Should().BeNull();
+        }
+
+        [TestMethod]
+        public async Task GetItemWithInheritedTypeAndKnownItemReturnsItem()
+        {
+            await this._inventory.InsertItemAsync(this._item);
+
+            this._inventory.GetItem<IItem>(this._item.RuntimeId)
+                .Should().Be(this._item).And.BeAssignableTo<IItem>();
+        }
+
+        [TestMethod]
+        public async Task GetItemWithRightTypeAndKnownItemReturnsItem()
+        {
+            await this._inventory.InsertItemAsync(this._item);
+
+            this._inventory.GetItem<RealItem>(this._item.RuntimeId)
+                .Should().Be(this._item).And.BeOfType<RealItem>();
+        }
+
         private async Task<ICollection<IItem>> AddNonStackableItemsAsync()
         {
             var realMeta = _defaultRealMeta;
