@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Micky5991.Inventory.Entities.Item;
 using Micky5991.Inventory.Enums;
+using Micky5991.Inventory.EventArgs;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Interfaces.Strategy;
@@ -558,6 +559,23 @@ namespace Micky5991.Inventory.Tests
             this.Item.MovingLocked.Should().BeTrue();
 
             monitoredItem.Should().NotRaisePropertyChangeFor(x => x.MovingLocked);
+        }
+
+        [TestMethod]
+        public void InitializingItemExecutesEvent()
+        {
+            this.SetupDefaultServiceProvider();
+
+            var item = new RealItem(this.DefaultRealMeta, this.ItemServices);
+
+            using var monitoredItem = item.Monitor();
+
+            item.Initialize();
+
+            monitoredItem.Should()
+                         .Raise(nameof(IItem.Initialized))
+                         .WithSender(item)
+                         .WithArgs<ItemInitializedEventArgs>(args => args.Item == item);
         }
 
     }
