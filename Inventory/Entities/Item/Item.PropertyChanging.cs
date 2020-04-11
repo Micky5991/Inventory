@@ -10,7 +10,7 @@ namespace Micky5991.Inventory.Entities.Item
     public partial class Item
     {
         /// <inheritdoc />
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Invocator for the interface <see cref="INotifyPropertyChanged"/>.
