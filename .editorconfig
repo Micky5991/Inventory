@@ -82,3 +82,6 @@ resharper_align_multiline_calls_chain = true
 resharper_align_multiline_parameter = true
 resharper_align_multiple_declaration = true
 resharper_align_multline_type_parameter_constrains = true
+resharper_place_constructor_initializer_on_same_line=false
+resharper_place_type_constraints_on_same_line=false
+resharper_wrap_multiple_type_parameter_constraints_style=chop_always
