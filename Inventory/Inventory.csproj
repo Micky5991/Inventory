@@ -15,7 +15,7 @@
         <RepositoryUrl>https://github.com/Micky5991/Inventory</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <CodeAnalysisRuleSet>Inventory.ruleset</CodeAnalysisRuleSet>
-        <DocumentationFile>$(OutDir)/$(AssemblyName).xml</DocumentationFile>
+        <DocumentationFile>$(OutDir)$(AssemblyName).xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
