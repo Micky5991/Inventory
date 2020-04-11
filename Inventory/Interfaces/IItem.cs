@@ -117,6 +117,20 @@ namespace Micky5991.Inventory.Interfaces
         void SetAmount(int newAmount);
 
         /// <summary>
+        /// Increases the total <see cref="Amount"/> by <paramref name="amountIncrease"/>.
+        /// </summary>
+        /// <param name="amountIncrease">Value to increase the total <see cref="Amount"/> by.</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="amountIncrease"/> is 0 or lower.</exception>
+        void IncreaseAmount(int amountIncrease);
+
+        /// <summary>
+        /// Reduces the total <see cref="Amount"/> by <paramref name="amountReduce"/>.
+        /// </summary>
+        /// <param name="amountReduce">Value tu reduce the total <see cref="Amount"/> by.</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="amountReduce"/> is higher than <see cref="Amount"/> or 0 or lower.</exception>
+        void ReduceAmount(int amountReduce);
+
+        /// <summary>
         /// Sets the single amount weight of this item.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="weight"/> is 0 or lower.</exception>
