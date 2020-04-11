@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Micky5991.Inventory.EventArgs;
+using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces.Strategy;
 
 namespace Micky5991.Inventory.Interfaces
@@ -114,6 +115,7 @@ namespace Micky5991.Inventory.Interfaces
         /// <seealso cref="TotalWeight"/>
         /// <param name="newAmount">Updated amount of items this stack should represent.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="newAmount"/> is too low.</exception>
+        /// <exception cref="ItemNotStackableException"><paramref name="newAmount"/> is too high for a non-stackable item.</exception>
         void SetAmount(int newAmount);
 
         /// <summary>
@@ -121,6 +123,7 @@ namespace Micky5991.Inventory.Interfaces
         /// </summary>
         /// <param name="amountIncrease">Value to increase the total <see cref="Amount"/> by.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="amountIncrease"/> is 0 or lower.</exception>
+        /// <exception cref="ItemNotStackableException"><paramref name="amountIncrease"/> is too high for a non-stackable item.</exception>
         void IncreaseAmount(int amountIncrease);
 
         /// <summary>
