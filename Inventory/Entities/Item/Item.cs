@@ -45,6 +45,7 @@ namespace Micky5991.Inventory.Entities.Item
             this.Handle = this.Meta.Handle;
             this.DefaultDisplayName = this.Meta.DisplayName;
             this.Stackable = (this.Meta.Flags & ItemFlags.NotStackable) == 0;
+            this.WeightChangable = (this.Meta.Flags & ItemFlags.WeightChangable) != 0;
 
             this.DisplayName = this.DefaultDisplayName;
             this.Amount = Math.Max(MinimalItemAmount, 1);

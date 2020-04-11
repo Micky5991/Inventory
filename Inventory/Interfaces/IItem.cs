@@ -75,6 +75,13 @@ namespace Micky5991.Inventory.Interfaces
         bool Stackable { get; }
 
         /// <summary>
+        /// Gets a value indicating whether the weight of this item is changable or not.
+        ///
+        /// Typical characteristic of weight-changable items is that calculations with this item type without the actual item tend to be inaccurate.
+        /// </summary>
+        bool WeightChangable { get; }
+
+        /// <summary>
         /// Gets current reference to the <see cref="IInventory"/> where this item is contained in.
         ///
         /// Null is equal, that this item is currently in no <see cref="IInventory"/>.
