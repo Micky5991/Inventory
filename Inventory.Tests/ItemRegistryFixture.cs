@@ -11,20 +11,20 @@ namespace Micky5991.Inventory.Tests
     public class ItemRegistryFixture
     {
 
-        private ItemRegistry _itemRegistry;
+        private ItemRegistry itemRegistry;
 
         [TestInitialize]
         public void Setup()
         {
-            this._itemRegistry = new ItemRegistry();
+            this.itemRegistry = new ItemRegistry();
         }
 
         [TestMethod]
         public void ReturningNullAtItemRegistryThrowsException()
         {
-            this._itemRegistry.SetItemMetasNull();
+            this.itemRegistry.SetItemMetasNull();
 
-            Action act = () => this._itemRegistry.GetItemMeta();
+            Action act = () => this.itemRegistry.GetItemMeta();
 
             act.Should().Throw<InvalidItemRegistryException>()
                 .Where(x => x.Message.Contains("null") && x.Message.Contains("return"));
@@ -33,17 +33,17 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void NullWillBeIgnoredOnSetup()
         {
-            this._itemRegistry.AddItemMeta(this.CreateItemMeta("item1"));
-            this._itemRegistry.AddItemMeta(null);
-            this._itemRegistry.AddItemMeta(this.CreateItemMeta("item2"));
+            this.itemRegistry.AddItemMeta(this.CreateItemMeta("item1"));
+            this.itemRegistry.AddItemMeta(null);
+            this.itemRegistry.AddItemMeta(this.CreateItemMeta("item2"));
 
-            this._itemRegistry.GetItemMeta().Should().HaveCount(2);
+            this.itemRegistry.GetItemMeta().Should().HaveCount(2);
         }
 
         [TestMethod]
         public void GettingNullHandleWillThrowException()
         {
-            Action act = () => this._itemRegistry.TryGetItemMeta(null, out _);
+            Action act = () => this.itemRegistry.TryGetItemMeta(null, out _);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -51,10 +51,10 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void RegisteringTwoItemsWithIdenticalHandlesThrowsException()
         {
-            this._itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
-            this._itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
+            this.itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
+            this.itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
 
-            Action act = () => this._itemRegistry.ValidateAndCacheItemMeta();
+            Action act = () => this.itemRegistry.ValidateAndCacheItemMeta();
 
             act.Should().Throw<InvalidItemRegistryException>()
                 .Where(x => x.Message.Contains("duplicate handle"));
@@ -63,13 +63,13 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CachingItemRegistryTwiceWillLoadOnlyOnce()
         {
-            this._itemRegistry.AddItemMeta(this.CreateItemMeta("item2"));
-            this._itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
+            this.itemRegistry.AddItemMeta(this.CreateItemMeta("item2"));
+            this.itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
 
-            this._itemRegistry.ValidateAndCacheItemMeta();
-            this._itemRegistry.ValidateAndCacheItemMeta();
+            this.itemRegistry.ValidateAndCacheItemMeta();
+            this.itemRegistry.ValidateAndCacheItemMeta();
 
-            this._itemRegistry.LoadedAmount.Should().Be(1);
+            this.itemRegistry.LoadedAmount.Should().Be(1);
         }
 
         [TestMethod]
@@ -77,19 +77,19 @@ namespace Micky5991.Inventory.Tests
         {
             var originalMeta = this.CreateItemMeta("item");
 
-            this._itemRegistry.AddItemMeta(originalMeta);
+            this.itemRegistry.AddItemMeta(originalMeta);
 
-            this._itemRegistry.TryGetItemMeta("item", out var meta).Should().BeTrue();
+            this.itemRegistry.TryGetItemMeta("item", out var meta).Should().BeTrue();
             meta.Should().Be(originalMeta);
         }
 
         [TestMethod]
         public void ItemRegistryWillBeValidatedUponFirstCollectionAccess()
         {
-            this._itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
-            this._itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
+            this.itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
+            this.itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
 
-            Action act = () => this._itemRegistry.GetItemMeta();
+            Action act = () => this.itemRegistry.GetItemMeta();
 
             act.Should().Throw<InvalidItemRegistryException>()
                 .Where(x => x.Message.Contains("duplicate handle"));
@@ -98,10 +98,10 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ItemRegistryWillBeValidatedUponFirstTryGetAccess()
         {
-            this._itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
-            this._itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
+            this.itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
+            this.itemRegistry.AddItemMeta(this.CreateItemMeta("item"));
 
-            Action act = () => this._itemRegistry.TryGetItemMeta("item", out _);
+            Action act = () => this.itemRegistry.TryGetItemMeta("item", out _);
 
             act.Should().Throw<InvalidItemRegistryException>()
                 .Where(x => x.Message.Contains("duplicate handle"));
@@ -113,7 +113,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(" ")]
         public void CreatingItemMetaShortHandWillThrowExceptionOnInvalidHandle(string handle)
         {
-            Action act = () => this._itemRegistry.CreateItemMetaForward<FakeItem>(handle, "Testitem");
+            Action act = () => this.itemRegistry.CreateItemMetaForward<FakeItem>(handle, "Testitem");
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -124,7 +124,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(" ")]
         public void CreatingItemMetaShortHandWillThrowExceptionOnInvalidDisplayName(string displayName)
         {
-            Action act = () => this._itemRegistry.CreateItemMetaForward<FakeItem>("item", displayName);
+            Action act = () => this.itemRegistry.CreateItemMetaForward<FakeItem>("item", displayName);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -132,7 +132,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void ItemMetaCreationShortHandReturnsValidItemMeta()
         {
-            var meta = this._itemRegistry.CreateItemMetaForward<FakeItem>("itemHandle", "Fake", 222, ItemFlags.NotStackable);
+            var meta = this.itemRegistry.CreateItemMetaForward<FakeItem>("itemHandle", "Fake", 222, ItemFlags.NotStackable);
 
             meta.Should().NotBeNull();
 

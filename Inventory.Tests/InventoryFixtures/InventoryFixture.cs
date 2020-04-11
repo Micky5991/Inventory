@@ -14,14 +14,14 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
     {
         private const int InventoryCapacity = 100;
 
-        private Mock<IItem> _itemMock;
+        private Mock<IItem> itemMock;
 
         [TestInitialize]
         public void Setup()
         {
             this.SetupItemTest();
 
-            this._itemMock = new Mock<IItem>();
+            this.itemMock = new Mock<IItem>();
 
             this.SetupDefaultServiceProvider();
         }
@@ -47,7 +47,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
 
             this.AssertInventoryCapacity(10);
 
-            await this._inventory.RemoveItemAsync(item);
+            await this.Inventory.RemoveItemAsync(item);
 
             this.AssertInventoryCapacity(0);
         }
@@ -57,13 +57,13 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             var item = await this.AddItemToInventoryAsync(InventoryCapacity);
 
-            this._inventory.DoesItemFit(item).Should().BeFalse();
+            this.Inventory.DoesItemFit(item).Should().BeFalse();
         }
 
         [TestMethod]
         public void PassingNullToDoesItemFitWillThrowException()
         {
-            Action act = () => this._inventory.DoesItemFit(null);
+            Action act = () => this.Inventory.DoesItemFit(null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -73,7 +73,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             var item = new FakeItem(InventoryCapacity);
 
-            this._inventory.DoesItemFit(item).Should().BeTrue();
+            this.Inventory.DoesItemFit(item).Should().BeTrue();
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
 
             var item = new FakeItem(10);
 
-            this._inventory.DoesItemFit(item).Should().BeTrue();
+            this.Inventory.DoesItemFit(item).Should().BeTrue();
         }
 
         [TestMethod]
@@ -93,13 +93,13 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
 
             var item = new FakeItem(11);
 
-            this._inventory.DoesItemFit(item).Should().BeFalse();
+            this.Inventory.DoesItemFit(item).Should().BeFalse();
         }
 
         [TestMethod]
         public void CallingNullForHandleOnDoesItemFitThrowsException()
         {
-            Action act = () => this._inventory.DoesItemFit((ItemMeta) null, 1);
+            Action act = () => this.Inventory.DoesItemFit((ItemMeta) null, 1);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -110,9 +110,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(2)]
         public void CallingDoesItemFitWithFittingItemReturnsTrue(int weightDelta)
         {
-            this._inventory.SetCapacity(this._defaultRealMeta.DefaultWeight + weightDelta);
+            this.Inventory.SetCapacity(this.DefaultRealMeta.DefaultWeight + weightDelta);
 
-            this._inventory.DoesItemFit(this._defaultRealMeta).Should().BeTrue();
+            this.Inventory.DoesItemFit(this.DefaultRealMeta).Should().BeTrue();
         }
 
         [TestMethod]
@@ -121,9 +121,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(-3)]
         public void CallingdoesItemFitWithExceedingWeightReturnsFalse(int weightDelta)
         {
-            this._inventory.SetCapacity(this._defaultRealMeta.DefaultWeight + weightDelta);
+            this.Inventory.SetCapacity(this.DefaultRealMeta.DefaultWeight + weightDelta);
 
-            this._inventory.DoesItemFit(this._defaultRealMeta).Should().BeFalse();
+            this.Inventory.DoesItemFit(this.DefaultRealMeta).Should().BeFalse();
         }
 
         [TestMethod]
@@ -132,9 +132,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(-2)]
         public void CallingDoesItemFitWithNegativeAmountThrowsException(int amount)
         {
-            this._inventory.SetCapacity(1000);
+            this.Inventory.SetCapacity(1000);
 
-            Action act = () => this._inventory.DoesItemFit(ItemHandle, amount);
+            Action act = () => this.Inventory.DoesItemFit(ItemHandle, amount);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("1 or higher"));
@@ -146,9 +146,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(-2)]
         public void CallingDoesItemFitWithNegativeAmountAndMetaThrowsException(int amount)
         {
-            this._inventory.SetCapacity(1000);
+            this.Inventory.SetCapacity(1000);
 
-            Action act = () => this._inventory.DoesItemFit(this._defaultRealMeta, amount);
+            Action act = () => this.Inventory.DoesItemFit(this.DefaultRealMeta, amount);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("1 or higher"));
@@ -157,9 +157,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public void CallingDoesItemFitWithKnownHandleAndAvailableSpaceReturnsTrue()
         {
-            this._inventory.SetCapacity(1000);
+            this.Inventory.SetCapacity(1000);
 
-            this._inventory.DoesItemFit(ItemHandle, 1).Should().BeTrue();
+            this.Inventory.DoesItemFit(ItemHandle, 1).Should().BeTrue();
         }
 
         [TestMethod]
@@ -168,7 +168,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(" ")]
         public void CallingDoesItemFitWithInvalidHandleThrowsException(string handle)
         {
-            Action act = () => this._inventory.DoesItemFit(handle, 1);
+            Action act = () => this.Inventory.DoesItemFit(handle, 1);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -176,7 +176,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public void CallingDoesItemFitWithUnknownHandleThrowsException()
         {
-            Action act = () => this._inventory.DoesItemFit("unknownhandle", 1);
+            Action act = () => this.Inventory.DoesItemFit("unknownhandle", 1);
 
             act.Should().Throw<ItemMetaNotFoundException>();
         }
@@ -187,7 +187,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(-2)]
         public void CallingDoesItemFitWithMetaAndNegativeAmountThrowsException(int amount)
         {
-            Action act = () => this._inventory.DoesItemFit(this._defaultRealMeta, amount);
+            Action act = () => this.Inventory.DoesItemFit(this.DefaultRealMeta, amount);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("1 or higher") && x.Message.Contains("amount"));
@@ -205,24 +205,24 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
                 return false;
             }
 
-            this._inventory.SetItemFilter(Filter);
+            this.Inventory.SetItemFilter(Filter);
 
-            this._inventory.IsItemAllowed(this._item).Should().BeFalse();
-            passedItem.Should().Be(this._item);
+            this.Inventory.IsItemAllowed(this.Item).Should().BeFalse();
+            passedItem.Should().Be(this.Item);
         }
 
         [TestMethod]
         public void ItemFilterWithNullAcceptsAllItems()
         {
-            this._inventory.SetItemFilter(null);
+            this.Inventory.SetItemFilter(null);
 
-            this._inventory.IsItemAllowed(this._item).Should().BeTrue();
+            this.Inventory.IsItemAllowed(this.Item).Should().BeTrue();
         }
 
         [TestMethod]
         public void CallingIsItemAllowedWithNullThrowsException()
         {
-            Action act = () => this._inventory.IsItemAllowed(null);
+            Action act = () => this.Inventory.IsItemAllowed(null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -230,7 +230,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public void CallingCanBeInsertedWithNullThrowsException()
         {
-            Action act = () => this._inventory.CanBeInserted(null);
+            Action act = () => this.Inventory.CanBeInserted(null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -238,31 +238,31 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public void CanBeInsertedWithRightWeightAndAllowedFilterAndMovableItemReturnsTrue()
         {
-            this._inventory.SetCapacity(this._item.TotalWeight + 1);
-            this._inventory.SetItemFilter(null);
-            this._item.MovingLocked = false;
+            this.Inventory.SetCapacity(this.Item.TotalWeight + 1);
+            this.Inventory.SetItemFilter(null);
+            this.Item.MovingLocked = false;
 
-            this._inventory.CanBeInserted(this._item).Should().BeTrue();
+            this.Inventory.CanBeInserted(this.Item).Should().BeTrue();
         }
 
         [TestMethod]
         public void CanBeInsertedWithRightWeightAndAllowedFilterAndInMovableItemReturnsFalse()
         {
-            this._inventory.SetCapacity(this._item.TotalWeight + 1);
-            this._inventory.SetItemFilter(null);
-            this._item.MovingLocked = true;
+            this.Inventory.SetCapacity(this.Item.TotalWeight + 1);
+            this.Inventory.SetItemFilter(null);
+            this.Item.MovingLocked = true;
 
-            this._inventory.CanBeInserted(this._item).Should().BeFalse();
+            this.Inventory.CanBeInserted(this.Item).Should().BeFalse();
         }
 
         [TestMethod]
         public void CanBeInsertedWithRightWeightAndDisallowedFilterAndMovableItemReturnsFalse()
         {
-            this._inventory.SetCapacity(this._item.TotalWeight + 1);
-            this._inventory.SetItemFilter(x => false);
-            this._item.MovingLocked = false;
+            this.Inventory.SetCapacity(this.Item.TotalWeight + 1);
+            this.Inventory.SetItemFilter(x => false);
+            this.Item.MovingLocked = false;
 
-            this._inventory.CanBeInserted(this._item).Should().BeFalse();
+            this.Inventory.CanBeInserted(this.Item).Should().BeFalse();
         }
 
         [TestMethod]
@@ -270,11 +270,11 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(-2)]
         public void CanBeInsertedWithTooHighWeightAndAllowedFilterMovableItemReturnsFalse(int weightDelta)
         {
-            this._inventory.SetCapacity(this._item.TotalWeight + weightDelta);
-            this._inventory.SetItemFilter(x => true);
-            this._item.MovingLocked = false;
+            this.Inventory.SetCapacity(this.Item.TotalWeight + weightDelta);
+            this.Inventory.SetItemFilter(x => true);
+            this.Item.MovingLocked = false;
 
-            this._inventory.CanBeInserted(this._item).Should().BeFalse();
+            this.Inventory.CanBeInserted(this.Item).Should().BeFalse();
         }
 
         [TestMethod]
@@ -282,10 +282,10 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(-2)]
         public void CanBeInsertedWithTooHighWeightAndDisallowedFilterReturnsFalse(int weightDelta)
         {
-            this._inventory.SetCapacity(this._item.TotalWeight + weightDelta);
-            this._inventory.SetItemFilter(x => false);
+            this.Inventory.SetCapacity(this.Item.TotalWeight + weightDelta);
+            this.Inventory.SetItemFilter(x => false);
 
-            this._inventory.CanBeInserted(this._item).Should().BeFalse();
+            this.Inventory.CanBeInserted(this.Item).Should().BeFalse();
         }
 
         [TestMethod]
@@ -299,32 +299,32 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(false, false, true)]
         public async Task IgnoringFalseFilterReturnsAllItems(bool ignoreCapacity, bool ignoreAllowance, bool ignoreMovable)
         {
-            await this._inventory.InsertItemAsync(this._item);
-            await this._inventory.InsertItemAsync(this._fakeItem);
+            await this.Inventory.InsertItemAsync(this.Item);
+            await this.Inventory.InsertItemAsync(this.FakeItem);
 
-            this._item.MovingLocked = ignoreMovable;
-            this._fakeItem.MovingLocked = ignoreMovable;
+            this.Item.MovingLocked = ignoreMovable;
+            this.FakeItem.MovingLocked = ignoreMovable;
 
             var otherInventory = new Mock<IInventory>();
 
             otherInventory.Setup(x => x.DoesItemFit(It.IsAny<IItem>())).Returns(ignoreCapacity == false);
             otherInventory.Setup(x => x.IsItemAllowed(It.IsAny<IItem>())).Returns(ignoreAllowance == false);
 
-            var items = this._inventory.GetInsertableItems(otherInventory.Object,
+            var items = this.Inventory.GetInsertableItems(otherInventory.Object,
                                                            ignoreCapacity == false,
                                                            ignoreAllowance == false,
                                                            ignoreMovable == false);
 
-            otherInventory.Verify(x => x.DoesItemFit(this._item), Times.AtMostOnce);
-            otherInventory.Verify(x => x.DoesItemFit(this._fakeItem), Times.AtMostOnce);
+            otherInventory.Verify(x => x.DoesItemFit(this.Item), Times.AtMostOnce);
+            otherInventory.Verify(x => x.DoesItemFit(this.FakeItem), Times.AtMostOnce);
 
-            otherInventory.Verify(x => x.IsItemAllowed(this._item), Times.AtMostOnce);
-            otherInventory.Verify(x => x.IsItemAllowed(this._fakeItem), Times.AtMostOnce);
+            otherInventory.Verify(x => x.IsItemAllowed(this.Item), Times.AtMostOnce);
+            otherInventory.Verify(x => x.IsItemAllowed(this.FakeItem), Times.AtMostOnce);
 
             items.Should()
                 .HaveCount(2)
-                .And.Contain(this._item)
-                .And.Contain(this._fakeItem);
+                .And.Contain(this.Item)
+                .And.Contain(this.FakeItem);
         }
 
         [TestMethod]
@@ -333,21 +333,21 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(true, false)]
         public async Task AnyFalseRequirementReturnsEmptyList(bool fitStatus, bool allowanceStatus)
         {
-            await this._inventory.InsertItemAsync(this._item);
-            await this._inventory.InsertItemAsync(this._fakeItem);
+            await this.Inventory.InsertItemAsync(this.Item);
+            await this.Inventory.InsertItemAsync(this.FakeItem);
 
             var otherInventory = new Mock<IInventory>();
 
             otherInventory.Setup(x => x.DoesItemFit(It.IsAny<IItem>())).Returns(fitStatus);
             otherInventory.Setup(x => x.IsItemAllowed(It.IsAny<IItem>())).Returns(allowanceStatus);
 
-            var items = this._inventory.GetInsertableItems(otherInventory.Object, true, true);
+            var items = this.Inventory.GetInsertableItems(otherInventory.Object, true, true);
 
-            otherInventory.Verify(x => x.DoesItemFit(this._item), Times.AtMostOnce);
-            otherInventory.Verify(x => x.DoesItemFit(this._fakeItem), Times.AtMostOnce);
+            otherInventory.Verify(x => x.DoesItemFit(this.Item), Times.AtMostOnce);
+            otherInventory.Verify(x => x.DoesItemFit(this.FakeItem), Times.AtMostOnce);
 
-            otherInventory.Verify(x => x.IsItemAllowed(this._item), Times.AtMostOnce);
-            otherInventory.Verify(x => x.IsItemAllowed(this._fakeItem), Times.AtMostOnce);
+            otherInventory.Verify(x => x.IsItemAllowed(this.Item), Times.AtMostOnce);
+            otherInventory.Verify(x => x.IsItemAllowed(this.FakeItem), Times.AtMostOnce);
 
             items.Should().BeEmpty();
         }
@@ -360,7 +360,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         public void CallingGetInsertableItemsWithNullTargetInventoryThrowsException(bool capacityFilter,
             bool acceptanceFilter)
         {
-            Action act = () => this._inventory.GetInsertableItems(null, capacityFilter, acceptanceFilter);
+            Action act = () => this.Inventory.GetInsertableItems(null, capacityFilter, acceptanceFilter);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -371,7 +371,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(" ")]
         public void CallingGetItemFitAmountWithNullHandleThrowsException(string handle)
         {
-            Action act = () => this._inventory.GetItemFitAmount(handle);
+            Action act = () => this.Inventory.GetItemFitAmount(handle);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -379,7 +379,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public void CallingGetItemFitAmountWithNullMetaThrowsException()
         {
-            Action act = () => this._inventory.GetItemFitAmount((ItemMeta) null);
+            Action act = () => this.Inventory.GetItemFitAmount((ItemMeta) null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -387,7 +387,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public void CallingGetItemFitAmountWithNullItemThrowsException()
         {
-            Action act = () => this._inventory.GetItemFitAmount((IItem) null);
+            Action act = () => this.Inventory.GetItemFitAmount((IItem) null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -395,7 +395,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public void CallingGetItemFitAmountWithUnknownItemThrowsException()
         {
-            Action act = () => this._inventory.GetItemFitAmount("unknownhandle");
+            Action act = () => this.Inventory.GetItemFitAmount("unknownhandle");
 
             act.Should().Throw<ItemMetaNotFoundException>();
         }
@@ -406,7 +406,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(-2)]
         public void CallingGetItemFitAmountWithZeroOrLowerThrowsException(int value)
         {
-            Action act = () => this._inventory.GetItemFitAmount(value);
+            Action act = () => this.Inventory.GetItemFitAmount(value);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
                 .Where(x => x.Message.Contains("1 or higher"));
@@ -422,13 +422,13 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(2, 3, 1)]
         public void GetItemFitAmountSetsValueCorrectly(int singleWeight, int capacity, int result)
         {
-            this._item.SetSingleWeight(singleWeight);
-            this._inventory.SetCapacity(capacity);
+            this.Item.SetSingleWeight(singleWeight);
+            this.Inventory.SetCapacity(capacity);
 
-            this._item.SingleWeight.Should().Be(singleWeight);
-            this._inventory.Capacity.Should().Be(capacity);
+            this.Item.SingleWeight.Should().Be(singleWeight);
+            this.Inventory.Capacity.Should().Be(capacity);
 
-            var amount = this._inventory.GetItemFitAmount(this._item);
+            var amount = this.Inventory.GetItemFitAmount(this.Item);
 
             amount.Should().Be(result);
         }
@@ -443,12 +443,12 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(2, 3, 1)]
         public void GetItemFitAmountWithMetaReturnsCorrectValue(int singleWeight, int capacity, int result)
         {
-            var meta = new ItemMeta(this._defaultRealMeta.Handle, this._defaultRealMeta.Type, this._defaultRealMeta.DisplayName, singleWeight);
+            var meta = new ItemMeta(this.DefaultRealMeta.Handle, this.DefaultRealMeta.Type, this.DefaultRealMeta.DisplayName, singleWeight);
 
-            this._inventory.SetCapacity(capacity);
-            this._inventory.Capacity.Should().Be(capacity);
+            this.Inventory.SetCapacity(capacity);
+            this.Inventory.Capacity.Should().Be(capacity);
 
-            var amount = this._inventory.GetItemFitAmount(meta);
+            var amount = this.Inventory.GetItemFitAmount(meta);
 
             amount.Should().Be(result);
         }
@@ -463,19 +463,19 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [DataRow(2, 3, 1)]
         public void GetItemFitAmountWithHandleReturnsCorrectValue(int singleWeight, int capacity, int result)
         {
-            this._defaultRealMeta = new ItemMeta(this._defaultRealMeta.Handle, this._defaultRealMeta.Type, this._defaultRealMeta.DisplayName, singleWeight);
+            this.DefaultRealMeta = new ItemMeta(this.DefaultRealMeta.Handle, this.DefaultRealMeta.Type, this.DefaultRealMeta.DisplayName, singleWeight);
 
             this.SetupDefaultServiceProvider();
 
-            var success = this._itemRegistry.TryGetItemMeta(this._defaultRealMeta.Handle, out var meta);
+            var success = this.ItemRegistry.TryGetItemMeta(this.DefaultRealMeta.Handle, out var meta);
             success.Should().BeTrue();
 
             meta.DefaultWeight.Should().Be(singleWeight);
 
-            this._inventory.SetCapacity(capacity);
-            this._inventory.Capacity.Should().Be(capacity);
+            this.Inventory.SetCapacity(capacity);
+            this.Inventory.Capacity.Should().Be(capacity);
 
-            var amount = this._inventory.GetItemFitAmount(this._defaultRealMeta.Handle);
+            var amount = this.Inventory.GetItemFitAmount(this.DefaultRealMeta.Handle);
 
             amount.Should().Be(result);
         }
@@ -484,7 +484,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             var item = new FakeItem(weight);
 
-            await this._inventory.InsertItemAsync(item);
+            await this.Inventory.InsertItemAsync(item);
 
             return item;
         }
@@ -493,7 +493,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             if (inventory == null)
             {
-                inventory = this._inventory;
+                inventory = this.Inventory;
             }
 
             inventory.Capacity.Should().Be(capacity);

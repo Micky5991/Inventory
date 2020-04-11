@@ -11,24 +11,24 @@ namespace Micky5991.Inventory.Tests
     public class InventoryFactoryFixture
     {
 
-        private InventoryFactory _inventoryFactory;
-        private AggregatedInventoryServices _inventoryServices;
+        private InventoryFactory inventoryFactory;
+        private AggregatedInventoryServices inventoryServices;
 
-        private Mock<IItemRegistry> _itemRegistry;
+        private Mock<IItemRegistry> itemRegistry;
 
         [TestInitialize]
         public void Setup()
         {
-            this._itemRegistry = new Mock<IItemRegistry>();
-            this._inventoryServices = new AggregatedInventoryServices(this._itemRegistry.Object);
+            this.itemRegistry = new Mock<IItemRegistry>();
+            this.inventoryServices = new AggregatedInventoryServices(this.itemRegistry.Object);
 
-            this._inventoryFactory = new InventoryFactory(this._inventoryServices);
+            this.inventoryFactory = new InventoryFactory(this.inventoryServices);
         }
 
         [TestMethod]
         public void InventoryFactoryCreatesInventory()
         {
-            var inventory = this._inventoryFactory.CreateInventory(1);
+            var inventory = this.inventoryFactory.CreateInventory(1);
 
             inventory.Should()
                 .NotBeNull()
@@ -43,7 +43,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(int.MaxValue)]
         public void SetsCorrectInitialCapacityToInventory(int capacity)
         {
-            var inventory = this._inventoryFactory.CreateInventory(capacity);
+            var inventory = this.inventoryFactory.CreateInventory(capacity);
 
             inventory.Capacity.Should().Be(capacity);
         }
@@ -51,7 +51,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingInventoryShouldHaveRuntimeId()
         {
-            var inventory = this._inventoryFactory.CreateInventory(1);
+            var inventory = this.inventoryFactory.CreateInventory(1);
 
             inventory.RuntimeId.Should().NotBeEmpty();
         }
@@ -62,7 +62,7 @@ namespace Micky5991.Inventory.Tests
         [DataRow(int.MinValue)]
         public void CreatingInventoryWithInvalidWeightWillThrowException(int capacity)
         {
-            Action act = () => this._inventoryFactory.CreateInventory(capacity);
+            Action act = () => this.inventoryFactory.CreateInventory(capacity);
 
             act.Should().Throw<ArgumentOutOfRangeException>();
         }

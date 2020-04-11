@@ -9,7 +9,7 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         [TestMethod]
         public async Task AddingItemWillNotifyUsedCapacityAndAvailableCapacity()
         {
-            using var monitoredInventory = this._inventory.Monitor();
+            using var monitoredInventory = this.Inventory.Monitor();
 
             await this.AddItemToInventoryAsync(10);
 
@@ -22,9 +22,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             var item = await this.AddItemToInventoryAsync(10);
 
-            using var monitoredInventory = this._inventory.Monitor();
+            using var monitoredInventory = this.Inventory.Monitor();
 
-            await this._inventory.RemoveItemAsync(item);
+            await this.Inventory.RemoveItemAsync(item);
 
             monitoredInventory.Should().RaisePropertyChangeFor(x => x.UsedCapacity);
             monitoredInventory.Should().RaisePropertyChangeFor(x => x.AvailableCapacity);
@@ -35,9 +35,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             var item = await this.AddItemToInventoryAsync(10);
 
-            using var monitoredInventory = this._inventory.Monitor();
+            using var monitoredInventory = this.Inventory.Monitor();
 
-            this._inventory.SetCapacity(20);
+            this.Inventory.SetCapacity(20);
 
             monitoredInventory.Should().RaisePropertyChangeFor(x => x.Capacity);
             monitoredInventory.Should().RaisePropertyChangeFor(x => x.AvailableCapacity);
@@ -48,9 +48,9 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             await this.AddItemToInventoryAsync(10);
 
-            using var monitoredInventory = this._inventory.Monitor();
+            using var monitoredInventory = this.Inventory.Monitor();
 
-            this._inventory.SetCapacity(this._inventory.Capacity);
+            this.Inventory.SetCapacity(this.Inventory.Capacity);
 
             monitoredInventory.Should().NotRaisePropertyChangeFor(x => x.Capacity);
             monitoredInventory.Should().NotRaisePropertyChangeFor(x => x.AvailableCapacity);
