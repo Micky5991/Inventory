@@ -83,6 +83,15 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        public void IncreasingAmountOfNonStackableItemWillThrowException()
+        {
+            this.SetupServiceProvider(new ItemMeta(this.DefaultRealMeta.Handle, typeof(RealItem), this.DefaultRealMeta.DisplayName, this.DefaultRealMeta.DefaultWeight, ItemFlags.NotStackable));
+
+            Action act = () => this.Item.IncreaseAmount(2);
+            act.Should().Throw<ItemNotStackableException>();
+        }
+
+        [TestMethod]
         public void CreatingItemWithNullItemMetaWillThrowException()
         {
             Action act = () => new RealItem(null, this.ItemServices);
@@ -145,6 +154,76 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        [DataRow(1)]
+        [DataRow(10)]
+        [DataRow(100)]
+        public void IncreasingAmountIncreasesTotalAmount(int amountDelta)
+        {
+            var oldAmount = this.Item.Amount;
+
+            this.Item.IncreaseAmount(amountDelta);
+
+            this.Item.Amount.Should().Be(oldAmount + amountDelta);
+        }
+
+        [TestMethod]
+        [DataRow(1)]
+        [DataRow(10)]
+        [DataRow(100)]
+        public void ReducingAmountReducesTotalAmount(int amountDelta)
+        {
+            this.Item.SetAmount(amountDelta + 1);
+
+            var oldAmount = this.Item.Amount;
+
+            this.Item.ReduceAmount(amountDelta);
+
+            this.Item.Amount.Should().Be(oldAmount - amountDelta);
+        }
+
+        [TestMethod]
+        [DataRow(2)]
+        [DataRow(10)]
+        [DataRow(100)]
+        public void ReducingAmountByAmountHigherThanTotalAmountThrowsException(int amountDelta)
+        {
+            this.Item.SetAmount(1);
+
+            Action act = () => this.Item.ReduceAmount(amountDelta);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+               .Where(x => x.Message.Contains(this.Item.Amount.ToString()));
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-10)]
+        public void ReducingAmountByZeroOrLowerValueThrowsException(int amountDelta)
+        {
+            this.Item.SetAmount(1);
+
+            Action act = () => this.Item.ReduceAmount(amountDelta);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+               .Where(x => x.Message.Contains("1 or higher"));
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataRow(-10)]
+        public void IncreasingAmountByZeroOrLowerValueThrowsException(int amountDelta)
+        {
+            this.Item.SetAmount(1);
+
+            Action act = () => this.Item.IncreaseAmount(amountDelta);
+
+            act.Should().Throw<ArgumentOutOfRangeException>()
+               .Where(x => x.Message.Contains("1 or higher"));
+        }
+
+        [TestMethod]
         [DataRow(0)]
         [DataRow(3)]
         [DataRow(7)]
@@ -167,7 +246,7 @@ namespace Micky5991.Inventory.Tests
             Action act = () => this.Item.SetAmount(Item.MinimalItemAmount + amountDelta);
 
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .Where(x => x.Message.Contains($"{Math.Max(Item.MinimalItemAmount, 0)} or higher"));
+               .Where(x => x.Message.Contains($"{Math.Max(Item.MinimalItemAmount, 0)} or higher"));
 
             this.Item.Amount.Should().Be(oldAmount);
         }
@@ -219,6 +298,28 @@ namespace Micky5991.Inventory.Tests
             using var monitoredItem = this.Item.Monitor();
 
             this.Item.SetAmount(this.Item.Amount + 1);
+
+            monitoredItem.Should().RaisePropertyChangeFor(x => x.Amount);
+            monitoredItem.Should().RaisePropertyChangeFor(x => x.TotalWeight);
+        }
+
+        [TestMethod]
+        public void IncreasingAmountWillNotifyAmountAndTotalWeight()
+        {
+            using var monitoredItem = this.Item.Monitor();
+
+            this.Item.IncreaseAmount(1);
+
+            monitoredItem.Should().RaisePropertyChangeFor(x => x.Amount);
+            monitoredItem.Should().RaisePropertyChangeFor(x => x.TotalWeight);
+        }
+
+        [TestMethod]
+        public void ReducingAmountWillNotifyAmountAndTotalWeight()
+        {
+            using var monitoredItem = this.Item.Monitor();
+
+            this.Item.ReduceAmount(1);
 
             monitoredItem.Should().RaisePropertyChangeFor(x => x.Amount);
             monitoredItem.Should().RaisePropertyChangeFor(x => x.TotalWeight);
@@ -316,6 +417,24 @@ namespace Micky5991.Inventory.Tests
             this.Inventory.InsertItemAsync(this.Item);
 
             Action act = () => this.Item.SetAmount(10 + amountDelta);
+
+            act.Should().Throw<InventoryCapacityException>();
+        }
+
+        [TestMethod]
+        [DataRow(1)]
+        [DataRow(2)]
+        public void IncreasingAmountAboveInventoryCapacityThrowsException(int amountDelta)
+        {
+            this.Inventory.SetCapacity(10);
+            this.Item.SetSingleWeight(1);
+            this.Item.SetAmount(1);
+
+            this.Inventory.InsertItemAsync(this.Item);
+
+            this.Item.SetAmount(10);
+
+            Action act = () => this.Item.IncreaseAmount(amountDelta);
 
             act.Should().Throw<InventoryCapacityException>();
         }
