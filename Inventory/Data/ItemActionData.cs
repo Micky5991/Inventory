@@ -1,6 +1,6 @@
 using System;
 
-namespace Micky5991.Inventory
+namespace Micky5991.Inventory.Data
 {
     /// <summary>
     /// Data which is usable to display an item action in a user interface.

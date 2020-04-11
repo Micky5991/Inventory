@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Micky5991.Inventory.AggregatedServices;
+using Micky5991.Inventory.Data;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 

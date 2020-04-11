@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Micky5991.Inventory.Data;
 
 namespace Micky5991.Inventory.Interfaces
 {
