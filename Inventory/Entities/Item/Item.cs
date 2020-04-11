@@ -47,7 +47,7 @@ namespace Micky5991.Inventory.Entities.Item
             this.Stackable = (this.Meta.Flags & ItemFlags.NotStackable) == 0;
             this.WeightChangable = (this.Meta.Flags & ItemFlags.WeightChangable) != 0;
 
-            this.DisplayName = this.DefaultDisplayName;
+            this.displayName = this.DefaultDisplayName;
             this.Amount = Math.Max(MinimalItemAmount, 1);
         }
 
@@ -145,14 +145,14 @@ namespace Micky5991.Inventory.Entities.Item
         }
 
         /// <inheritdoc />
-        public void SetDisplayName(string displayName)
+        public void SetDisplayName(string newName)
         {
-            if (string.IsNullOrWhiteSpace(displayName))
+            if (string.IsNullOrWhiteSpace(newName))
             {
-                throw new ArgumentNullException(nameof(displayName));
+                throw new ArgumentNullException(nameof(newName));
             }
 
-            this.DisplayName = displayName;
+            this.DisplayName = newName;
         }
 
         /// <inheritdoc />
