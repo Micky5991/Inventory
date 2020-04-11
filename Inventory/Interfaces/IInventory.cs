@@ -57,6 +57,22 @@ namespace Micky5991.Inventory.Interfaces
             where T : IItem;
 
         /// <summary>
+        /// Returns the single item that matches the given runtimeId.
+        /// </summary>
+        /// <param name="runtimeId">Unique runtimeId to search for.</param>
+        /// <returns>The item that has been found, null otherwise.</returns>
+        IItem? GetItem(Guid runtimeId);
+
+        /// <summary>
+        /// Returns the single item that matches the given runtimeId as the provided type <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="runtimeId">Unique runtimeId to search for.</param>
+        /// <typeparam name="T">Returned type of this item.</typeparam>
+        /// <returns>The item that has been found, null otherwise.</returns>
+        T? GetItem<T>(Guid runtimeId)
+            where T : class, IItem;
+
+        /// <summary>
         /// Determines if the given item is allowed in inventory.
         /// </summary>
         /// <param name="item">Item that should be checked.</param>
