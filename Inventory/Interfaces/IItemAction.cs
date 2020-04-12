@@ -10,6 +10,7 @@ namespace Micky5991.Inventory.Interfaces
     /// <typeparam name="TIn">Incoming data for this item action.</typeparam>
     public interface IItemAction<TOut, TIn>
         where TOut : OutogingItemActionData
+        where TIn : IncomingItemActionData
     {
         /// <summary>
         /// Gets a non persistant identifier of this action that should ONLY be used for communication in runtime and during the lifetime of this item.

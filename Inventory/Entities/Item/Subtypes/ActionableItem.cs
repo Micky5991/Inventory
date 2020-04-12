@@ -13,13 +13,14 @@ namespace Micky5991.Inventory.Entities.Item.Subtypes
     /// </summary>
     /// <typeparam name="TOut">Outgoing data type for item actions.</typeparam>
     /// <typeparam name="TIn">Incoming data type for item action execution.</typeparam>
-    public abstract class ActionableItem<TOut, TIn> : Item, IItemActionContainer<TOut, TIn>
+    public abstract class ActionableItem<TOut, TIn> : Item, IActionableItem<TOut, TIn>
         where TOut : OutogingItemActionData
+        where TIn : IncomingItemActionData
     {
         private readonly ConcurrentDictionary<Guid, IItemAction<TOut, TIn>> actions;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ActionableItem{TOut, TIn}"/> class.
+        /// Initializes a new instance of the <see cref="ActionableItem{TOut,TIn}"/> class.
         /// </summary>
         /// <param name="meta">Non-NULL instance of the <see cref="ItemMeta"/> that is represented by this instance.</param>
         /// <param name="itemServices">Non-NULL instance of <see cref="AggregatedItemServices"/> which are necessary for this <see cref="Item"/>.</param>
@@ -30,16 +31,11 @@ namespace Micky5991.Inventory.Entities.Item.Subtypes
         }
 
         /// <inheritdoc />
-        public void ExecuteAction(Guid actionRuntimeId, TIn data)
+        public void ExecuteAction(TIn data)
         {
-            if (actionRuntimeId == Guid.Empty)
+            if (this.actions.TryGetValue(data.ActionRuntimeId, out var action) == false)
             {
-                throw new ArgumentNullException(nameof(actionRuntimeId));
-            }
-
-            if (this.actions.TryGetValue(actionRuntimeId, out var action) == false)
-            {
-                throw new ItemActionNotFoundException($"Could not find item action with id {actionRuntimeId}.");
+                throw new ItemActionNotFoundException($"Could not find item action with id {data.ActionRuntimeId}.");
             }
 
             action.Execute(data);
