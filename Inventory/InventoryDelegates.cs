@@ -13,5 +13,17 @@ namespace Micky5991.Inventory
         /// <param name="item">Instance of <see cref="IItem"/> to check.</param>
         /// <returns>true if requirements are met, false otherwise.</returns>
         public delegate bool ItemFilterDelegate(IItem item);
+
+        /// <summary>
+        /// Delegate that checks if this action is visible at all.
+        /// </summary>
+        /// <returns>true if action should be visible, false otherwise.</returns>
+        public delegate bool ActionVisibleDelegate();
+
+        /// <summary>
+        /// Delegate that checks if the action is enabled. If action is not visible, it is also disabled by default.
+        /// </summary>
+        /// <returns>true if action should be enabled, false otherwise.</returns>
+        public delegate bool ActionEnabledDelegate();
     }
 }
