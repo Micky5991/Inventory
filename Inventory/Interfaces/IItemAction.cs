@@ -18,6 +18,11 @@ namespace Micky5991.Inventory.Interfaces
         Guid RuntimeId { get; }
 
         /// <summary>
+        /// Gets the reference to the item where this action was added to.
+        /// </summary>
+        IItem RelatedItem { get; }
+
+        /// <summary>
         /// Sets the item reference where this action was added to.
         /// </summary>
         /// <param name="item">Reference to the related item.</param>
@@ -36,5 +41,20 @@ namespace Micky5991.Inventory.Interfaces
         /// </summary>
         /// <returns>Created action data of this instance.</returns>
         TOut BuildActionData();
+
+        /// <summary>
+        /// Sets the current check that will be used to determine if the action is visible.
+        /// </summary>
+        /// <param name="visibleCheck">Callback that should be used. Pass null to remove check and always show action.</param>
+        /// <returns>Current <see cref="IItemAction{TOut,TIn}"/> instance.</returns>
+        IItemAction<TOut, TIn> SetVisibleCheck(InventoryDelegates.ActionVisibleDelegate? visibleCheck);
+
+        /// <summary>
+        /// Sets the current check that will be used to determine if the action is enabled. If the action is not visible,
+        /// this action is also implicitly disabled.
+        /// </summary>
+        /// <param name="enabledCheck">Callback that should be used. Pass null to remove check and always enable action.</param>
+        /// <returns>Current <see cref="IItemAction{TOut,TIn}"/> instance.</returns>
+        IItemAction<TOut, TIn> SetEnabledCheck(InventoryDelegates.ActionEnabledDelegate? enabledCheck);
     }
 }
