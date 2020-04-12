@@ -24,14 +24,22 @@ namespace Micky5991.Inventory.Tests
         protected const int FakeItemWeight = 50;
         protected const ItemFlags FakeItemFlags = ItemFlags.None;
 
+        protected const string ActionItemHandle = "actionhandle";
+        protected const string ActionItemDisplayName = "ActionItem";
+        protected const int ActionItemWeight = 50;
+        protected const ItemFlags ActionItemFlags = ItemFlags.None;
+
         protected ItemMeta RealMeta;
         protected ItemMeta FakeMeta;
+        protected ItemMeta ActionMeta;
 
         protected ItemMeta DefaultRealMeta;
         protected ItemMeta DefaultFakeMeta;
+        protected ItemMeta DefaultActionMeta;
 
         protected Item Item;
         protected FakeItem FakeItem;
+        protected RealActionItem ActionItem;
 
         protected IInventory Inventory;
 
@@ -56,12 +64,15 @@ namespace Micky5991.Inventory.Tests
         {
             this.DefaultRealMeta = new ItemMeta(ItemHandle, typeof(RealItem), ItemDisplayName, ItemWeight, ItemFlags);
             this.DefaultFakeMeta = new ItemMeta(FakeItemHandle, typeof(FakeItem), FakeItemDisplayName, FakeItemWeight, FakeItemFlags);
+            this.DefaultActionMeta = new ItemMeta(ActionItemHandle, typeof(RealActionItem), ActionItemDisplayName, ActionItemWeight, ActionItemFlags);
 
             this.SetupDefaultServiceProvider();
         }
 
         protected void SetupDependencies()
         {
+            RealActionItem.Reset();
+
             this.ItemRegistry = new ItemRegistry();
             this.ServiceCollection = new ServiceCollection();
 
@@ -113,6 +124,7 @@ namespace Micky5991.Inventory.Tests
 
             this.RealMeta = null;
             this.FakeMeta = null;
+            this.ActionMeta = null;
 
             this.Item = null;
             this.FakeItem = null;
@@ -153,11 +165,13 @@ namespace Micky5991.Inventory.Tests
         {
             this.RealMeta = this.DefaultRealMeta;
             this.FakeMeta = this.DefaultFakeMeta;
+            this.ActionMeta = this.DefaultActionMeta;
 
-            this.SetupServiceProvider(this.DefaultRealMeta, this.DefaultFakeMeta);
+            this.SetupServiceProvider(this.DefaultRealMeta, this.DefaultFakeMeta, this.DefaultActionMeta);
 
             this.Item = (Item) this.ItemFactory.CreateItem(this.DefaultRealMeta, 1);
             this.FakeItem = (FakeItem) this.ItemFactory.CreateItem(this.DefaultFakeMeta, 1);
+            this.ActionItem = (RealActionItem) this.ItemFactory.CreateItem(this.DefaultActionMeta, 1);
         }
 
     }

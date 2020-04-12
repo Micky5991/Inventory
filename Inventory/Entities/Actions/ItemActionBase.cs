@@ -19,6 +19,11 @@ namespace Micky5991.Inventory.Entities.Actions
 
         private InventoryDelegates.ActionEnabledDelegate? enabledCheck;
 
+        internal ItemActionBase(Guid runtimeId)
+        {
+            this.RuntimeId = runtimeId;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemActionBase{TOut, TIn}"/> class.
         /// </summary>
@@ -59,6 +64,33 @@ namespace Micky5991.Inventory.Entities.Actions
             this.enabledCheck = newEnabledCheck;
 
             return this;
+        }
+
+        /// <inheritdoc/>
+        public bool IsVisible()
+        {
+            if (this.visibleCheck == null)
+            {
+                return true;
+            }
+
+            return this.visibleCheck();
+        }
+
+        /// <inheritdoc/>
+        public bool IsEnabled()
+        {
+            if (this.IsVisible() == false)
+            {
+                return false;
+            }
+
+            if (this.enabledCheck == null)
+            {
+                return true;
+            }
+
+            return this.enabledCheck();
         }
     }
 }

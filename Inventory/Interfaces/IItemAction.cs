@@ -43,6 +43,18 @@ namespace Micky5991.Inventory.Interfaces
         TOut BuildActionData();
 
         /// <summary>
+        /// Returns if the item action is visible.
+        /// </summary>
+        /// <returns>true if the action is visible, false otherwise.</returns>
+        bool IsVisible();
+
+        /// <summary>
+        /// Returns if the item action is enabled.
+        /// </summary>
+        /// <returns>true if the action is enabled, false otherwise.</returns>
+        bool IsEnabled();
+
+        /// <summary>
         /// Sets the current check that will be used to determine if the action is visible.
         /// </summary>
         /// <param name="visibleCheck">Callback that should be used. Pass null to remove check and always show action.</param>
