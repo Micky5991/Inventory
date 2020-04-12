@@ -71,7 +71,7 @@ namespace Micky5991.Inventory.Entities.Item.Subtypes
         }
 
         /// <summary>
-        /// Method that is used to register all available item actions
+        /// Method that is used to register all available item actions.
         /// </summary>
         /// <returns>List of item actions that are available in this item.</returns>
         protected abstract IEnumerable<IItemAction<TOut, TIn>> RegisterAllActions();
