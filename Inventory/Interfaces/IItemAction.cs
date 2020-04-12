@@ -20,7 +20,7 @@ namespace Micky5991.Inventory.Interfaces
         /// <summary>
         /// Gets the reference to the item where this action was added to.
         /// </summary>
-        IItem RelatedItem { get; }
+        IItem? RelatedItem { get; }
 
         /// <summary>
         /// Sets the item reference where this action was added to.

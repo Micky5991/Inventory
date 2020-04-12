@@ -207,7 +207,7 @@ namespace Micky5991.Inventory.Extensions
                 throw new InvalidItemRegistryException($"The method {itemRegistry.GetType()}.{nameof(IItemRegistry.GetItemMeta)} returns a null enumerable instance!");
             }
 
-            if (metaCollection.Contains(null))
+            if (metaCollection.Contains(null!))
             {
                 throw new InvalidItemRegistryException($"The method {itemRegistry.GetType()}.{nameof(IItemRegistry.GetItemMeta)} contains a null value inside the collection");
             }
