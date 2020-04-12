@@ -12,7 +12,7 @@ namespace Micky5991.Inventory.Entities.Actions
     /// <typeparam name="TIn">Incoming data for this item action.</typeparam>
     [PublicAPI]
     public abstract class ItemActionBase<TOut, TIn> : IItemAction<TOut, TIn>
-        where TOut : OutogingItemActionData
+        where TOut : OutgoingItemActionData
         where TIn : IncomingItemActionData
     {
         private InventoryDelegates.ActionVisibleDelegate? visibleCheck;

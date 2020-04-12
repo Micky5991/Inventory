@@ -14,7 +14,7 @@ namespace Micky5991.Inventory.Entities.Item.Subtypes
     /// <typeparam name="TOut">Outgoing data type for item actions.</typeparam>
     /// <typeparam name="TIn">Incoming data type for item action execution.</typeparam>
     public abstract class ActionableItem<TOut, TIn> : Item, IActionableItem<TOut, TIn>
-        where TOut : OutogingItemActionData
+        where TOut : OutgoingItemActionData
         where TIn : IncomingItemActionData
     {
         private readonly ConcurrentDictionary<Guid, IItemAction<TOut, TIn>> actions;

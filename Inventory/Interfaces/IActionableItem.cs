@@ -9,7 +9,7 @@ namespace Micky5991.Inventory.Interfaces
     /// <typeparam name="TOut">Outgoing data type.</typeparam>
     /// <typeparam name="TIn">Incoming data type.</typeparam>
     public interface IActionableItem<TOut, TIn> : IItem
-        where TOut : OutogingItemActionData
+        where TOut : OutgoingItemActionData
         where TIn : IncomingItemActionData
     {
         /// <summary>

@@ -9,7 +9,7 @@ namespace Micky5991.Inventory.Interfaces
     /// <typeparam name="TOut">Outgoing data for this item action.</typeparam>
     /// <typeparam name="TIn">Incoming data for this item action.</typeparam>
     public interface IItemAction<TOut, TIn>
-        where TOut : OutogingItemActionData
+        where TOut : OutgoingItemActionData
         where TIn : IncomingItemActionData
     {
         /// <summary>
