@@ -5,13 +5,13 @@ namespace Micky5991.Inventory.Data
     /// <summary>
     /// Data which is usable to display an item action in a user interface.
     /// </summary>
-    public class OutogingItemActionData
+    public class OutgoingItemActionData
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OutogingItemActionData"/> class.
+        /// Initializes a new instance of the <see cref="OutgoingItemActionData"/> class.
         /// </summary>
         /// <param name="actionRuntimeId">RuntimeId of the action.</param>
-        public OutogingItemActionData(Guid actionRuntimeId)
+        public OutgoingItemActionData(Guid actionRuntimeId)
         {
             this.ActionRuntimeId = actionRuntimeId;
         }
