@@ -8,7 +8,7 @@ namespace Inventory.Example
 {
     class Program
     {
-        private readonly ServiceProvider _serviceProvider;
+        private readonly ServiceProvider serviceProvider;
 
         static void Main(string[] args)
         {
@@ -19,7 +19,7 @@ namespace Inventory.Example
 
         public Program()
         {
-            _serviceProvider = SetupServices();
+            this.serviceProvider = SetupServices();
         }
 
         private ServiceProvider SetupServices()
@@ -38,7 +38,7 @@ namespace Inventory.Example
 
         private void RunInventory()
         {
-            var inventoryBuilder = _serviceProvider.GetService<InventoryBuilderService>();
+            var inventoryBuilder = this.serviceProvider.GetService<InventoryBuilderService>();
 
             inventoryBuilder.SetupInventory();
         }
