@@ -48,9 +48,12 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void PassingActionDataWithUnknownActionRuntimeIdThrowsException()
         {
-            Action act = () => this.ActionItem.ExecuteAction(new IncomingItemActionData(Guid.NewGuid()));
+            var actionId = Guid.NewGuid();
 
-            act.Should().Throw<ItemActionNotFoundException>();
+            Action act = () => this.ActionItem.ExecuteAction(new IncomingItemActionData(actionId));
+
+            act.Should().Throw<ItemActionNotFoundException>()
+               .Where(x => x.Message.Contains("not find") && x.Message.Contains(actionId.ToString()));
         }
 
         [TestMethod]

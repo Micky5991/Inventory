@@ -177,7 +177,8 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             Action act = () => this.Inventory.DoesItemFit("unknownhandle", 1);
 
-            act.Should().Throw<ItemMetaNotFoundException>();
+            act.Should().Throw<ItemMetaNotFoundException>()
+               .Where(x => x.Message.Contains("unknownhandle") && x.Message.Contains("handle"));
         }
 
         [TestMethod]
@@ -396,7 +397,8 @@ namespace Micky5991.Inventory.Tests.InventoryFixtures
         {
             Action act = () => this.Inventory.GetItemFitAmount("unknownhandle");
 
-            act.Should().Throw<ItemMetaNotFoundException>();
+            act.Should().Throw<ItemMetaNotFoundException>()
+               .Where(x => x.Message.Contains("unknownhandle") && x.Message.Contains("handle"));;
         }
 
         [TestMethod]
