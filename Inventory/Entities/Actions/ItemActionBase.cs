@@ -36,7 +36,7 @@ namespace Micky5991.Inventory.Entities.Actions
         public Guid RuntimeId { get; }
 
         /// <inheritdoc/>
-        public IItem RelatedItem { get; private set; }
+        public IItem? RelatedItem { get; private set; }
 
         /// <inheritdoc />
         public abstract void Execute(TIn data);
