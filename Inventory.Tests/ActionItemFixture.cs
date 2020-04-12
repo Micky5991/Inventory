@@ -54,14 +54,6 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
-        public void PassingActionDataWithEmptyActionRuntimeIdThrowsException()
-        {
-            Action act = () => this.ActionItem.ExecuteAction(new IncomingItemActionData(Guid.Empty));
-
-            act.Should().Throw<ItemActionNotFoundException>();
-        }
-
-        [TestMethod]
         public void ReturningNullInRegisterActionInItemThrowsException()
         {
             RealActionItem.ActionGenerator = null;
