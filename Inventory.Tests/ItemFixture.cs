@@ -593,7 +593,7 @@ namespace Micky5991.Inventory.Tests
             Action act = () => this.Item.SplitItem(targetAmount);
 
             (act.Should().Throw<ArgumentOutOfRangeException>())
-                .Where(x => x.Message.Contains("1 or higher"));
+                .Where(x => x.Message.Contains("1 or higher") && x.Message.Contains("targetAmount"));
         }
 
         [TestMethod]
