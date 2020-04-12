@@ -11,15 +11,6 @@ namespace Micky5991.Inventory.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemNotMovableException"/> class.
         /// </summary>
-        /// <param name="message">Message that describes a generic occurence why this item is not movable.</param>
-        public ItemNotMovableException(string message)
-            : base(message)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ItemNotMovableException"/> class.
-        /// </summary>
         /// <param name="item">Instance of the item which is not movable.</param>
         public ItemNotMovableException(IItem item)
             : base($"The item {item.Handle} ({item.RuntimeId}) is not movable")
