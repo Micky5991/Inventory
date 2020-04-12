@@ -33,6 +33,11 @@ namespace Micky5991.Inventory.Entities.Item.Subtypes
         /// <inheritdoc />
         public void ExecuteAction(TIn data)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             if (this.actions.TryGetValue(data.ActionRuntimeId, out var action) == false)
             {
                 throw new ItemActionNotFoundException($"Could not find item action with id {data.ActionRuntimeId}.");
@@ -48,14 +53,25 @@ namespace Micky5991.Inventory.Entities.Item.Subtypes
 
             foreach (var itemAction in this.actions.Values)
             {
-                result.Add(itemAction.BuildActionData());
+                if (itemAction.IsVisible() == false)
+                {
+                    continue;
+                }
+
+                var data = itemAction.BuildActionData();
+                if (data == default(TOut))
+                {
+                    continue;
+                }
+
+                result.Add(data);
             }
 
             return result;
         }
 
         /// <summary>
-        /// Method that is used to register all available item actions.
+        /// Method that is used to register all available item actions
         /// </summary>
         /// <returns>List of item actions that are available in this item.</returns>
         protected abstract IEnumerable<IItemAction<TOut, TIn>> RegisterAllActions();
@@ -70,8 +86,24 @@ namespace Micky5991.Inventory.Entities.Item.Subtypes
 
         private void SetupItemActions()
         {
-            foreach (var action in this.RegisterAllActions())
+            var registeredActions = this.RegisterAllActions();
+            if (registeredActions == null)
             {
+                throw new InvalidActionException($"The method {nameof(this.RegisterAllActions)} returned null.");
+            }
+
+            foreach (var action in registeredActions)
+            {
+                if (action == null)
+                {
+                    throw new InvalidActionException($"The list returned by {nameof(this.RegisterAllActions)} contained null.");
+                }
+
+                if (action.RuntimeId == Guid.Empty)
+                {
+                    throw new InvalidActionException($"The list returned by {nameof(this.RegisterAllActions)} contained an item with empty guid. ");
+                }
+
                 this.actions.TryAdd(action.RuntimeId, action);
             }
         }
