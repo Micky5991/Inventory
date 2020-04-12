@@ -24,7 +24,7 @@ namespace Micky5991.Inventory.Entities.Inventory
             {
                 if (this.IsItemAllowed(item) == false)
                 {
-                    throw new ItemNotAllowedException($"The given item is not allwed in this inventory.");
+                    throw new ItemNotAllowedException();
                 }
 
                 if (this.DoesItemFit(item) == false)
