@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Micky5991.Inventory.Data;
 
@@ -9,15 +8,15 @@ namespace Micky5991.Inventory.Interfaces
     /// </summary>
     /// <typeparam name="TOut">Outgoing data type.</typeparam>
     /// <typeparam name="TIn">Incoming data type.</typeparam>
-    public interface IItemActionContainer<TOut, TIn>
+    public interface IActionableItem<TOut, TIn> : IItem
         where TOut : OutogingItemActionData
+        where TIn : IncomingItemActionData
     {
         /// <summary>
         /// Executes a certain action with given <paramref name="data"/>.
         /// </summary>
-        /// <param name="actionRuntimeId">Runtime of the action to run.</param>
         /// <param name="data">Data that should be passed to the action.</param>
-        void ExecuteAction(Guid actionRuntimeId, TIn data);
+        void ExecuteAction(TIn data);
 
         /// <summary>
         /// Collects all data from all items and returns a list of data from all actions.
