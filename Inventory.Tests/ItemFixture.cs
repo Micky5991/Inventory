@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using FluentAssertions;
 using Micky5991.Inventory.Entities.Item;
 using Micky5991.Inventory.Enums;
@@ -413,6 +414,31 @@ namespace Micky5991.Inventory.Tests
             Action act = () => this.Item.SetSingleWeight(this.Inventory.Capacity + 1);
 
             act.Should().Throw<InventoryCapacityException>();
+        }
+
+        [TestMethod]
+        public void InsertingItemToInventoryAttachesToEvent()
+        {
+            var item = new Mock<IItem>();
+
+            item.SetupAdd(x => x.PropertyChanged += It.Is<PropertyChangedEventHandler>(h => h.Target == this.Inventory));
+
+            this.Inventory.InsertItem(item.Object);
+
+            item.VerifyAdd(x => x.PropertyChanged += It.Is<PropertyChangedEventHandler>(h => h.Target == this.Inventory), Times.Once);
+        }
+
+        [TestMethod]
+        public void RemovingItemToInventoryDetachesFromEvent()
+        {
+            var item = new Mock<IItem>();
+
+            item.SetupRemove(x => x.PropertyChanged -= It.Is<PropertyChangedEventHandler>(h => h.Target == this.Inventory));
+
+            this.Inventory.InsertItem(item.Object);
+            this.Inventory.RemoveItem(item.Object);
+
+            item.VerifyRemove(x => x.PropertyChanged -= It.Is<PropertyChangedEventHandler>(h => h.Target == this.Inventory), Times.Once);
         }
 
         [TestMethod]
