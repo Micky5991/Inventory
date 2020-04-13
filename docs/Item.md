@@ -22,7 +22,7 @@ can exist outside an inventory.
 
 To create an item use the `IItemFactory` service as follows:
 
-### Stackable item
+### Single item or stackable items
 
 ```cs
 using Micky5991.Inventory.Interfaces;
@@ -90,6 +90,9 @@ item.MovingLocked = state;
 
 The item always has non-zero weight and has two weight values to work with.
 
+The value type of the weight is integer, because it offers the most precision.
+If you want to display them with decimals in your interfaces, just divide all weight-values by your value. For example if you want to display values like: `100.00`, multiply/divide by `100`.
+
 ### Single weight
 
 - The single weight is the total weight of this item, if the amount of the item would be equal to 1.
@@ -131,7 +134,7 @@ add custom logic to each item individually.
 
 To create your own implementation you just have to inherit from `Micky5991.Inventory.Entities.Item.Item` and start adding some custom behavior.
 
-> **Recommendation:** Create an abstract class to base all your items from so extending your custom classes will be
+> **Recommendation:** Create an abstract class to base all your items from, so extending your custom classes will be
 > much easier!
 
 ```cs
