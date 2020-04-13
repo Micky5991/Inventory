@@ -28,10 +28,15 @@ jobs:
             - name: Build .NET Core
               run: dotnet build --configuration Release
 
+            - name: Clone dark theme
+              uses: actions/checkout@v2
+              with:
+                  persist-credentials: false
+                  path: docs/themes/darkfx
+
             - name: Run docFX
               run: |
-                  docfx metadata docs/docfx.json
-                  docfx docs/docfx.json
+                  docfx docs/docfx.json -t default,templates/darkfx
 
             - name: Upload artifact
               uses: actions/upload-artifact@v1
