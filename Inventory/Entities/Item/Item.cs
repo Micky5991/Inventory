@@ -12,8 +12,6 @@ namespace Micky5991.Inventory.Entities.Item
     /// <inheritdoc />
     public abstract partial class Item : IItem
     {
-        private readonly IItemMergeStrategyHandler itemMergeStrategyHandler;
-        private readonly IItemSplitStrategyHandler itemSplitStrategyHandler;
         private readonly IItemFactory itemFactory;
 
         /// <summary>
@@ -28,8 +26,8 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentNullException(nameof(meta));
             }
 
-            this.itemMergeStrategyHandler = itemServices.ItemMergeStrategyHandler;
-            this.itemSplitStrategyHandler = itemServices.ItemSplitStrategyHandler;
+            this.ItemMergeStrategyHandler = itemServices.ItemMergeStrategyHandler;
+            this.ItemSplitStrategyHandler = itemServices.ItemSplitStrategyHandler;
             this.itemFactory = itemServices.ItemFactory;
 
             this.RuntimeId = Guid.NewGuid();
@@ -52,6 +50,16 @@ namespace Micky5991.Inventory.Entities.Item
         }
 
         internal static int MinimalItemAmount { get; set; } = 0;
+
+        /// <summary>
+        /// Gets the handler that governs the behavior how the item splits itself.
+        /// </summary>
+        protected IItemSplitStrategyHandler ItemSplitStrategyHandler { get; }
+
+        /// <summary>
+        /// Gets the handler that governs the behavior how other items are merged into this.
+        /// </summary>
+        protected IItemMergeStrategyHandler ItemMergeStrategyHandler { get; }
 
         /// <inheritdoc />
         public void Initialize()
@@ -163,7 +171,7 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentNullException();
             }
 
-            return this.itemMergeStrategyHandler.CanBeMerged(this, sourceItem);
+            return this.ItemMergeStrategyHandler.CanBeMerged(this, sourceItem);
         }
 
         /// <inheritdoc />
@@ -174,12 +182,12 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ArgumentNullException(nameof(sourceItem));
             }
 
-            if (this.itemMergeStrategyHandler.CanBeMerged(this, sourceItem) == false)
+            if (this.ItemMergeStrategyHandler.CanBeMerged(this, sourceItem) == false)
             {
                 throw new ArgumentException("The item cannot be merged with this instance", nameof(sourceItem));
             }
 
-            this.itemMergeStrategyHandler.MergeItemWith(this, sourceItem);
+            this.ItemMergeStrategyHandler.MergeItemWith(this, sourceItem);
         }
 
         /// <inheritdoc />
@@ -199,7 +207,7 @@ namespace Micky5991.Inventory.Entities.Item
 
             this.SetAmount(this.Amount - targetAmount);
 
-            this.itemSplitStrategyHandler.SplitItem(this, item);
+            this.ItemSplitStrategyHandler.SplitItem(this, item);
 
             return item;
         }
@@ -213,11 +221,11 @@ namespace Micky5991.Inventory.Entities.Item
         }
 
         /// <summary>
-        /// Initializer to setup <see cref="itemMergeStrategyHandler"/>.
+        /// Initializer to setup <see cref="ItemMergeStrategyHandler"/>.
         /// </summary>
         protected virtual void SetupStrategies()
         {
-            this.itemMergeStrategyHandler.Add(new BasicItemMergeStrategy());
+            this.ItemMergeStrategyHandler.Add(new BasicItemMergeStrategy());
         }
 
         private (bool Valid, string? ErrorMessage) ValidateMeta()
