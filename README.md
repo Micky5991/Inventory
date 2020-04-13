@@ -16,7 +16,7 @@ PM> Install-Package Micky5991.Inventory
 
 ## Documentation
 
-_The documentation is coming soon._
+You can find further information about how to use this library in our [Documentation](docs/README.md).
 
 ## Concept
 
