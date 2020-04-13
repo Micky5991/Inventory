@@ -1,0 +1,8 @@
+- name: Documentation
+  href: documentation/
+  homepage: documentation/index.md
+- name: API
+  href: api/
+  homepage: api/index.md
+- name: GitHub
+  href: https://github.com/Micky5991/Inventory

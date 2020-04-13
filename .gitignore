@@ -3,3 +3,6 @@ obj/
 /packages/
 .idea/
 .vs/
+docs/api/*
+docs/docs_built/
+!docs/api/index.md
