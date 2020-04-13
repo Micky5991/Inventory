@@ -12,7 +12,7 @@ serviceCollection.AddInventoryServices();
 
 ## `IItemRegistry`
 
-This service will be registered with the following extension and there is no alternative.
+This service holds all ItemMeta instances and can be searched for available items. This is needed if any default service is in use.
 
 ```cs
 serviceCollection.AddItemTypes(IItemRegistry itemRegistry);
@@ -22,14 +22,7 @@ serviceCollection.AddItemTypes(IItemRegistry itemRegistry);
 
 Strategy-handlers are used to handle a collection of strategies and aggregate results.
 
-### Default handlers
-
-This framework provides a default implementation for item-merge and item-split strategy-handlers. To use them, just call:
-```cs
-serviceCollection.AddDefaultInventoryStrategies()
-```
-
-### `IItemMergeStrategyHandler`
+### `Micky5991.Inventory.Iterfaces.IItemMergeStrategyHandler`
 
 ```cs
 // Own implementation
@@ -41,7 +34,7 @@ serviceCollection
     .AddDefaultInventoryMergeStrategy();
 ```
 
-### `IItemSplitStrategyHandler`
+### `Micky5991.Inventory.Iterfaces.IItemSplitStrategyHandler`
 
 ```cs
 // Own implementation
@@ -51,4 +44,32 @@ serviceCollection
 // Default implementation
 serviceCollection
     .AddDefaultInventorySplitStrategy();
+```
+
+## Factories
+
+Factories are used to create instances with certain data.
+
+### `Micky5991.Inventory.Iterfaces.IInventoryFactory`
+
+```cs
+// Own implementation
+serviceCollection
+    .AddTransient<IInventoryFactory, InventoryFactory>()
+
+// Default implementation
+serviceCollection
+    .AddDefaultInventoryFactory();
+```
+
+### `Micky5991.Inventory.Iterfaces.IItemFactory`
+
+```cs
+// Own implementation
+serviceCollection
+    .AddTransient<IInventoryFactory, InventoryFactory>()
+
+// Default implementation
+serviceCollection
+    .AddDefaultInventoryFactory();
 ```
