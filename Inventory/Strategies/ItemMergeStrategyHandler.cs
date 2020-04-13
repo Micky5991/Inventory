@@ -3,7 +3,7 @@ using System.Linq;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Interfaces.Strategy;
 
-namespace Micky5991.Inventory.Strategies.Handlers
+namespace Micky5991.Inventory.Strategies
 {
     /// <inheritdoc cref="IItemMergeStrategyHandler"/>
     public class ItemMergeStrategyHandler : StrategyHandler<IItemMergeStrategy>, IItemMergeStrategyHandler
