@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Inventory.Example.Services;
+﻿using Inventory.Example.Services;
 using Micky5991.Inventory.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,7 +17,7 @@ namespace Inventory.Example
 
         public Program()
         {
-            this.serviceProvider = SetupServices();
+            this.serviceProvider = this.SetupServices();
         }
 
         private ServiceProvider SetupServices()
