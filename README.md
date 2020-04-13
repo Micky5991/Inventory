@@ -16,6 +16,9 @@ PM> Install-Package Micky5991.Inventory
 
 ## Documentation
 
+All interfaces, public and protected members are documentated and the IDE of your choice should suggest information regarding the
+part you are using.
+
 You can find further information about how to use this library in our [Documentation](docs/README.md).
 
 ## Concept
