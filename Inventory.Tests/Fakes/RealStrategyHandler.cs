@@ -1,4 +1,4 @@
-using Micky5991.Inventory.Strategies.Handlers;
+using Micky5991.Inventory.Strategies;
 
 namespace Micky5991.Inventory.Tests.Fakes
 {

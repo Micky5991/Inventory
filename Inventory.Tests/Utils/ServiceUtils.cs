@@ -1,7 +1,7 @@
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Interfaces.Strategy;
-using Micky5991.Inventory.Strategies.Handlers;
+using Micky5991.Inventory.Strategies;
 using Moq;
 
 namespace Micky5991.Inventory.Tests.Utils

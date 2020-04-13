@@ -2,7 +2,7 @@ using System;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Interfaces.Strategy;
 
-namespace Micky5991.Inventory.Strategies.Handlers
+namespace Micky5991.Inventory.Strategies
 {
     /// <inheritdoc cref="IItemSplitStrategyHandler"/>
     public class ItemSplitStrategyHandler : StrategyHandler<IItemSplitStrategy>, IItemSplitStrategyHandler
