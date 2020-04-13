@@ -7,15 +7,21 @@ using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Entities.Factories
 {
-    internal class InventoryFactory : IInventoryFactory
+    /// <inheritdoc />
+    public class InventoryFactory : IInventoryFactory
     {
         private readonly AggregatedInventoryServices inventoryServices;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InventoryFactory"/> class.
+        /// </summary>
+        /// <param name="inventoryServices">Services which are required to run a default <see cref="Inventory"/> instance.</param>
         public InventoryFactory(AggregatedInventoryServices inventoryServices)
         {
             this.inventoryServices = inventoryServices;
         }
 
+        /// <inheritdoc />
         public IInventory CreateInventory(int capacity)
         {
             if (capacity < 0)
