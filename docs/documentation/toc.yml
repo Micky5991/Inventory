@@ -1,0 +1,14 @@
+- name: Introduction
+  href: index.md
+- name: Getting started
+  items:
+      - name: Installation
+        href: Installation.md
+      - name: Custom Setup
+        href: Custom-Setup.md
+- name: Entities
+  items:
+      - name: Inventory
+        href: Inventory.md
+      - name: Item
+        href: Item.md

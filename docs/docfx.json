@@ -1,0 +1,50 @@
+{
+    "metadata": [
+        {
+            "src": [
+                {
+                    "files": [
+                        "Inventory/Inventory.csproj"
+                    ],
+                    "src": "../"
+                }
+            ],
+            "dest": "api"
+        }
+    ],
+    "build": {
+        "content": [
+            {
+                "files": [
+                    "toc.yml",
+                    "*.md",
+                    "api/**.yml",
+                    "api/index.md",
+                    "documentation/toc.yml",
+                    "documentation/**.md"
+                ]
+            }
+        ],
+        "dest": "dist",
+        "globalMetadataFiles": [],
+        "fileMetadataFiles": [],
+        "template": [
+            "default"
+        ],
+        "postProcessors": [],
+        "markdownEngineName": "markdig",
+        "noLangKeyword": false,
+        "keepFileLink": false,
+        "cleanupCacheHistory": false,
+        "disableGitFeatures": false,
+        "globalMetadata": {
+            "_disableContribution": false,
+            "_enableSearch": true,
+            "_gitUrlPattern": "github",
+            "_gitContribute": {
+                "repo": "https://github.com/Micky5991/Inventory",
+                "branch": "master"
+            }
+        }
+    }
+}
