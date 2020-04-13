@@ -4,6 +4,7 @@ on:
     push:
         branches:
             - 'master'
+            - 'test-actions'
         tags:
             - '*.*.*'
 
@@ -20,6 +21,13 @@ jobs:
               with:
                   dotnet-version: 3.1.201
 
+            - name: Clone dark theme
+              uses: actions/checkout@v2
+              with:
+                  repository: steffen-wilke/darkfx
+                  persist-credentials: false
+                  path: docs/templates/darkfx
+
             - name: Install docfx
               uses: crazy-max/ghaction-chocolatey@v1
               with:
@@ -28,15 +36,9 @@ jobs:
             - name: Build .NET Core
               run: dotnet build --configuration Release
 
-            - name: Clone dark theme
-              uses: actions/checkout@v2
-              with:
-                  persist-credentials: false
-                  path: docs/themes/darkfx
-
             - name: Run docFX
               run: |
-                  docfx docs/docfx.json -t default,templates/darkfx
+                  docfx docs/docfx.json -t default,templates/darkfx/darkfx
 
             - name: Upload artifact
               uses: actions/upload-artifact@v1
