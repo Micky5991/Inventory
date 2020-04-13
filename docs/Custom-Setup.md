@@ -10,7 +10,7 @@ There are some services which are needed, so the framework can run at all.
 serviceCollection.AddInventoryServices();
 ```
 
-### `IItemRegistry`
+## `IItemRegistry`
 
 This service will be registered with the following extension and there is no alternative.
 
@@ -18,18 +18,18 @@ This service will be registered with the following extension and there is no alt
 serviceCollection.AddItemTypes(IItemRegistry itemRegistry);
 ```
 
-### Strategy-handler
+## Strategy-handler
 
 Strategy-handlers are used to handle a collection of strategies and aggregate results.
 
-#### Default handlers
+### Default handlers
 
 This framework provides a default implementation for item-merge and item-split strategy-handlers. To use them, just call:
 ```cs
 serviceCollection.AddDefaultInventoryStrategies()
 ```
 
-#### `IItemMergeStrategyHandler`
+### `IItemMergeStrategyHandler`
 
 **Own implementation**
 ```cs
@@ -41,7 +41,7 @@ serviceCollection.AddTransient<IItemMergeStrategyHandler, ItemMergeStrategyHandl
 serviceCollection.AddDefaultInventoryMergeStrategy();
 ```
 
-#### `IItemSplitStrategyHandler`
+### `IItemSplitStrategyHandler`
 
 **Own implementation**
 ```cs
