@@ -31,24 +31,24 @@ serviceCollection.AddDefaultInventoryStrategies()
 
 ### `IItemMergeStrategyHandler`
 
-**Own implementation**
 ```cs
-serviceCollection.AddTransient<IItemMergeStrategyHandler, ItemMergeStrategyHandler>();
-```
+// Own implementation
+serviceCollection
+    .AddTransient<IItemMergeStrategyHandler, ItemMergeStrategyHandler>();
 
-**Default implementation**
-```cs
-serviceCollection.AddDefaultInventoryMergeStrategy();
+// Default implementation
+serviceCollection
+    .AddDefaultInventoryMergeStrategy();
 ```
 
 ### `IItemSplitStrategyHandler`
 
-**Own implementation**
 ```cs
-serviceCollection.AddTransient<IItemSplitStrategyHandler, ItemSplitStrategyHandler>();
-```
+// Own implementation
+serviceCollection
+    .AddTransient<IItemSplitStrategyHandler, ItemSplitStrategyHandler>();
 
-**Default implementation**
-```cs
-serviceCollection.AddDefaultInventorySplitStrategy();
+// Default implementation
+serviceCollection
+    .AddDefaultInventorySplitStrategy();
 ```
