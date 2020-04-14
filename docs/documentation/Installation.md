@@ -5,7 +5,13 @@
 The following requirements and libraries are needed to use this inventory framework.
 
 - .NET Standard 2.0
-- Microsoft Dependency Injection 3.1
+    - Look into the [.NET Standard implementation support table](https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support) to see which platforms are supported.
+- Microsoft.Extensions.DependencyInjection 3.1
+    - You can also use compatible libraries that implement interfaces of `Microsoft.Extensions.DependencyInjection`.
+
+## Recommendation
+
+For improved unit-testability and flexibility you should only use [provided interfaces](api/Micky5991.Inventory.Interfaces.yml) of this library.
 
 ## Default setup
 

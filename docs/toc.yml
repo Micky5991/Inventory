@@ -1,7 +1,7 @@
 - name: Documentation
   href: documentation/
   homepage: documentation/index.md
-- name: API
+- name: API Reference
   href: api/
   homepage: api/index.md
 - name: GitHub
