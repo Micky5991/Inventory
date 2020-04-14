@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Micky5991.Inventory.Interfaces.Strategy;
+using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Strategies
 {

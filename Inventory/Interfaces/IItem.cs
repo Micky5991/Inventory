@@ -3,7 +3,6 @@ using System.ComponentModel;
 using JetBrains.Annotations;
 using Micky5991.Inventory.EventArgs;
 using Micky5991.Inventory.Exceptions;
-using Micky5991.Inventory.Interfaces.Strategy;
 
 namespace Micky5991.Inventory.Interfaces
 {

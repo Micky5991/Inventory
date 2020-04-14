@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
-
-namespace Micky5991.Inventory.Interfaces.Strategy
+namespace Micky5991.Inventory.Interfaces
 {
     /// <summary>
     /// Strategy that defines certain behavior of the merging process of two <see cref="IItem"/> instances.

@@ -5,7 +5,6 @@ using Micky5991.Inventory.Entities.Item;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Extensions;
 using Micky5991.Inventory.Interfaces;
-using Micky5991.Inventory.Interfaces.Strategy;
 using Micky5991.Inventory.Tests.Fakes;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;

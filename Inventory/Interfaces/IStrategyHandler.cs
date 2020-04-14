@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Micky5991.Inventory.Interfaces.Strategy
+namespace Micky5991.Inventory.Interfaces
 {
     /// <summary>
     /// Handler that executes all added <typeparamref name="T"/>.
