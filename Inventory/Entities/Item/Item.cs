@@ -1,10 +1,10 @@
 using System;
 using Micky5991.Inventory.AggregatedServices;
+using Micky5991.Inventory.Entities.Strategies;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.EventArgs;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
-using Micky5991.Inventory.Strategies;
 
 namespace Micky5991.Inventory.Entities.Item
 {

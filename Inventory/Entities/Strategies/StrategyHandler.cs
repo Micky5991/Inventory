@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Micky5991.Inventory.Interfaces;
 
-namespace Micky5991.Inventory.Strategies
+namespace Micky5991.Inventory.Entities.Strategies
 {
     /// <inheritdoc cref="IStrategyHandler{T}" />
     public abstract class StrategyHandler<T> : List<T>, IStrategyHandler<T>
