@@ -4,7 +4,7 @@ using Inventory.Example.Actions;
 using Micky5991.Inventory;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Data;
-using Micky5991.Inventory.Entities.Item.Subtypes;
+using Micky5991.Inventory.Entities.Item;
 using Micky5991.Inventory.Interfaces;
 
 namespace Inventory.Example.Items
