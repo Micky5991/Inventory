@@ -4,7 +4,6 @@ using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.EventArgs;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
-using Micky5991.Inventory.Interfaces.Strategy;
 using Micky5991.Inventory.Strategies;
 
 namespace Micky5991.Inventory.Entities.Item
