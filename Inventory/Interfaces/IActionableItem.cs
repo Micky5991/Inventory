@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Micky5991.Inventory.Data;
 
 namespace Micky5991.Inventory.Interfaces
@@ -8,6 +9,7 @@ namespace Micky5991.Inventory.Interfaces
     /// </summary>
     /// <typeparam name="TOut">Outgoing data type.</typeparam>
     /// <typeparam name="TIn">Incoming data type.</typeparam>
+    [PublicAPI]
     public interface IActionableItem<TOut, TIn> : IItem
         where TOut : OutgoingItemActionData
         where TIn : IncomingItemActionData

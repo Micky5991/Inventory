@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using Micky5991.Inventory.Data;
 
 namespace Micky5991.Inventory.Interfaces
@@ -8,6 +9,7 @@ namespace Micky5991.Inventory.Interfaces
     /// </summary>
     /// <typeparam name="TOut">Outgoing data for this item action.</typeparam>
     /// <typeparam name="TIn">Incoming data for this item action.</typeparam>
+    [PublicAPI]
     public interface IItemAction<TOut, TIn>
         where TOut : OutgoingItemActionData
         where TIn : IncomingItemActionData

@@ -1,8 +1,11 @@
+using JetBrains.Annotations;
+
 namespace Micky5991.Inventory.Interfaces
 {
     /// <summary>
     /// Strategy that specifies the behavior how to split an item into a second one.
     /// </summary>
+    [PublicAPI]
     public interface IItemSplitStrategy : IStrategy
     {
         /// <summary>
