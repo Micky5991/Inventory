@@ -6,7 +6,7 @@ using Micky5991.Inventory.Data;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 
-namespace Micky5991.Inventory.Entities.Item.Subtypes
+namespace Micky5991.Inventory.Entities.Item
 {
     /// <summary>
     /// Item that is able to hold actions to interact with.

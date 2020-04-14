@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Micky5991.Inventory.Data;
 using Micky5991.Inventory.Entities.Item;
-using Micky5991.Inventory.Entities.Item.Subtypes;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
 using Micky5991.Inventory.Tests.Fakes;
