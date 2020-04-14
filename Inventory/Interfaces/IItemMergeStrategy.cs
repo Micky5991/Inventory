@@ -1,8 +1,11 @@
+using JetBrains.Annotations;
+
 namespace Micky5991.Inventory.Interfaces
 {
     /// <summary>
     /// Strategy that defines certain behavior of the merging process of two <see cref="IItem"/> instances.
     /// </summary>
+    [PublicAPI]
     public interface IItemMergeStrategy : IStrategy
     {
         /// <summary>
