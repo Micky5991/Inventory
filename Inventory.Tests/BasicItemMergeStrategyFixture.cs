@@ -1,7 +1,7 @@
 using System;
 using FluentAssertions;
+using Micky5991.Inventory.Entities.Strategies;
 using Micky5991.Inventory.Interfaces;
-using Micky5991.Inventory.Strategies;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

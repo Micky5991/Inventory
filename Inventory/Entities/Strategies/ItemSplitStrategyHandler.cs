@@ -1,7 +1,7 @@
 using System;
 using Micky5991.Inventory.Interfaces;
 
-namespace Micky5991.Inventory.Strategies
+namespace Micky5991.Inventory.Entities.Strategies
 {
     /// <inheritdoc cref="IItemSplitStrategyHandler"/>
     public class ItemSplitStrategyHandler : StrategyHandler<IItemSplitStrategy>, IItemSplitStrategyHandler
