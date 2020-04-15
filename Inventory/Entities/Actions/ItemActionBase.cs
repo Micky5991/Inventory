@@ -39,10 +39,10 @@ namespace Micky5991.Inventory.Entities.Actions
         public IItem? RelatedItem { get; private set; }
 
         /// <inheritdoc />
-        public abstract void Execute(TIn data);
+        public abstract void Execute(object? executor, TIn? data);
 
         /// <inheritdoc />
-        public abstract TOut BuildActionData();
+        public abstract TOut BuildActionData(object? receiver);
 
         /// <inheritdoc />
         public void SetRelatedItem(IItem item)
@@ -67,20 +67,20 @@ namespace Micky5991.Inventory.Entities.Actions
         }
 
         /// <inheritdoc/>
-        public bool IsVisible()
+        public bool IsVisible(object? receiver)
         {
             if (this.visibleCheck == null)
             {
                 return true;
             }
 
-            return this.visibleCheck();
+            return this.visibleCheck(receiver);
         }
 
         /// <inheritdoc/>
-        public bool IsEnabled()
+        public bool IsEnabled(object? receiver)
         {
-            if (this.IsVisible() == false)
+            if (this.IsVisible(receiver) == false)
             {
                 return false;
             }
@@ -90,7 +90,7 @@ namespace Micky5991.Inventory.Entities.Actions
                 return true;
             }
 
-            return this.enabledCheck();
+            return this.enabledCheck(receiver);
         }
     }
 }
