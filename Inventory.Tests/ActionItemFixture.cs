@@ -39,7 +39,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void PassingNullToExecuteInActionItemThrowsException()
         {
-            Action act = () => this.ActionItem.ExecuteAction(null);
+            Action act = () => this.ActionItem.ExecuteAction(new object(), null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -49,7 +49,7 @@ namespace Micky5991.Inventory.Tests
         {
             var actionId = Guid.NewGuid();
 
-            Action act = () => this.ActionItem.ExecuteAction(new IncomingItemActionData(actionId));
+            Action act = () => this.ActionItem.ExecuteAction(new object(), new IncomingItemActionData(actionId));
 
             act.Should().Throw<ItemActionNotFoundException>()
                .Where(x => x.Message.Contains("not find") && x.Message.Contains(actionId.ToString()));
@@ -108,7 +108,7 @@ namespace Micky5991.Inventory.Tests
 
             var data = new IncomingItemActionData(action.RuntimeId);
 
-            item.ExecuteAction(data);
+            item.ExecuteAction(new object(), data);
 
             action.PassedActionData.Should().Be(data);
         }
@@ -125,11 +125,11 @@ namespace Micky5991.Inventory.Tests
 
             var data = new OutgoingItemActionData(action.RuntimeId);
 
-            action.ActionDataBuilder = () => data;
+            action.ActionDataBuilder = x => data;
 
             var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
 
-            item.GetAllActionData().Should().ContainSingle(x => x == data);
+            item.GetAllActionData(new object()).Should().ContainSingle(x => x == data);
         }
 
         [TestMethod]
@@ -147,11 +147,11 @@ namespace Micky5991.Inventory.Tests
             var data = new OutgoingItemActionData(action.RuntimeId);
             var otherData = new OutgoingItemActionData(otherAction.RuntimeId);
 
-            action.ActionDataBuilder = () => data;
-            otherAction.ActionDataBuilder = () => otherData;
+            action.ActionDataBuilder = x => data;
+            otherAction.ActionDataBuilder = x => otherData;
 
             var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
-            item.GetAllActionData().Should().OnlyContain(x => x == data || x == otherData);
+            item.GetAllActionData(new object()).Should().OnlyContain(x => x == data || x == otherData);
         }
 
         [TestMethod]
@@ -168,12 +168,12 @@ namespace Micky5991.Inventory.Tests
 
             var data = new OutgoingItemActionData(action.RuntimeId);
 
-            action.ActionDataBuilder = () => data;
-            otherAction.ActionDataBuilder = () => null;
+            action.ActionDataBuilder = x => data;
+            otherAction.ActionDataBuilder = x => null;
 
             var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
 
-            item.GetAllActionData().Should().Equal(new List<OutgoingItemActionData>
+            item.GetAllActionData(new object()).Should().Equal(new List<OutgoingItemActionData>
             {
                 data,
             });
@@ -194,13 +194,13 @@ namespace Micky5991.Inventory.Tests
             var data = new OutgoingItemActionData(action.RuntimeId);
             var otherData = new OutgoingItemActionData(otherAction.RuntimeId);
 
-            action.ActionDataBuilder = () => data;
-            otherAction.ActionDataBuilder = () => otherData;
+            action.ActionDataBuilder = x => data;
+            otherAction.ActionDataBuilder = x => otherData;
 
-            otherAction.SetVisibleCheck(() => false);
+            otherAction.SetVisibleCheck((x) => false);
 
             var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
-            item.GetAllActionData().Should().Equal(new List<OutgoingItemActionData>
+            item.GetAllActionData(new object()).Should().Equal(new List<OutgoingItemActionData>
             {
                 data,
             });
@@ -221,13 +221,13 @@ namespace Micky5991.Inventory.Tests
             var data = new OutgoingItemActionData(action.RuntimeId);
             var otherData = new OutgoingItemActionData(otherAction.RuntimeId);
 
-            action.ActionDataBuilder = () => data;
-            otherAction.ActionDataBuilder = () => otherData;
+            action.ActionDataBuilder = x => data;
+            otherAction.ActionDataBuilder = x => otherData;
 
-            otherAction.SetVisibleCheck(() => true);
+            otherAction.SetVisibleCheck(x => true);
 
             var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
-            item.GetAllActionData().Should().OnlyContain(x => x == data || x == otherData);
+            item.GetAllActionData(new object()).Should().OnlyContain(x => x == data || x == otherData);
         }
 
         [TestMethod]
@@ -245,14 +245,14 @@ namespace Micky5991.Inventory.Tests
             var data = new OutgoingItemActionData(action.RuntimeId);
             var otherData = new OutgoingItemActionData(otherAction.RuntimeId);
 
-            action.ActionDataBuilder = () => data;
-            otherAction.ActionDataBuilder = () => otherData;
+            action.ActionDataBuilder = x => data;
+            otherAction.ActionDataBuilder = x => otherData;
 
-            otherAction.SetVisibleCheck(() => false);
+            otherAction.SetVisibleCheck(x => false);
             otherAction.SetVisibleCheck(null);
 
             var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
-            item.GetAllActionData().Should().OnlyContain(x => x == data || x == otherData);
+            item.GetAllActionData(new object()).Should().OnlyContain(x => x == data || x == otherData);
         }
 
         [TestMethod]
@@ -267,13 +267,13 @@ namespace Micky5991.Inventory.Tests
 
             var data = new OutgoingItemActionData(action.RuntimeId);
 
-            action.ActionDataBuilder = () => data;
+            action.ActionDataBuilder = x => data;
 
-            action.SetVisibleCheck(() => true);
-            action.SetEnabledCheck(() => false);
+            action.SetVisibleCheck(x => true);
+            action.SetEnabledCheck(x => false);
 
             var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
-            item.GetAllActionData().Should().ContainSingle(x => x == data);
+            item.GetAllActionData(new object()).Should().ContainSingle(x => x == data);
         }
     }
 }

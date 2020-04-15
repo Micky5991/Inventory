@@ -41,7 +41,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void IsVisibleReturnsTrueDefault()
         {
-            this.action.IsVisible().Should().BeTrue();
+            this.action.IsVisible(new object()).Should().BeTrue();
         }
 
         [TestMethod]
@@ -49,7 +49,7 @@ namespace Micky5991.Inventory.Tests
         {
             this.action.SetVisibleCheck(null);
 
-            this.action.IsVisible().Should().BeTrue();
+            this.action.IsVisible(new object()).Should().BeTrue();
         }
 
         [TestMethod]
@@ -57,15 +57,15 @@ namespace Micky5991.Inventory.Tests
         [DataRow(true)]
         public void IsVisibleReturnsCorrectValueFromCheck(bool visible)
         {
-            this.action.SetVisibleCheck(() => visible);
+            this.action.SetVisibleCheck(x => visible);
 
-            this.action.IsVisible().Should().Be(visible);
+            this.action.IsVisible(new object()).Should().Be(visible);
         }
 
         [TestMethod]
         public void IsEnabledReturnsTrueDefault()
         {
-            this.action.IsEnabled().Should().BeTrue();
+            this.action.IsEnabled(new object()).Should().BeTrue();
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace Micky5991.Inventory.Tests
         {
             this.action.SetEnabledCheck(null);
 
-            this.action.IsEnabled().Should().BeTrue();
+            this.action.IsEnabled(new object()).Should().BeTrue();
         }
 
         [TestMethod]
@@ -81,9 +81,9 @@ namespace Micky5991.Inventory.Tests
         [DataRow(false)]
         public void IsEnabledReturnsValueReturnedInCheck(bool enabled)
         {
-            this.action.SetEnabledCheck(() => enabled);
+            this.action.SetEnabledCheck(x => enabled);
 
-            this.action.IsEnabled().Should().Be(enabled);
+            this.action.IsEnabled(new object()).Should().Be(enabled);
         }
 
         [TestMethod]
@@ -91,19 +91,19 @@ namespace Micky5991.Inventory.Tests
         [DataRow(false)]
         public void IsEnabledReturnsFalseAndIgnoresEnabledValue(bool enabled)
         {
-            this.action.SetEnabledCheck(() => enabled);
-            this.action.SetVisibleCheck(() => false);
+            this.action.SetEnabledCheck(x => enabled);
+            this.action.SetVisibleCheck(x => false);
 
-            this.action.IsEnabled().Should().BeFalse();
+            this.action.IsEnabled(new object()).Should().BeFalse();
         }
 
         [TestMethod]
         public void IsEnabledReturnsFalseEvenWhenNoEnabledCheckIsSet()
         {
             this.action.SetEnabledCheck(null);
-            this.action.SetVisibleCheck(() => false);
+            this.action.SetVisibleCheck(x => false);
 
-            this.action.IsEnabled().Should().BeFalse();
+            this.action.IsEnabled(new object()).Should().BeFalse();
         }
 
         [TestMethod]

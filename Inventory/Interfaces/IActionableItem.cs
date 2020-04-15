@@ -17,13 +17,15 @@ namespace Micky5991.Inventory.Interfaces
         /// <summary>
         /// Executes a certain action with given <paramref name="data"/>.
         /// </summary>
+        /// <param name="executor">Instance that executed this action.</param>
         /// <param name="data">Data that should be passed to the action.</param>
-        void ExecuteAction(TIn data);
+        void ExecuteAction(object? executor, TIn data);
 
         /// <summary>
         /// Collects all data from all items and returns a list of data from all actions.
         /// </summary>
+        /// <param name="receiver">Instance for which this collection should be returned for. Like a user that will receive this data.</param>
         /// <returns>Collection of action data of all actions in this container.</returns>
-        ICollection<TOut> GetAllActionData();
+        ICollection<TOut> GetAllActionData(object? receiver);
     }
 }

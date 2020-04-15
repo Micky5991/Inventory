@@ -7,7 +7,7 @@ namespace Micky5991.Inventory.Tests.Fakes
 {
     public class RealAction : ItemActionBase<OutgoingItemActionData, IncomingItemActionData>
     {
-        [CanBeNull] public Func<OutgoingItemActionData> ActionDataBuilder { get; set; }
+        [CanBeNull] public Func<object, OutgoingItemActionData> ActionDataBuilder { get; set; }
 
         [CanBeNull] public IncomingItemActionData PassedActionData { get; private set; }
 
@@ -20,14 +20,14 @@ namespace Micky5991.Inventory.Tests.Fakes
         {
         }
 
-        public override void Execute(IncomingItemActionData data)
+        public override void Execute(object executor, IncomingItemActionData data)
         {
             this.PassedActionData = data;
         }
 
-        public override OutgoingItemActionData BuildActionData()
+        public override OutgoingItemActionData BuildActionData(object receiver)
         {
-            return this.ActionDataBuilder?.Invoke();
+            return this.ActionDataBuilder?.Invoke(receiver);
         }
     }
 }

@@ -34,27 +34,31 @@ namespace Micky5991.Inventory.Interfaces
         /// <summary>
         /// Executes this action with given data.
         /// </summary>
+        /// <param name="executor">Instance that executes this action. Like a user that executes an action on an item.</param>
         /// <param name="data">Data that holds information about the actual usage of this action.</param>
         /// <exception cref="ArgumentNullException"><paramref name="data"/> is null.</exception>
-        void Execute(TIn data);
+        void Execute(object? executor, TIn? data);
 
         /// <summary>
         /// Builds the item action data that can be used for communication with an user interface.
         /// </summary>
+        /// <param name="receiver">Instance of the receiver for which this data should be generated for.</param>
         /// <returns>Created action data of this instance.</returns>
-        TOut BuildActionData();
+        TOut BuildActionData(object? receiver);
 
         /// <summary>
         /// Returns if the item action is visible.
         /// </summary>
+        /// <param name="receiver">Reference to the receiver for which the visibility should be checked for.</param>
         /// <returns>true if the action is visible, false otherwise.</returns>
-        bool IsVisible();
+        bool IsVisible(object? receiver);
 
         /// <summary>
         /// Returns if the item action is enabled.
         /// </summary>
+        /// <param name="receiver">Reference to the receiver for which the enabled-status should be checked for.</param>
         /// <returns>true if the action is enabled, false otherwise.</returns>
-        bool IsEnabled();
+        bool IsEnabled(object? receiver);
 
         /// <summary>
         /// Sets the current check that will be used to determine if the action is visible.

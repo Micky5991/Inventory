@@ -31,7 +31,7 @@ namespace Micky5991.Inventory.Entities.Item
         }
 
         /// <inheritdoc />
-        public void ExecuteAction(TIn data)
+        public void ExecuteAction(object? executor, TIn data)
         {
             if (data == null)
             {
@@ -43,22 +43,22 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ItemActionNotFoundException($"Could not find item action with id {data.ActionRuntimeId}.");
             }
 
-            action.Execute(data);
+            action.Execute(executor, data);
         }
 
         /// <inheritdoc />
-        public ICollection<TOut> GetAllActionData()
+        public ICollection<TOut> GetAllActionData(object? receiver)
         {
             var result = new List<TOut>();
 
             foreach (var itemAction in this.actions.Values)
             {
-                if (itemAction.IsVisible() == false)
+                if (itemAction.IsVisible(receiver) == false)
                 {
                     continue;
                 }
 
-                var data = itemAction.BuildActionData();
+                var data = itemAction.BuildActionData(receiver);
                 if (data == default(TOut))
                 {
                     continue;

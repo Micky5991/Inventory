@@ -16,12 +16,12 @@ namespace Inventory.Example.Actions
             this.callback = callback;
         }
 
-        public override void Execute(IncomingItemActionData data)
+        public override void Execute(object executor, IncomingItemActionData data)
         {
             this.callback();
         }
 
-        public override OutgoingItemActionData BuildActionData()
+        public override OutgoingItemActionData BuildActionData(object receiver)
         {
             return new OutgoingItemActionData(this.RuntimeId);
         }
