@@ -256,6 +256,303 @@ namespace Micky5991.Inventory.Tests
         }
 
         [TestMethod]
+        public void SettingVisibleToNullExecutesAction()
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            action.SetVisibleCheck(null);
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            item.ExecuteAction(null, new IncomingItemActionData(action.RuntimeId));
+
+            action.ExecutedAmount.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void SettingEnabledToNullExecutesAction()
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            action.SetEnabledCheck(null);
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            item.ExecuteAction(null, new IncomingItemActionData(action.RuntimeId));
+
+            action.ExecutedAmount.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void SettingBothChecksToNullExecutesAction()
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            action.SetVisibleCheck(null);
+            action.SetEnabledCheck(null);
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            item.ExecuteAction(null, new IncomingItemActionData(action.RuntimeId));
+
+            action.ExecutedAmount.Should().Be(1);
+        }
+
+        [TestMethod]
+        [DataRow(false, false)]
+        [DataRow(true, true)]
+        public void VisibleStatusWillBeRespectedAndOverwritesEnabled(bool visible, bool shouldSucceed)
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            action.SetVisibleCheck(x => visible);
+            action.SetEnabledCheck(x => true);
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            item.ExecuteAction(null, new IncomingItemActionData(action.RuntimeId));
+
+            action.ExecutedAmount.Should().Be(shouldSucceed ? 1 : 0);
+        }
+
+        [TestMethod]
+        [DataRow(false, false)]
+        [DataRow(true, true)]
+        public void EnabledStatusWillBeRespectedAndAppliesWhenVisibleIsTrue(bool enabled, bool shouldSucceed)
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            action.SetVisibleCheck(x => true);
+            action.SetEnabledCheck(x => enabled);
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            item.ExecuteAction(null, new IncomingItemActionData(action.RuntimeId));
+
+            action.ExecutedAmount.Should().Be(shouldSucceed ? 1 : 0);
+        }
+
+        [TestMethod]
+        [DataRow(false, false)]
+        [DataRow(true, true)]
+        public void VisibleAndEnabledSetToSameValueWillOnlyTriggerIfBothTrue(bool enabled, bool shouldSucceed)
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            action.SetVisibleCheck(x => enabled);
+            action.SetEnabledCheck(x => enabled);
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            item.ExecuteAction(null, new IncomingItemActionData(action.RuntimeId));
+
+            action.ExecutedAmount.Should().Be(shouldSucceed ? 1 : 0);
+        }
+
+        [TestMethod]
+        [DataRow(false, false)]
+        [DataRow(true, true)]
+        public void SettingVisibleToNullRespectsEnabledStatus(bool enabled, bool shouldSucceed)
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            action.SetVisibleCheck(null);
+            action.SetEnabledCheck(x => enabled);
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            item.ExecuteAction(null, new IncomingItemActionData(action.RuntimeId));
+
+            action.ExecutedAmount.Should().Be(shouldSucceed ? 1 : 0);
+        }
+
+        [TestMethod]
+        [DataRow(false, false)]
+        [DataRow(true, true)]
+        public void SettingEnabledToNullRespectsVisibleStatus(bool visible, bool shouldSucceed)
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            action.SetVisibleCheck(x => visible);
+            action.SetEnabledCheck(null);
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            item.ExecuteAction(null, new IncomingItemActionData(action.RuntimeId));
+
+            action.ExecutedAmount.Should().Be(shouldSucceed ? 1 : 0);
+        }
+
+        [TestMethod]
+        public void PassingObjectPassesRightObjectToActionDataFactory()
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            object receivedObject = null;
+
+            action.ActionDataBuilder = x =>
+            {
+                receivedObject = x;
+
+                return null;
+            };
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            var passedObject = new object();
+
+            item.GetAllActionData(passedObject);
+
+            receivedObject.Should().NotBeNull().And.Be(passedObject);
+            action.PassedReceiver.Should().NotBeNull().And.Be(passedObject);
+        }
+
+        [TestMethod]
+        public void PassingNullPassesNullToActionDataFactory()
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            var receivedObject = new object();
+
+            action.ActionDataBuilder = x =>
+            {
+                receivedObject = x;
+
+                return null;
+            };
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            item.GetAllActionData(null);
+
+            receivedObject.Should().BeNull();
+            action.PassedReceiver.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void PassingExecutorToExecutePassesRightObject()
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            var passedObject = new object();
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            item.ExecuteAction(passedObject, new IncomingItemActionData(action.RuntimeId));
+
+            action.PassedExecutor.Should().NotBeNull().And.Be(passedObject);
+        }
+
+        [TestMethod]
+        public void PassingNullAsExecutorToExecutePassesNullToAction()
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            item.ExecuteAction(null, new IncomingItemActionData(action.RuntimeId));
+
+            action.PassedExecutor.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void ExecutingActionChecksVisibilityWithRightExecutor()
+        {
+            var action = new RealAction();
+
+            RealActionItem.ActionGenerator = () => new List<IItemAction<OutgoingItemActionData, IncomingItemActionData>>
+            {
+                action,
+            };
+
+            object visibleReceivedObject = null;
+            object enabledReceivedObject = null;
+
+            action.SetVisibleCheck(x =>
+            {
+                visibleReceivedObject = x;
+
+                return true;
+            });
+
+            action.SetEnabledCheck(x =>
+            {
+                enabledReceivedObject = x;
+
+                return true;
+            });
+
+            var item = (RealActionItem) this.ItemFactory.CreateItem(ActionItemHandle, 1);
+
+            var passedObject = new object();
+
+            item.ExecuteAction(passedObject, new IncomingItemActionData(action.RuntimeId));
+
+            visibleReceivedObject.Should().NotBeNull().And.Be(passedObject);
+            enabledReceivedObject.Should().NotBeNull().And.Be(passedObject);
+        }
+
+        [TestMethod]
         public void DisablingItemKeepsActionDataInResult()
         {
             var action = new RealAction();
