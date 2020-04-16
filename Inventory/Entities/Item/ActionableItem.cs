@@ -43,6 +43,11 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ItemActionNotFoundException($"Could not find item action with id {data.ActionRuntimeId}.");
             }
 
+            if (action.IsEnabled(executor) == false)
+            {
+                return;
+            }
+
             action.Execute(executor, data);
         }
 
