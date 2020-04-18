@@ -1,0 +1,77 @@
+name: Build DocFX
+
+on:
+    push:
+        branches:
+            - 'test-actions'
+        tags:
+            - '*.*.*'
+
+jobs:
+    build:
+
+        runs-on: windows-latest
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Setup .NET Core
+              uses: actions/setup-dotnet@v1
+              with:
+                  dotnet-version: 3.1.201
+
+            - name: Clone dark theme
+              uses: actions/checkout@v2
+              with:
+                  repository: steffen-wilke/darkfx
+                  persist-credentials: false
+                  path: docs/templates/darkfx
+
+            - name: Install docfx
+              uses: crazy-max/ghaction-chocolatey@v1
+              with:
+                  args: install docfx
+
+            - name: Build .NET Core
+              run: dotnet build --configuration Release
+
+            - name: Run docFX
+              run: |
+                  docfx docs/docfx.json -t default,templates/darkfx/darkfx
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v1
+              with:
+                  name: site
+                  path: docs/dist/
+
+    deploy:
+
+        needs: [ build ]
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+              with:
+                  persist-credentials: false
+
+            - name: Download Artifacts
+              uses: actions/download-artifact@v1
+              with:
+                  name: site
+
+            - name: Install SSH Client
+              uses: webfactory/ssh-agent@v0.2.0
+              with:
+                  ssh-private-key: ${{ secrets.DEPLOY_KEY_WRITE }}
+
+            - name: Deploy to GitHub pages
+              uses: JamesIves/github-pages-deploy-action@releases/v3
+              with:
+                  SSH: true
+                  BASE_BRANCH: master
+                  BRANCH: gh-pages
+                  FOLDER: "site"
+                  CLEAN: true
+                  SINGLE_COMMIT: true

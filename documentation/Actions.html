@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Actions </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Actions ">
+    <meta name="generator" content="docfx 2.52.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="actions">Actions</h1>
+
+<p>This framework offers a way to create actions which can be used to execute them on their related items.
+To show that an item is compatible with the built in actions use the <code>IActionableItem&lt;TOut, TIn&gt;</code> interface or inherit your item class from <code>ActionableItem&lt;TOut, TIn&gt;</code> instead of <code>Item</code>.</p>
+<blockquote>
+<p><strong>Recommendation:</strong> Create an abstract class to base all your items from, so extending your custom classes will be
+much easier!</p>
+</blockquote>
+<h2 id="data">Data</h2>
+<p>To communicate with an user interface all actions offer a way to collect payloads from the actions of an item.
+The base classes for data from or to actions should be inherited from <code>IncomingItemActionData</code> and <code>OutgoingItemActionData</code>.</p>
+<h2 id="create-action-classes">Create Action classes</h2>
+<p>Actions offer a convenient way to design flexible interfaces or ways to interact with your items without the
+need to create each item from scratch.</p>
+<blockquote>
+<p><strong>Recommendation:</strong> Create an abstract class to base all your actions from, so extending your custom classes will be
+much easier!</p>
+</blockquote>
+<p><strong>Examples</strong></p>
+<p>There are different kinds of actions you could create, for example:</p>
+<ul>
+<li>Use item</li>
+<li>Dispose item</li>
+<li>Process item (If you have some kind of Ore-Item and you are standing near an processing-tool in a game)</li>
+<li>Combine item with other items in the same inventory</li>
+<li>Shuffle item (If your item is a card deck and you want to reset its internal card stack)</li>
+</ul>
+<blockquote>
+<p><strong>Tip:</strong> If you just create basic types of actions you gain the ability to style your actions from the type
+of action. Add some callbacks with input-parameters and offer the user input options. Or a displayname with description to show further details.</p>
+</blockquote>
+<p><strong>Class implementation</strong></p>
+<pre><code class="lang-cs">using System;
+using Micky5991.Inventory.Data;
+using Micky5991.Inventory.Entities.Actions;
+
+namespace Some.Application.Actions
+{
+    public class UseAction : ItemActionBase&lt;OutgoingItemActionData, IncomingItemActionData&gt;
+    {
+        private readonly string displayName;
+
+        private readonly Action callback;
+
+        public UseAction(string displayName, Action callback)
+        {
+            this.displayName = displayName;
+            this.callback = callback;
+        }
+
+        public override void Execute(IncomingItemActionData data)
+        {
+            this.callback();
+        }
+
+        public override OutgoingItemActionData BuildActionData()
+        {
+            return new OutgoingItemActionData(this.RuntimeId);
+        }
+    }
+}
+</code></pre>
+<h2 id="bind-actions-to-items">Bind actions to items</h2>
+<p>Actions are bound to items when you return a list of action instances from the <code>RegisterAllActions()</code> after inheriting from <code>ActionableItem&lt;TOut, TIn&gt;</code>.</p>
+<pre><code class="lang-cs">using System.Collections.Generic;
+using Micky5991.Inventory;
+using Micky5991.Inventory.AggregatedServices;
+using Micky5991.Inventory.Data;
+using Micky5991.Inventory.Entities.Item.Subtypes;
+using Micky5991.Inventory.Interfaces;
+
+namespace Inventory.Example.Items
+{
+    public class WaterItem : ActionableItem&lt;OutgoingItemActionData, IncomingItemActionData&gt;
+    {
+        public WaterItem(ItemMeta meta, AggregatedItemServices itemServices) : base(meta, itemServices)
+        {
+        }
+
+        protected override IEnumerable&lt;IItemAction&lt;OutgoingItemActionData, IncomingItemActionData&gt;&gt; RegisterAllActions()
+        {
+            // Return an instance per action here
+
+            yield return new ExampleAction(&quot;Action title&quot;);
+        }
+    }
+}
+</code></pre>
+<h2 id="executing-actions">Executing actions</h2>
+<p>Items that implement the <code>IActionableItem&lt;TOut, TIn&gt;</code> interface offer the <code>ExecuteAction(TIn data)</code> method.
+If you pass a payload of the type <code>IncomingItemActionData</code>, it will call the <code>Execute(TIn data)</code> method in the
+correct action, if the action is enabled.</p>
+<pre><code>item.ExecuteAction(TIn data);
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Micky5991/Inventory/blob/master/docs/documentation/Actions.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

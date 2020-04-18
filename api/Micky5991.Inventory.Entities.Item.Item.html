@@ -1,0 +1,1354 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Item
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Item
+   ">
+    <meta name="generator" content="docfx 2.52.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Micky5991.Inventory.Entities.Item.Item">
+  
+  
+  <h1 id="Micky5991_Inventory_Entities_Item_Item" data-uid="Micky5991.Inventory.Entities.Item.Item" class="text-break">Class Item
+  </h1>
+  <div class="markdown level0 summary"><p>An item is some type of stack which can be contained inside an <a class="xref" href="Micky5991.Inventory.Interfaces.IInventory.html">IInventory</a>.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">Item</span></div>
+      <div class="level2"><a class="xref" href="Micky5991.Inventory.Entities.Item.ActionableItem-2.html">ActionableItem&lt;TOut, TIn&gt;</a></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html">IItem</a></div>
+    <div><span class="xref">System.ComponentModel.INotifyPropertyChanged</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Micky5991.Inventory.Entities.Item.html">Micky5991.Inventory.Entities.Item</a></h6>
+  <h6><strong>Assembly</strong>: Micky5991.Inventory.dll</h6>
+  <h5 id="Micky5991_Inventory_Entities_Item_Item_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class Item : IItem, INotifyPropertyChanged</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item__ctor_Micky5991_Inventory_ItemMeta_Micky5991_Inventory_AggregatedServices_AggregatedItemServices_.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.%23ctor(Micky5991.Inventory.ItemMeta%2CMicky5991.Inventory.AggregatedServices.AggregatedItemServices)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L21">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item__ctor_" data-uid="Micky5991.Inventory.Entities.Item.Item.#ctor*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item__ctor_Micky5991_Inventory_ItemMeta_Micky5991_Inventory_AggregatedServices_AggregatedItemServices_" data-uid="Micky5991.Inventory.Entities.Item.Item.#ctor(Micky5991.Inventory.ItemMeta,Micky5991.Inventory.AggregatedServices.AggregatedItemServices)">Item(ItemMeta, AggregatedItemServices)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Micky5991.Inventory.Entities.Item.Item.html">Item</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Item(ItemMeta meta, AggregatedItemServices itemServices)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Micky5991.Inventory.ItemMeta.html">ItemMeta</a></td>
+        <td><span class="parametername">meta</span></td>
+        <td><p>Non-NULL instance of the <a class="xref" href="Micky5991.Inventory.ItemMeta.html">ItemMeta</a> that is represented by this instance.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Micky5991.Inventory.AggregatedServices.AggregatedItemServices.html">AggregatedItemServices</a></td>
+        <td><span class="parametername">itemServices</span></td>
+        <td><p>Non-NULL instance of <a class="xref" href="Micky5991.Inventory.AggregatedServices.AggregatedItemServices.html">AggregatedItemServices</a> which are necessary for this <a class="xref" href="Micky5991.Inventory.Entities.Item.Item.html">Item</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_Amount.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.Amount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L48">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_Amount_" data-uid="Micky5991.Inventory.Entities.Item.Item.Amount*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_Amount" data-uid="Micky5991.Inventory.Entities.Item.Item.Amount">Amount</h4>
+  <div class="markdown level1 summary"><p>Gets the positive amount of items which are represented by this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Amount { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Micky5991_Inventory_Entities_Item_Item_Amount_seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_SetAmount_System_Int32_">SetAmount</a>(<span class="xref">System.Int32</span>)</div>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_CurrentInventory.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.CurrentInventory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L93">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_CurrentInventory_" data-uid="Micky5991.Inventory.Entities.Item.Item.CurrentInventory*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_CurrentInventory" data-uid="Micky5991.Inventory.Entities.Item.Item.CurrentInventory">CurrentInventory</h4>
+  <div class="markdown level1 summary"><p>Gets current reference to the <a class="xref" href="Micky5991.Inventory.Interfaces.IInventory.html">IInventory</a> where this item is contained in.</p>
+<p>Null is equal, that this item is currently in no <a class="xref" href="Micky5991.Inventory.Interfaces.IInventory.html">IInventory</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IInventory CurrentInventory { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Micky5991.Inventory.Interfaces.IInventory.html">IInventory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_DefaultDisplayName.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.DefaultDisplayName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L28">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_DefaultDisplayName_" data-uid="Micky5991.Inventory.Entities.Item.Item.DefaultDisplayName*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_DefaultDisplayName" data-uid="Micky5991.Inventory.Entities.Item.Item.DefaultDisplayName">DefaultDisplayName</h4>
+  <div class="markdown level1 summary"><p>Gets the original name of the item given by <a class="xref" href="Micky5991.Inventory.ItemMeta.html">ItemMeta</a>.</p>
+<p>This name can be used to reset the current display name back to its original state.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string DefaultDisplayName { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_DisplayName.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.DisplayName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L31">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_DisplayName_" data-uid="Micky5991.Inventory.Entities.Item.Item.DisplayName*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_DisplayName" data-uid="Micky5991.Inventory.Entities.Item.Item.DisplayName">DisplayName</h4>
+  <div class="markdown level1 summary"><p>Gets the changable display name of this item.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string DisplayName { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Micky5991_Inventory_Entities_Item_Item_DisplayName_seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_SetDisplayName_System_String_">SetDisplayName</a>(<span class="xref">System.String</span>)</div>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_Handle.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.Handle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L19">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_Handle_" data-uid="Micky5991.Inventory.Entities.Item.Item.Handle*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_Handle" data-uid="Micky5991.Inventory.Entities.Item.Item.Handle">Handle</h4>
+  <div class="markdown level1 summary"><p>Gets an unique handle that identifies the items meta definition.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Handle { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_ItemMergeStrategyHandler.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.ItemMergeStrategyHandler%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L61">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_ItemMergeStrategyHandler_" data-uid="Micky5991.Inventory.Entities.Item.Item.ItemMergeStrategyHandler*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_ItemMergeStrategyHandler" data-uid="Micky5991.Inventory.Entities.Item.Item.ItemMergeStrategyHandler">ItemMergeStrategyHandler</h4>
+  <div class="markdown level1 summary"><p>Gets the handler that governs the behavior how other items are merged into this.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IItemMergeStrategyHandler ItemMergeStrategyHandler { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Micky5991.Inventory.Interfaces.IItemMergeStrategyHandler.html">IItemMergeStrategyHandler</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_ItemSplitStrategyHandler.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.ItemSplitStrategyHandler%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L56">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_ItemSplitStrategyHandler_" data-uid="Micky5991.Inventory.Entities.Item.Item.ItemSplitStrategyHandler*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_ItemSplitStrategyHandler" data-uid="Micky5991.Inventory.Entities.Item.Item.ItemSplitStrategyHandler">ItemSplitStrategyHandler</h4>
+  <div class="markdown level1 summary"><p>Gets the handler that governs the behavior how the item splits itself.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IItemSplitStrategyHandler ItemSplitStrategyHandler { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Micky5991.Inventory.Interfaces.IItemSplitStrategyHandler.html">IItemSplitStrategyHandler</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_Locked.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.Locked%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L127">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_Locked_" data-uid="Micky5991.Inventory.Entities.Item.Item.Locked*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_Locked" data-uid="Micky5991.Inventory.Entities.Item.Item.Locked">Locked</h4>
+  <div class="markdown level1 summary"><p>Gets or sets a value indicating whether specifies any action on this item is locked.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Locked { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_Meta.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.Meta%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L25">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_Meta_" data-uid="Micky5991.Inventory.Entities.Item.Item.Meta*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_Meta" data-uid="Micky5991.Inventory.Entities.Item.Item.Meta">Meta</h4>
+  <div class="markdown level1 summary"><p>Gets the underlying meta definition of this item, this is not changable after first initialization if <a class="xref" href="Micky5991.Inventory.Interfaces.IItemRegistry.html">IItemRegistry</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ItemMeta Meta { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Micky5991.Inventory.ItemMeta.html">ItemMeta</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_MovingLocked.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.MovingLocked%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L110">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_MovingLocked_" data-uid="Micky5991.Inventory.Entities.Item.Item.MovingLocked*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_MovingLocked" data-uid="Micky5991.Inventory.Entities.Item.Item.MovingLocked">MovingLocked</h4>
+  <div class="markdown level1 summary"><p>Gets or sets a value indicating whether the item could be moved in any way.
+If <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_Locked">Locked</a> is true, this will be true nonetheless.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool MovingLocked { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_RuntimeId.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.RuntimeId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L22">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_RuntimeId_" data-uid="Micky5991.Inventory.Entities.Item.Item.RuntimeId*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_RuntimeId" data-uid="Micky5991.Inventory.Entities.Item.Item.RuntimeId">RuntimeId</h4>
+  <div class="markdown level1 summary"><p>Gets a non persistant identifier of this item that should ONLY be used for communication in runtime and during the lifetime of this item.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Guid RuntimeId { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Guid</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_SingleWeight.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.SingleWeight%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L66">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_SingleWeight_" data-uid="Micky5991.Inventory.Entities.Item.Item.SingleWeight*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_SingleWeight" data-uid="Micky5991.Inventory.Entities.Item.Item.SingleWeight">SingleWeight</h4>
+  <div class="markdown level1 summary"><p>Gets weight of one item in this instance of items.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int SingleWeight { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_Stackable.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.Stackable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L87">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_Stackable_" data-uid="Micky5991.Inventory.Entities.Item.Item.Stackable*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_Stackable" data-uid="Micky5991.Inventory.Entities.Item.Item.Stackable">Stackable</h4>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether this item is stackable or not.</p>
+<p>Typical characteristic of non-stackable items is the fixed <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_Amount">Amount</a> of 1.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Stackable { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_TotalWeight.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.TotalWeight%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L84">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_TotalWeight_" data-uid="Micky5991.Inventory.Entities.Item.Item.TotalWeight*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_TotalWeight" data-uid="Micky5991.Inventory.Entities.Item.Item.TotalWeight">TotalWeight</h4>
+  <div class="markdown level1 summary"><p>Gets the total weight of this item instance. Depends on <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_SingleWeight">SingleWeight</a> and <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_Amount">Amount</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int TotalWeight { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Micky5991_Inventory_Entities_Item_Item_TotalWeight_seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_SingleWeight">SingleWeight</a></div>
+      <div><a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_Amount">Amount</a></div>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_WeightChangable.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.WeightChangable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Properties.cs/#L90">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_WeightChangable_" data-uid="Micky5991.Inventory.Entities.Item.Item.WeightChangable*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_WeightChangable" data-uid="Micky5991.Inventory.Entities.Item.Item.WeightChangable">WeightChangable</h4>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether the weight of this item is changable or not.</p>
+<p>Typical characteristic of weight-changable items is that calculations with this item type without the actual item tend to be inaccurate.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool WeightChangable { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_CanMergeWith_Micky5991_Inventory_Interfaces_IItem_.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.CanMergeWith(Micky5991.Inventory.Interfaces.IItem)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L166">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_CanMergeWith_" data-uid="Micky5991.Inventory.Entities.Item.Item.CanMergeWith*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_CanMergeWith_Micky5991_Inventory_Interfaces_IItem_" data-uid="Micky5991.Inventory.Entities.Item.Item.CanMergeWith(Micky5991.Inventory.Interfaces.IItem)">CanMergeWith(IItem)</h4>
+  <div class="markdown level1 summary"><p>Determines if the current item can be merged with the <code data-dev-comment-type="paramref" class="paramref">sourceItem</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool CanMergeWith(IItem sourceItem)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html">IItem</a></td>
+        <td><span class="parametername">sourceItem</span></td>
+        <td><p>Item to check if merging would work with the current item.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>true if the merge process would succeed and is different from the current instance, false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">sourceItem</code> is null.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Micky5991_Inventory_Entities_Item_Item_CanMergeWith_Micky5991_Inventory_Interfaces_IItem__seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_MergeItem_Micky5991_Inventory_Interfaces_IItem_">MergeItem</a>(<a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html">IItem</a>)</div>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_IncreaseAmount_System_Int32_.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.IncreaseAmount(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L109">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_IncreaseAmount_" data-uid="Micky5991.Inventory.Entities.Item.Item.IncreaseAmount*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_IncreaseAmount_System_Int32_" data-uid="Micky5991.Inventory.Entities.Item.Item.IncreaseAmount(System.Int32)">IncreaseAmount(Int32)</h4>
+  <div class="markdown level1 summary"><p>Increases the total <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_Amount">Amount</a> by <code data-dev-comment-type="paramref" class="paramref">amountIncrease</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void IncreaseAmount(int amountIncrease)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">amountIncrease</span></td>
+        <td><p>Value to increase the total <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_Amount">Amount</a> by.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentOutOfRangeException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">amountIncrease</code> is 0 or lower.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Micky5991.Inventory.Exceptions.ItemNotStackableException.html">ItemNotStackableException</a></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">amountIncrease</code> is too high for a non-stackable item.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_Initialize.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.Initialize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L64">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_Initialize_" data-uid="Micky5991.Inventory.Entities.Item.Item.Initialize*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_Initialize" data-uid="Micky5991.Inventory.Entities.Item.Item.Initialize">Initialize()</h4>
+  <div class="markdown level1 summary"><p>Setups the item right after its creation for any handling that is not possible in a virtual constructor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Initialize()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_MergeItem_Micky5991_Inventory_Interfaces_IItem_.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.MergeItem(Micky5991.Inventory.Interfaces.IItem)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L177">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_MergeItem_" data-uid="Micky5991.Inventory.Entities.Item.Item.MergeItem*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_MergeItem_Micky5991_Inventory_Interfaces_IItem_" data-uid="Micky5991.Inventory.Entities.Item.Item.MergeItem(Micky5991.Inventory.Interfaces.IItem)">MergeItem(IItem)</h4>
+  <div class="markdown level1 summary"><p>Actual implementation of the item merging process.</p>
+<p>This merges the source item onto the current instance, so the given <code data-dev-comment-type="paramref" class="paramref">sourceItem</code> will be disposed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void MergeItem(IItem sourceItem)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html">IItem</a></td>
+        <td><span class="parametername">sourceItem</span></td>
+        <td><p>Item to merge into this.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">sourceItem</code> is null.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">sourceItem</code> is already this instance, <code data-dev-comment-type="paramref" class="paramref">sourceItem</code> is not mergable with this item.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Micky5991_Inventory_Entities_Item_Item_MergeItem_Micky5991_Inventory_Interfaces_IItem__seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_CanMergeWith_Micky5991_Inventory_Interfaces_IItem_">CanMergeWith</a>(<a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html">IItem</a>)</div>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_OnPropertyChanged_System_String_.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.OnPropertyChanged(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.PropertyChanging.cs/#L19">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_OnPropertyChanged_" data-uid="Micky5991.Inventory.Entities.Item.Item.OnPropertyChanged*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_OnPropertyChanged_System_String_" data-uid="Micky5991.Inventory.Entities.Item.Item.OnPropertyChanged(System.String)">OnPropertyChanged(String)</h4>
+  <div class="markdown level1 summary"><p>Invocator for the interface <span class="xref">System.ComponentModel.INotifyPropertyChanged</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[NotifyPropertyChangedInvocator]
+protected virtual void OnPropertyChanged(string propertyName = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">propertyName</span></td>
+        <td><p>Name of the property that called this method.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_ReduceAmount_System_Int32_.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.ReduceAmount(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L120">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_ReduceAmount_" data-uid="Micky5991.Inventory.Entities.Item.Item.ReduceAmount*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_ReduceAmount_System_Int32_" data-uid="Micky5991.Inventory.Entities.Item.Item.ReduceAmount(System.Int32)">ReduceAmount(Int32)</h4>
+  <div class="markdown level1 summary"><p>Reduces the total <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_Amount">Amount</a> by <code data-dev-comment-type="paramref" class="paramref">amountReduce</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ReduceAmount(int amountReduce)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">amountReduce</span></td>
+        <td><p>Value tu reduce the total <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_Amount">Amount</a> by.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentOutOfRangeException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">amountReduce</code> is higher than <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_Amount">Amount</a> or 0 or lower.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_SetAmount_System_Int32_.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.SetAmount(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L78">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_SetAmount_" data-uid="Micky5991.Inventory.Entities.Item.Item.SetAmount*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_SetAmount_System_Int32_" data-uid="Micky5991.Inventory.Entities.Item.Item.SetAmount(System.Int32)">SetAmount(Int32)</h4>
+  <div class="markdown level1 summary"><p>Updates the current count of items in this instance to the specified <code data-dev-comment-type="paramref" class="paramref">newAmount</code>.</p>
+<p>This will change <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_TotalWeight">TotalWeight</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetAmount(int newAmount)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">newAmount</span></td>
+        <td><p>Updated amount of items this stack should represent.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentOutOfRangeException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">newAmount</code> is too low.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Micky5991.Inventory.Exceptions.ItemNotStackableException.html">ItemNotStackableException</a></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">newAmount</code> is too high for a non-stackable item.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Micky5991_Inventory_Entities_Item_Item_SetAmount_System_Int32__seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_TotalWeight">TotalWeight</a></div>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_SetCurrentInventory_Micky5991_Inventory_Interfaces_IInventory_.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.SetCurrentInventory(Micky5991.Inventory.Interfaces.IInventory)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L72">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_SetCurrentInventory_" data-uid="Micky5991.Inventory.Entities.Item.Item.SetCurrentInventory*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_SetCurrentInventory_Micky5991_Inventory_Interfaces_IInventory_" data-uid="Micky5991.Inventory.Entities.Item.Item.SetCurrentInventory(Micky5991.Inventory.Interfaces.IInventory)">SetCurrentInventory(IInventory)</h4>
+  <div class="markdown level1 summary"><p>/!\ INTERNAL /!<br>
+This methods updates the value of <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_CurrentInventory">CurrentInventory</a> to the current inventory.</p>
+<p>Use <a class="xref" href="Micky5991.Inventory.Interfaces.IInventory.html">IInventory</a> to set the item to the correct instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetCurrentInventory(IInventory inventory)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Micky5991.Inventory.Interfaces.IInventory.html">IInventory</a></td>
+        <td><span class="parametername">inventory</span></td>
+        <td><p>Value to set the property <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_CurrentInventory">CurrentInventory</a> to.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_SetDisplayName_System_String_.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.SetDisplayName(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L155">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_SetDisplayName_" data-uid="Micky5991.Inventory.Entities.Item.Item.SetDisplayName*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_SetDisplayName_System_String_" data-uid="Micky5991.Inventory.Entities.Item.Item.SetDisplayName(System.String)">SetDisplayName(String)</h4>
+  <div class="markdown level1 summary"><p>Sets the current displayname of this item to the given <code data-dev-comment-type="paramref" class="paramref">displayName</code>.</p>
+<p>This method updates <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_DisplayName">DisplayName</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetDisplayName(string newName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">newName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">displayName</code> is null, empty or whitespace.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Micky5991_Inventory_Entities_Item_Item_SetDisplayName_System_String__seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_DefaultDisplayName">DefaultDisplayName</a></div>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_SetSingleWeight_System_Int32_.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.SetSingleWeight(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L136">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_SetSingleWeight_" data-uid="Micky5991.Inventory.Entities.Item.Item.SetSingleWeight*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_SetSingleWeight_System_Int32_" data-uid="Micky5991.Inventory.Entities.Item.Item.SetSingleWeight(System.Int32)">SetSingleWeight(Int32)</h4>
+  <div class="markdown level1 summary"><p>Sets the single amount weight of this item.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetSingleWeight(int weight)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">weight</span></td>
+        <td><p>New value to set this item to.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentOutOfRangeException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">weight</code> is 0 or lower.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_SetupItem.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.SetupItem%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L217">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_SetupItem_" data-uid="Micky5991.Inventory.Entities.Item.Item.SetupItem*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_SetupItem" data-uid="Micky5991.Inventory.Entities.Item.Item.SetupItem">SetupItem()</h4>
+  <div class="markdown level1 summary"><p>Method that initializes actual item data and settings before first usage.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void SetupItem()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_SetupStrategies.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.SetupStrategies%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L225">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_SetupStrategies_" data-uid="Micky5991.Inventory.Entities.Item.Item.SetupStrategies*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_SetupStrategies" data-uid="Micky5991.Inventory.Entities.Item.Item.SetupStrategies">SetupStrategies()</h4>
+  <div class="markdown level1 summary"><p>Initializer to setup <a class="xref" href="Micky5991.Inventory.Entities.Item.Item.html#Micky5991_Inventory_Entities_Item_Item_ItemMergeStrategyHandler">ItemMergeStrategyHandler</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void SetupStrategies()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_SplitItem_System_Int32_.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.SplitItem(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.cs/#L193">View Source</a>
+  </span>
+  <a id="Micky5991_Inventory_Entities_Item_Item_SplitItem_" data-uid="Micky5991.Inventory.Entities.Item.Item.SplitItem*"></a>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_SplitItem_System_Int32_" data-uid="Micky5991.Inventory.Entities.Item.Item.SplitItem(System.Int32)">SplitItem(Int32)</h4>
+  <div class="markdown level1 summary"><p>Splits the current item into two items and returns the created one.</p>
+<p>The current amount of this item will be deducted by <code data-dev-comment-type="paramref" class="paramref">targetAmount</code>.
+To specify how to split the item, a <a class="xref" href="Micky5991.Inventory.Interfaces.IItemSplitStrategy.html">IItemSplitStrategy</a> can be specified in <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_Initialize">Initialize()</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IItem SplitItem(int targetAmount)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">targetAmount</span></td>
+        <td><p>Amount of created item.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html">IItem</a></td>
+        <td><p>Newly created item.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentOutOfRangeException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">targetAmount</code> is 0 or lower or equal or higher than <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html#Micky5991_Inventory_Interfaces_IItem_Amount">Amount</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="events">Events
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_Initialized.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.Initialized%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.Events.cs/#L14">View Source</a>
+  </span>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_Initialized" data-uid="Micky5991.Inventory.Entities.Item.Item.Initialized">Initialized</h4>
+  <div class="markdown level1 summary"><p>Event that triggers after item has been initialized for the first time.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;ItemInitializedEventArgs&gt; Initialized</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="Micky5991.Inventory.EventArgs.ItemInitializedEventArgs.html">ItemInitializedEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item_PropertyChanged.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item.PropertyChanged%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.PropertyChanging.cs/#L13">View Source</a>
+  </span>
+  <h4 id="Micky5991_Inventory_Entities_Item_Item_PropertyChanged" data-uid="Micky5991.Inventory.Entities.Item.Item.PropertyChanged">PropertyChanged</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event PropertyChangedEventHandler PropertyChanged</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ComponentModel.PropertyChangedEventHandler</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Micky5991.Inventory.Interfaces.IItem.html">IItem</a>
+  </div>
+  <div>
+      <span class="xref">System.ComponentModel.INotifyPropertyChanged</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Micky5991/Inventory/new/master/apiSpec/new?filename=Micky5991_Inventory_Entities_Item_Item.md&amp;value=---%0Auid%3A%20Micky5991.Inventory.Entities.Item.Item%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/Micky5991/Inventory/blob/6236396d88c466c03199729dcc78f5310c2dbd29/Inventory/Entities/Item/Item.PropertyChanging.cs/#L10" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

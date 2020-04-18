@@ -1,0 +1,899 @@
+{
+  "homepages": [],
+  "source_base_path": "D:/a/Inventory/Inventory/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      },
+      "is_incremental": false
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.AggregatedServices.AggregatedInventoryServices.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.AggregatedServices.AggregatedInventoryServices.html",
+          "hash": "jbQuuvnzNY1mxZl/k1dLcQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.AggregatedServices.AggregatedItemServices.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.AggregatedServices.AggregatedItemServices.html",
+          "hash": "VTkaRqZBLTzGPoqsBfYOVw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.AggregatedServices.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.AggregatedServices.html",
+          "hash": "62+8sBALUYiNxPNlFBe2Mw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.BaseItemRegistry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.BaseItemRegistry.html",
+          "hash": "YfUi3yRNHpn7KtNFkqgxaA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Data.IncomingItemActionData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Data.IncomingItemActionData.html",
+          "hash": "d8/s9TgNUHDwYOPz4nH2aA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Data.ItemActionData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Data.ItemActionData.html",
+          "hash": "lQe9kKj+4JJWOIEBULBLEg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Data.OutgoingItemActionData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Data.OutgoingItemActionData.html",
+          "hash": "X1K/aK/RIBt5LJG9/V4aAQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Data.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Data.html",
+          "hash": "L2z3YVOhDxRVCaUazYD7bg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Actions.ItemActionBase-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Actions.ItemActionBase-2.html",
+          "hash": "assh5gP9o6qeJ4yjhA7YQg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Actions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Actions.html",
+          "hash": "QpNoxuQT9M+3QjNjvHED8Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Factories.InventoryFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Factories.InventoryFactory.html",
+          "hash": "7+P3TmuBBYPkVrKmSK2HKA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Factories.ItemFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Factories.ItemFactory.html",
+          "hash": "xWF1zd+gCxqmDnwa89WSzg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Factories.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Factories.html",
+          "hash": "9RJSIEhUdmRNrQFXurxPrw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Inventory.Inventory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Inventory.Inventory.html",
+          "hash": "2xmUq1sov9unF3opbsO61Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Inventory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Inventory.html",
+          "hash": "jMcqBAJp61u0qXBN1z5YIQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Item.ActionableItem-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Item.ActionableItem-2.html",
+          "hash": "YXhZk1TOF1FH3N/xyJYbgw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Item.Item.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Item.Item.html",
+          "hash": "BE82OVwJNuzBGc9DzdwcLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Item.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Item.html",
+          "hash": "4dvJDbCSD+b34QeDCPjhjw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Strategies.BasicItemMergeStrategy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Strategies.BasicItemMergeStrategy.html",
+          "hash": "XAU5MAHoO2kBLAxpAK+Zrw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Strategies.ItemMergeStrategyHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Strategies.ItemMergeStrategyHandler.html",
+          "hash": "wAf3nI7Oo1rUsLYOgqUYlg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Strategies.ItemSplitStrategyHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Strategies.ItemSplitStrategyHandler.html",
+          "hash": "agh2XuPcknTAWwRAcS1BbA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Strategies.StrategyHandler-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Strategies.StrategyHandler-1.html",
+          "hash": "lJdUa1XcoGsUCTQorMEKyQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Entities.Strategies.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Entities.Strategies.html",
+          "hash": "HJW/zAny/B8ytLNc0tyhdA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Enums.ItemFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Enums.ItemFlags.html",
+          "hash": "S+GGxpmUM+h+i2d+U46J8A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Enums.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Enums.html",
+          "hash": "VSKsglHqtwlJuZm12doAzQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.EventArgs.ItemInitializedEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.EventArgs.ItemInitializedEventArgs.html",
+          "hash": "8E3765zdOtDBS9Fsl+jWlQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.EventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.EventArgs.html",
+          "hash": "rFyu4K9CwlCU01o5igY2pQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Exceptions.InvalidActionException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Exceptions.InvalidActionException.html",
+          "hash": "5fEjVbApGxQQ2HLuOpNNRQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Exceptions.InvalidItemRegistryException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Exceptions.InvalidItemRegistryException.html",
+          "hash": "C1zvASOtal8qZam9O1DqHA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Exceptions.InventoryCapacityException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Exceptions.InventoryCapacityException.html",
+          "hash": "98DeGbhvFJPcFvR6OdrBSA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Exceptions.ItemActionNotFoundException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Exceptions.ItemActionNotFoundException.html",
+          "hash": "L5xIHappqXmjm0MUMwD15A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Exceptions.ItemMetaNotFoundException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Exceptions.ItemMetaNotFoundException.html",
+          "hash": "igzTFgac1LLy6qSCTPKw8Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Exceptions.ItemNotAllowedException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Exceptions.ItemNotAllowedException.html",
+          "hash": "IPRx6SXgXogjlqlV1MlBwQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Exceptions.ItemNotMovableException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Exceptions.ItemNotMovableException.html",
+          "hash": "33XsJbhIhRaz6+dyC/R+zA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Exceptions.ItemNotStackableException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Exceptions.ItemNotStackableException.html",
+          "hash": "JRtxGyxPb5sWMx58wSt+Sw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Exceptions.html",
+          "hash": "8OJU8S4HVz0v4E+YjQ4u/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Extensions.InventoryDependencyExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Extensions.InventoryDependencyExtensions.html",
+          "hash": "46A2+DG+f+BGMYO4yF/rjw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Extensions.html",
+          "hash": "SUVAuMgPocnIcE1uHLN1pw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IActionableItem-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IActionableItem-2.html",
+          "hash": "6fbvqDBd+tsRPqoGc8cxMw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IInventory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IInventory.html",
+          "hash": "r5FrbOYRLj57lhfY2LZ3Sg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IInventoryFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IInventoryFactory.html",
+          "hash": "t1GjhYm+Sa2N/tG8FQSbwQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IItem.html",
+          "hash": "vYk8YJamee+AhC2Hq2dsBQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IItemAction-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IItemAction-2.html",
+          "hash": "mZVOcxghmcOAJH0vQyPbkg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IItemFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IItemFactory.html",
+          "hash": "NK6jZ5inI4MLhCdQcDLEAQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IItemMergeStrategy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IItemMergeStrategy.html",
+          "hash": "LiPqE9wTtplUsR/aNdu1mw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IItemMergeStrategyHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IItemMergeStrategyHandler.html",
+          "hash": "7YkkriKFlDF/Kfe9BAvt+g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IItemRegistry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IItemRegistry.html",
+          "hash": "FcwKfw49UWjE74Rw4vI14g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IItemSplitStrategy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IItemSplitStrategy.html",
+          "hash": "5GgRtkfQwIl4/myCVCkzLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IItemSplitStrategyHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IItemSplitStrategyHandler.html",
+          "hash": "m9kJEtoonteXMnC43lk+VQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IStrategy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IStrategy.html",
+          "hash": "5XRl+Ez1PXU87bKk4iZFCA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.IStrategyHandler-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.IStrategyHandler-1.html",
+          "hash": "flxJxS0K/JhkLfOKlaTYPw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.Interfaces.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.Interfaces.html",
+          "hash": "9FbhjIFIrN19VLIvYqQqTQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.InventoryDelegates.ActionEnabledDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.InventoryDelegates.ActionEnabledDelegate.html",
+          "hash": "UlisWCRJV1wWgeJuNnV8YQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.InventoryDelegates.ActionVisibleDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.InventoryDelegates.ActionVisibleDelegate.html",
+          "hash": "1NyUfTXe3553lSDzlwGcgg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.InventoryDelegates.ItemFilterDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.InventoryDelegates.ItemFilterDelegate.html",
+          "hash": "06KJ/A2N5qeqOvqI9Es7kw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.InventoryDelegates.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.InventoryDelegates.html",
+          "hash": "NS8vGkTZT0caOnBeL0Ezlw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.ItemMeta.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.ItemMeta.html",
+          "hash": "JJakz7HGecrg6/HgZ+ywMQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Micky5991.Inventory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Micky5991.Inventory.html",
+          "hash": "O0cXScRaWxfV7PqabWqZUQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "X7wT+0+CBLtxuD7OEGNjrw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "HY3bMFatZHJFqSTozzKfdg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "documentation/Actions.md",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/Actions.html",
+          "hash": "MRwrv41X4VtQs9wd0TweBQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "documentation/Custom-Setup.md",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/Custom-Setup.html",
+          "hash": "QTDBj/dmrHHw22SAxOe4lA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "documentation/Installation.md",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/Installation.html",
+          "hash": "ryfKNlpl9m9dwp4Vnt/LSQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "documentation/Inventory.md",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/Inventory.html",
+          "hash": "sbGeZq/sWzeKZD9f76Hr8A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "documentation/Item.md",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/Item.html",
+          "hash": "HSqaxAHNyOqdiTPJ9t0BPQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "documentation/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/index.html",
+          "hash": "LCs9FNLn45eFle4mADk+YQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "documentation/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/toc.html",
+          "hash": "byCFz+/yFTv7Hbj8jUStFQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "jg1Fw+6qYljnU7o2WxURLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "kTaSiMxcuM5/RKp69GWQ2w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 8,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 58,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: should not trace intermediate info.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
