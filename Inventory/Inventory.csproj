@@ -10,6 +10,7 @@
         <PackageId>Micky5991.Inventory</PackageId>
         <Title>General purpose inventory framework </Title>
         <Copyright>2020 Micky5991</Copyright>
+        <Description>General purpose inventory framework</Description>
         <PackageProjectUrl>https://github.com/Micky5991/Inventory</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/Micky5991/Inventory</RepositoryUrl>
