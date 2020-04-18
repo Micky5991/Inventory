@@ -70,6 +70,8 @@ jobs:
               uses: JamesIves/github-pages-deploy-action@releases/v3
               with:
                   SSH: true
+                  BASE_BRANCH: master
                   BRANCH: gh-pages
                   FOLDER: "site"
                   CLEAN: true
+                  SINGLE_COMMIT: true
