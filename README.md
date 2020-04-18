@@ -8,7 +8,7 @@ It also features a framework for context actions on certain stacks of items.
 
 ## Installation
 
-This library targets .NET Standard 2.0 and is available over NuGet.
+This library targets .NET Standard 2.0 and is available over [NuGet](https://www.nuget.org/packages/Micky5991.Inventory).
 
 ```
 PM> Install-Package Micky5991.Inventory
