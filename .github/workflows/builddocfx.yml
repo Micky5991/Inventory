@@ -3,7 +3,6 @@ name: Build DocFX
 on:
     push:
         branches:
-            - 'develop'
             - 'test-actions'
         tags:
             - '*.*.*'
