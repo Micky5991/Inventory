@@ -2,7 +2,7 @@
 
 ![Build status](https://github.com/Micky5991/Inventory/workflows/.NET%20Core/badge.svg?branch=master)
 
-This library offers an framework to create virtual storage in games or other places where inventories are useful.
+This library offers a framework to create virtual storage in games or other places where inventories are useful.
 The concept based upon a virtual player-inventory that is similar to the [slot-based inventory of Minecraft](https://minecraft.gamepedia.com/Inventory).
 It also features a framework for context actions on certain stacks of items.
 
