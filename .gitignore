@@ -4,5 +4,6 @@ obj/
 .idea/
 .vs/
 docs/api/*
+docs/dist/*
 docs/docs_built/
 !docs/api/index.md

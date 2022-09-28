@@ -1,15 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <AssemblyName>Micky5991.Inventory</AssemblyName>
         <RootNamespace>Micky5991.Inventory</RootNamespace>
-        <LangVersion>8</LangVersion>
+        <LangVersion>10</LangVersion>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageId>Micky5991.Inventory</PackageId>
         <Title>General purpose inventory framework </Title>
         <Copyright>2020 Micky5991</Copyright>
+        <Authors>Micky5991</Authors>
+        <Description>General purpose inventory framework</Description>
         <PackageProjectUrl>https://github.com/Micky5991/Inventory</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/Micky5991/Inventory</RepositoryUrl>
@@ -23,8 +25,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" PrivateAssets="All" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.3" />
+      <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" PrivateAssets="All" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[3.1.0, 6.1.0)" />
       <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
     </ItemGroup>
 

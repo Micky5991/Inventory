@@ -25,12 +25,14 @@ jobs:
         os: [ macos-latest, windows-latest, ubuntu-latest ]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - name: Setup .NET versions
+      uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 3.1.201
+        dotnet-version: |
+            3.1.x
+            6.0.x
 
     - name: Set general reference
       id: vars
@@ -55,10 +57,6 @@ jobs:
 
     - name: Test
       run: dotnet test --verbosity normal
-
-    - name: Run Mutation Tests
-      working-directory: ./Inventory.Tests/
-      run: dotnet stryker
 
     - name: Save NuGet artifact
       if: success() && steps.vars.outputs.is_tag == 'true' && matrix.os == 'ubuntu-latest'

@@ -13,22 +13,24 @@ jobs:
         runs-on: windows-latest
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
 
-            - name: Setup .NET Core
-              uses: actions/setup-dotnet@v1
+            - name: Setup .NET versions
+              uses: actions/setup-dotnet@v2
               with:
-                  dotnet-version: 3.1.201
+                  dotnet-version: |
+                      3.1.x
+                      6.0.x
 
             - name: Clone dark theme
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
               with:
                   repository: steffen-wilke/darkfx
                   persist-credentials: false
                   path: docs/templates/darkfx
 
             - name: Install docfx
-              uses: crazy-max/ghaction-chocolatey@v1
+              uses: crazy-max/ghaction-chocolatey@v2
               with:
                   args: install docfx
 
@@ -40,7 +42,7 @@ jobs:
                   docfx docs/docfx.json -t default,templates/darkfx/darkfx
 
             - name: Upload artifact
-              uses: actions/upload-artifact@v1
+              uses: actions/upload-artifact@v3
               with:
                   name: site
                   path: docs/dist/
@@ -52,26 +54,26 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
               with:
                   persist-credentials: false
 
             - name: Download Artifacts
-              uses: actions/download-artifact@v1
+              uses: actions/download-artifact@v3
               with:
                   name: site
 
             - name: Install SSH Client
-              uses: webfactory/ssh-agent@v0.2.0
+              uses: webfactory/ssh-agent@v0.5.4
               with:
                   ssh-private-key: ${{ secrets.DEPLOY_KEY_WRITE }}
 
             - name: Deploy to GitHub pages
-              uses: JamesIves/github-pages-deploy-action@releases/v3
+              uses: JamesIves/github-pages-deploy-action@releases/v4
               with:
-                  SSH: true
-                  BASE_BRANCH: master
-                  BRANCH: gh-pages
-                  FOLDER: "site"
-                  CLEAN: true
-                  SINGLE_COMMIT: true
+                  ssh-key: true
+                  branch: gh-pages
+                  base-branch: master
+                  folder: "site"
+                  clean: true
+                  single-commit: true
