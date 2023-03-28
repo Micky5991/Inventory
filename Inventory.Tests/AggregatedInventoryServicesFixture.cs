@@ -23,7 +23,7 @@ namespace Micky5991.Inventory.Tests
         [TestMethod]
         public void CreatingAggregatedInventoryServiceSetsRightNullValues()
         {
-            var service = new AggregatedInventoryServices(null);
+            var service = new AggregatedInventoryServices(null!);
 
             service.ItemRegistry.Should().BeNull();
         }

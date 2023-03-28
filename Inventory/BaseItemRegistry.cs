@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommunityToolkit.Diagnostics;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
@@ -25,10 +26,7 @@ namespace Micky5991.Inventory
         /// <inheritdoc />
         public bool TryGetItemMeta(string handle, out ItemMeta? meta)
         {
-            if (string.IsNullOrWhiteSpace(handle))
-            {
-                throw new ArgumentNullException(nameof(handle));
-            }
+            Guard.IsNotNullOrWhiteSpace(handle);
 
             this.ValidateAndCacheItemMeta();
 
@@ -78,15 +76,8 @@ namespace Micky5991.Inventory
         protected ItemMeta CreateItemMeta<T>(string itemHandle, string displayName, int defaultWeight = 1, ItemFlags flags = ItemFlags.None)
             where T : IItem
         {
-            if (string.IsNullOrWhiteSpace(itemHandle))
-            {
-                throw new ArgumentNullException(nameof(itemHandle));
-            }
-
-            if (string.IsNullOrWhiteSpace(displayName))
-            {
-                throw new ArgumentNullException(nameof(displayName));
-            }
+            Guard.IsNotNullOrWhiteSpace(itemHandle);
+            Guard.IsNotNullOrWhiteSpace(displayName);
 
             return new ItemMeta(itemHandle, typeof(T), displayName, defaultWeight, flags);
         }

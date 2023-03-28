@@ -1,4 +1,5 @@
 using System;
+using CommunityToolkit.Diagnostics;
 using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.Data
@@ -14,10 +15,7 @@ namespace Micky5991.Inventory.Data
         /// <param name="actionRuntimeId">Guid of the related <see cref="IItemAction{TOut,TIn}"/> instance.</param>
         protected ItemActionData(Guid actionRuntimeId)
         {
-            if (actionRuntimeId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(actionRuntimeId));
-            }
+            Guard.IsNotEqualTo(actionRuntimeId, Guid.Empty);
 
             this.ActionRuntimeId = actionRuntimeId;
         }

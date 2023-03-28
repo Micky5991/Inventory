@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using CommunityToolkit.Diagnostics;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Data;
 using Micky5991.Inventory.Exceptions;
@@ -33,10 +34,7 @@ namespace Micky5991.Inventory.Entities.Item
         /// <inheritdoc />
         public void ExecuteAction(object? executor, TIn data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException(nameof(data));
-            }
+            Guard.IsNotNull(data);
 
             if (this.actions.TryGetValue(data.ActionRuntimeId, out var action) == false)
             {

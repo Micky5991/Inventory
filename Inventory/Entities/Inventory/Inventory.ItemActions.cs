@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommunityToolkit.Diagnostics;
 using JetBrains.Annotations;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
@@ -15,10 +16,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc />
         public bool InsertItem(IItem item, bool force)
         {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
+            Guard.IsNotNull(item);
 
             if (force == false)
             {
@@ -71,10 +69,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc />
         public bool RemoveItem([NotNull] IItem item)
         {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
+            Guard.IsNotNull(item);
 
             if (item.MovingLocked)
             {
@@ -102,10 +97,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc />
         public ICollection<IItem> GetInsertableItems(IInventory targetInventory, bool checkCapacity, bool checkFilter, bool checkMovable)
         {
-            if (targetInventory == null)
-            {
-                throw new ArgumentNullException(nameof(targetInventory));
-            }
+            Guard.IsNotNull(targetInventory);
 
             bool CapacityFilter(IItem item)
             {

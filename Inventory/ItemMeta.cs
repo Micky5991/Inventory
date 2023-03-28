@@ -1,4 +1,5 @@
 using System;
+using CommunityToolkit.Diagnostics;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Interfaces;
 
@@ -22,29 +23,14 @@ namespace Micky5991.Inventory
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="defaultWeight"/> is 0 or lower.</exception>
         public ItemMeta(string handle, Type type, string displayName, int defaultWeight, ItemFlags flags = ItemFlags.None)
         {
-            if (string.IsNullOrWhiteSpace(handle))
-            {
-                throw new ArgumentNullException(nameof(handle));
-            }
-
-            if (string.IsNullOrWhiteSpace(displayName))
-            {
-                throw new ArgumentNullException(nameof(displayName));
-            }
-
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
+            Guard.IsNotNullOrEmpty(handle);
+            Guard.IsNotNullOrEmpty(displayName);
+            Guard.IsNotNull(type);
+            Guard.IsGreaterThan(defaultWeight, 0);
 
             if (typeof(IItem).IsAssignableFrom(type) == false)
             {
-                throw new ArgumentException($"The given item type does not implement {typeof(IItem)}.", nameof(type));
-            }
-
-            if (defaultWeight <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(defaultWeight), "The given defaultWeight has to be 1 or higher");
+                ThrowHelper.ThrowArgumentException(nameof(type), $"The given item type does not implement {typeof(IItem)}.");
             }
 
             this.Handle = handle;

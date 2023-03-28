@@ -1,4 +1,5 @@
 using System;
+using CommunityToolkit.Diagnostics;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Entities.Strategies;
 using Micky5991.Inventory.Enums;
@@ -20,10 +21,7 @@ namespace Micky5991.Inventory.Entities.Item
         /// <param name="itemServices">Non-NULL instance of <see cref="AggregatedItemServices"/> which are necessary for this <see cref="Item"/>.</param>
         protected Item(ItemMeta meta, AggregatedItemServices itemServices)
         {
-            if (meta == null)
-            {
-                throw new ArgumentNullException(nameof(meta));
-            }
+            Guard.IsNotNull(meta);
 
             this.ItemMergeStrategyHandler = itemServices.ItemMergeStrategyHandler;
             this.ItemSplitStrategyHandler = itemServices.ItemSplitStrategyHandler;
@@ -86,10 +84,7 @@ namespace Micky5991.Inventory.Entities.Item
                 throw new ItemNotStackableException();
             }
 
-            if (newAmount < minAmount)
-            {
-                throw new ArgumentOutOfRangeException(nameof(newAmount), $"Amount should be {minAmount} or higher.");
-            }
+            Guard.IsGreaterThanOrEqualTo(newAmount, minAmount);
 
             if (this.Amount < newAmount && this.CurrentInventory != null)
             {
@@ -108,10 +103,7 @@ namespace Micky5991.Inventory.Entities.Item
         /// <inheritdoc />
         public void IncreaseAmount(int amountIncrease)
         {
-            if (amountIncrease <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(amountIncrease), "Value has to be 1 or higher");
-            }
+            Guard.IsGreaterThanOrEqualTo(amountIncrease, 1);
 
             this.SetAmount(this.Amount + amountIncrease);
         }
@@ -119,15 +111,8 @@ namespace Micky5991.Inventory.Entities.Item
         /// <inheritdoc />
         public void ReduceAmount(int amountReduce)
         {
-            if (amountReduce > this.Amount)
-            {
-                throw new ArgumentOutOfRangeException(nameof(amountReduce), $"Value has to be lower or equal to {this.Amount}");
-            }
-
-            if (amountReduce <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(amountReduce), $"Value has to be 1 or higher.");
-            }
+            Guard.IsGreaterThanOrEqualTo(amountReduce, 1);
+            Guard.IsLessThanOrEqualTo(amountReduce, this.Amount);
 
             this.SetAmount(this.Amount - amountReduce);
         }
@@ -135,10 +120,7 @@ namespace Micky5991.Inventory.Entities.Item
         /// <inheritdoc />
         public void SetSingleWeight(int weight)
         {
-            if (weight <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(weight), "Weight has to be 1 or higher");
-            }
+            Guard.IsGreaterThanOrEqualTo(weight, 1);
 
             var weightDelta = weight - this.SingleWeight;
             var totalDelta = weightDelta * this.Amount;
@@ -154,10 +136,7 @@ namespace Micky5991.Inventory.Entities.Item
         /// <inheritdoc />
         public void SetDisplayName(string newName)
         {
-            if (string.IsNullOrWhiteSpace(newName))
-            {
-                throw new ArgumentNullException(nameof(newName));
-            }
+            Guard.IsNotNullOrWhiteSpace(newName);
 
             this.DisplayName = newName;
         }
@@ -165,10 +144,7 @@ namespace Micky5991.Inventory.Entities.Item
         /// <inheritdoc />
         public bool CanMergeWith(IItem sourceItem)
         {
-            if (sourceItem == null)
-            {
-                throw new ArgumentNullException();
-            }
+            Guard.IsNotNull(sourceItem);
 
             return this.ItemMergeStrategyHandler.CanBeMerged(this, sourceItem);
         }
@@ -176,15 +152,8 @@ namespace Micky5991.Inventory.Entities.Item
         /// <inheritdoc />
         public void MergeItem(IItem sourceItem)
         {
-            if (sourceItem == null)
-            {
-                throw new ArgumentNullException(nameof(sourceItem));
-            }
-
-            if (this.ItemMergeStrategyHandler.CanBeMerged(this, sourceItem) == false)
-            {
-                throw new ArgumentException("The item cannot be merged with this instance", nameof(sourceItem));
-            }
+            Guard.IsNotNull(sourceItem);
+            Guard.IsTrue(this.ItemMergeStrategyHandler.CanBeMerged(this, sourceItem) == false, nameof(sourceItem));
 
             this.ItemMergeStrategyHandler.MergeItemWith(this, sourceItem);
         }
@@ -192,15 +161,8 @@ namespace Micky5991.Inventory.Entities.Item
         /// <inheritdoc />
         public IItem SplitItem(int targetAmount)
         {
-            if (targetAmount <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(targetAmount), $"The given {nameof(targetAmount)} has to be 1 or higher");
-            }
-
-            if (targetAmount >= this.Amount)
-            {
-                throw new ArgumentOutOfRangeException(nameof(targetAmount), $"The given {nameof(targetAmount)} has to be {this.Amount - 1} or lower");
-            }
+            Guard.IsGreaterThanOrEqualTo(targetAmount, 1);
+            Guard.IsLessThan(targetAmount, this.Amount);
 
             var item = this.itemFactory.CreateItem(this.Meta, targetAmount);
 

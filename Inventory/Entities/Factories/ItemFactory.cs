@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CommunityToolkit.Diagnostics;
 using Micky5991.Inventory.Enums;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
@@ -20,6 +21,9 @@ namespace Micky5991.Inventory.Entities.Factories
         /// <param name="serviceProvider">Needed serviceprovider reference.</param>
         public ItemFactory(IItemRegistry registry, IServiceProvider serviceProvider)
         {
+            Guard.IsNotNull(registry);
+            Guard.IsNotNull(serviceProvider);
+
             this.registry = registry;
             this.serviceProvider = serviceProvider;
         }
@@ -27,15 +31,8 @@ namespace Micky5991.Inventory.Entities.Factories
         /// <inheritdoc/>
         public IItem? CreateItem(string handle, int amount)
         {
-            if (string.IsNullOrWhiteSpace(handle))
-            {
-                throw new ArgumentNullException(nameof(handle));
-            }
-
-            if (amount <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(amount), "Item amount has to be 1 or higher");
-            }
+            Guard.IsNotNullOrWhiteSpace(handle);
+            Guard.IsGreaterThanOrEqualTo(amount, 1);
 
             if (this.registry.TryGetItemMeta(handle, out var meta) == false)
             {
@@ -53,10 +50,7 @@ namespace Micky5991.Inventory.Entities.Factories
         /// <inheritdoc/>
         public ICollection<IItem>? CreateItems(string handle, int amount)
         {
-            if (string.IsNullOrWhiteSpace(handle))
-            {
-                throw new ArgumentNullException(nameof(handle));
-            }
+            Guard.IsNotNullOrWhiteSpace(handle);
 
             if (this.registry.TryGetItemMeta(handle, out var meta) == false)
             {
@@ -69,15 +63,8 @@ namespace Micky5991.Inventory.Entities.Factories
         /// <inheritdoc/>
         public IItem CreateItem(ItemMeta meta, int amount)
         {
-            if (meta == null)
-            {
-                throw new ArgumentNullException(nameof(meta));
-            }
-
-            if (amount <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(amount), "Item amount has to be 1 or higher");
-            }
+            Guard.IsNotNull(meta);
+            Guard.IsGreaterThanOrEqualTo(amount, 1);
 
             if ((meta.Flags & ItemFlags.NotStackable) != 0 && amount > 1)
             {
@@ -90,10 +77,7 @@ namespace Micky5991.Inventory.Entities.Factories
         /// <inheritdoc/>
         public ICollection<IItem> CreateItems(ItemMeta meta, int amount)
         {
-            if (meta == null)
-            {
-                throw new ArgumentNullException(nameof(meta));
-            }
+            Guard.IsNotNull(meta);
 
             if ((meta.Flags & ItemFlags.NotStackable) == 0)
             {

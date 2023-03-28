@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using CommunityToolkit.Diagnostics;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Entities.Factories;
 using Micky5991.Inventory.Entities.Strategies;
@@ -27,10 +28,7 @@ namespace Micky5991.Inventory.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultInventoryServices(this IServiceCollection serviceCollection)
         {
-            if (serviceCollection == null)
-            {
-                throw new ArgumentNullException(nameof(serviceCollection));
-            }
+            Guard.IsNotNull(serviceCollection);
 
             return serviceCollection
                 .AddDefaultFactories()
@@ -48,10 +46,7 @@ namespace Micky5991.Inventory.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddInventoryServices(this IServiceCollection serviceCollection)
         {
-            if (serviceCollection == null)
-            {
-                throw new ArgumentNullException(nameof(serviceCollection));
-            }
+            Guard.IsNotNull(serviceCollection);
 
             return serviceCollection
                 .AddTransient<AggregatedItemServices>()
@@ -70,10 +65,7 @@ namespace Micky5991.Inventory.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultInventoryStrategies(this IServiceCollection serviceCollection)
         {
-            if (serviceCollection == null)
-            {
-                throw new ArgumentNullException(nameof(serviceCollection));
-            }
+            Guard.IsNotNull(serviceCollection);
 
             return serviceCollection
                 .AddDefaultInventoryMergeStrategy()
@@ -89,10 +81,7 @@ namespace Micky5991.Inventory.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultInventoryMergeStrategy(this IServiceCollection serviceCollection)
         {
-            if (serviceCollection == null)
-            {
-                throw new ArgumentNullException(nameof(serviceCollection));
-            }
+            Guard.IsNotNull(serviceCollection);
 
             return serviceCollection
                 .AddTransient<IItemMergeStrategyHandler, ItemMergeStrategyHandler>();
@@ -107,10 +96,7 @@ namespace Micky5991.Inventory.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultInventorySplitStrategy(this IServiceCollection serviceCollection)
         {
-            if (serviceCollection == null)
-            {
-                throw new ArgumentNullException(nameof(serviceCollection));
-            }
+            Guard.IsNotNull(serviceCollection);
 
             return serviceCollection
                 .AddTransient<IItemSplitStrategyHandler, ItemSplitStrategyHandler>();
@@ -128,10 +114,7 @@ namespace Micky5991.Inventory.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultFactories(this IServiceCollection serviceCollection)
         {
-            if (serviceCollection == null)
-            {
-                throw new ArgumentNullException(nameof(serviceCollection));
-            }
+            Guard.IsNotNull(serviceCollection);
 
             return serviceCollection
                 .AddDefaultInventoryFactory()
@@ -149,10 +132,7 @@ namespace Micky5991.Inventory.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultInventoryFactory(this IServiceCollection serviceCollection)
         {
-            if (serviceCollection == null)
-            {
-                throw new ArgumentNullException(nameof(serviceCollection));
-            }
+            Guard.IsNotNull(serviceCollection);
 
             return serviceCollection
                 .AddTransient<IInventoryFactory, InventoryFactory>();
@@ -169,10 +149,7 @@ namespace Micky5991.Inventory.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="serviceCollection"/> is null.</exception>
         public static IServiceCollection AddDefaultItemFactory(this IServiceCollection serviceCollection)
         {
-            if (serviceCollection == null)
-            {
-                throw new ArgumentNullException(nameof(serviceCollection));
-            }
+            Guard.IsNotNull(serviceCollection);
 
             return serviceCollection
                 .AddTransient<IItemFactory, ItemFactory>();
@@ -188,15 +165,8 @@ namespace Micky5991.Inventory.Extensions
         /// <exception cref="InvalidItemRegistryException"><paramref name="itemRegistry"/> is not valid. See exception for more details.</exception>
         public static IServiceCollection AddItemTypes(this IServiceCollection serviceCollection, IItemRegistry itemRegistry)
         {
-            if (serviceCollection == null)
-            {
-                throw new ArgumentNullException(nameof(serviceCollection));
-            }
-
-            if (itemRegistry == null)
-            {
-                throw new ArgumentNullException(nameof(itemRegistry));
-            }
+            Guard.IsNotNull(serviceCollection);
+            Guard.IsNotNull(itemRegistry);
 
             serviceCollection.AddTransient(x => itemRegistry);
 

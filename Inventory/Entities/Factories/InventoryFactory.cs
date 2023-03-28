@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using CommunityToolkit.Diagnostics;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Interfaces;
 
@@ -18,16 +19,15 @@ namespace Micky5991.Inventory.Entities.Factories
         /// <param name="inventoryServices">Services which are required to run a default <see cref="Inventory"/> instance.</param>
         public InventoryFactory(AggregatedInventoryServices inventoryServices)
         {
+            Guard.IsNotNull(inventoryServices);
+
             this.inventoryServices = inventoryServices;
         }
 
         /// <inheritdoc />
         public IInventory CreateInventory(int capacity)
         {
-            if (capacity < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(capacity));
-            }
+            Guard.IsGreaterThanOrEqualTo(capacity, 0);
 
             return new Entities.Inventory.Inventory(capacity, this.inventoryServices);
         }

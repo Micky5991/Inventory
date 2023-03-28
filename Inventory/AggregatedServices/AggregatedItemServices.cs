@@ -1,3 +1,4 @@
+using CommunityToolkit.Diagnostics;
 using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.AggregatedServices
@@ -18,6 +19,10 @@ namespace Micky5991.Inventory.AggregatedServices
             IItemSplitStrategyHandler itemSplitStrategyHandler,
             IItemFactory itemFactory)
         {
+            Guard.IsNotNull(itemMergeStrategyHandler);
+            Guard.IsNotNull(itemSplitStrategyHandler);
+            Guard.IsNotNull(itemFactory);
+
             this.ItemMergeStrategyHandler = itemMergeStrategyHandler;
             this.ItemSplitStrategyHandler = itemSplitStrategyHandler;
             this.ItemFactory = itemFactory;

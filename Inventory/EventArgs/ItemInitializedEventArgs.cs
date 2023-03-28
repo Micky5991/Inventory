@@ -1,3 +1,4 @@
+using CommunityToolkit.Diagnostics;
 using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.EventArgs
@@ -13,6 +14,8 @@ namespace Micky5991.Inventory.EventArgs
         /// <param name="item">Instance of <see cref="IItem"/> that has been initialized.</param>
         public ItemInitializedEventArgs(IItem item)
         {
+            Guard.IsNotNull(item);
+
             this.Item = item;
         }
 

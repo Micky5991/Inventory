@@ -1,4 +1,5 @@
 using System;
+using CommunityToolkit.Diagnostics;
 using JetBrains.Annotations;
 using Micky5991.Inventory.Data;
 using Micky5991.Inventory.Interfaces;
@@ -47,6 +48,8 @@ namespace Micky5991.Inventory.Entities.Actions
         /// <inheritdoc />
         public void SetRelatedItem(IItem item)
         {
+            Guard.IsNotNull(item);
+
             this.RelatedItem = item;
         }
 

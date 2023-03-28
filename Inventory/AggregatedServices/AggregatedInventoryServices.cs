@@ -1,3 +1,4 @@
+using CommunityToolkit.Diagnostics;
 using Micky5991.Inventory.Interfaces;
 
 namespace Micky5991.Inventory.AggregatedServices
@@ -13,6 +14,8 @@ namespace Micky5991.Inventory.AggregatedServices
         /// <param name="itemRegistry">Non-null instance of <see cref="IItemRegistry"/>.</param>
         public AggregatedInventoryServices(IItemRegistry itemRegistry)
         {
+            Guard.IsNotNull(itemRegistry);
+
             this.ItemRegistry = itemRegistry;
         }
 

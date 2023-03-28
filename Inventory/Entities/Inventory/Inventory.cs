@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using CommunityToolkit.Diagnostics;
 using Micky5991.Inventory.AggregatedServices;
 using Micky5991.Inventory.Exceptions;
 using Micky5991.Inventory.Interfaces;
@@ -25,10 +26,8 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity"/> is too low.</exception>
         public Inventory(int capacity, AggregatedInventoryServices inventoryServices)
         {
-            if (capacity < MinimalInventoryCapacity)
-            {
-                throw new ArgumentOutOfRangeException(nameof(capacity), $"The capacity has to be {MinimalInventoryCapacity} or higher");
-            }
+            Guard.IsNotNull(inventoryServices);
+            Guard.IsGreaterThanOrEqualTo(capacity, MinimalInventoryCapacity);
 
             this.itemRegistry = inventoryServices.ItemRegistry;
 
@@ -42,10 +41,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc/>
         public bool IsItemAllowed(IItem item)
         {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
+            Guard.IsNotNull(item);
 
             if (this.itemFilter == null)
             {
@@ -58,10 +54,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc/>
         public bool DoesItemFit(IItem item)
         {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
+            Guard.IsNotNull(item);
 
             return this.AvailableCapacity >= item.TotalWeight;
         }
@@ -69,10 +62,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc/>
         public bool CanBeInserted(IItem item)
         {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
+            Guard.IsNotNull(item);
 
             return this.DoesItemFit(item) && this.IsItemAllowed(item) && item.MovingLocked == false;
         }
@@ -80,10 +70,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc/>
         public bool DoesItemFit(string handle, int amount = 1)
         {
-            if (string.IsNullOrWhiteSpace(handle))
-            {
-                throw new ArgumentNullException(nameof(handle));
-            }
+            Guard.IsNotNullOrWhiteSpace(handle);
 
             if (this.itemRegistry.TryGetItemMeta(handle, out var meta) == false)
             {
@@ -96,15 +83,8 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc />
         public bool DoesItemFit(ItemMeta meta, int amount = 1)
         {
-            if (meta == null)
-            {
-                throw new ArgumentNullException(nameof(meta));
-            }
-
-            if (amount < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(amount), $"The given {nameof(amount)} has to be 1 or higher");
-            }
+            Guard.IsNotNull(meta);
+            Guard.IsGreaterThanOrEqualTo(amount, 1);
 
             var neededSpace = meta.DefaultWeight * amount;
 
@@ -114,10 +94,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc />
         public bool SetCapacity(int newCapacity)
         {
-            if (newCapacity < MinimalInventoryCapacity)
-            {
-                throw new ArgumentOutOfRangeException(nameof(newCapacity), $"The capacity has to be {MinimalInventoryCapacity} or higher");
-            }
+            Guard.IsGreaterThanOrEqualTo(newCapacity, MinimalInventoryCapacity);
 
             if (this.UsedCapacity > newCapacity)
             {
@@ -132,10 +109,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc/>
         public int GetItemFitAmount(string handle)
         {
-            if (string.IsNullOrWhiteSpace(handle))
-            {
-                throw new ArgumentNullException(nameof(handle));
-            }
+            Guard.IsNotNullOrWhiteSpace(handle);
 
             if (this.itemRegistry.TryGetItemMeta(handle, out var meta) == false)
             {
@@ -148,10 +122,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc/>
         public int GetItemFitAmount(ItemMeta meta)
         {
-            if (meta == null)
-            {
-                throw new ArgumentNullException(nameof(meta));
-            }
+            Guard.IsNotNull(meta);
 
             return this.GetItemFitAmount(meta.DefaultWeight);
         }
@@ -159,10 +130,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc/>
         public int GetItemFitAmount(IItem item)
         {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
+            Guard.IsNotNull(item);
 
             return this.GetItemFitAmount(item.SingleWeight);
         }
@@ -170,10 +138,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc/>
         public int GetItemFitAmount(int itemWeight)
         {
-            if (itemWeight <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(itemWeight), $"{nameof(itemWeight)} has to be 1 or higher");
-            }
+            Guard.IsGreaterThanOrEqualTo(itemWeight, 1);
 
             return Math.DivRem(this.AvailableCapacity, itemWeight, out _);
         }
@@ -181,10 +146,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc/>
         public ICollection<IItem> GetItems(string handle)
         {
-            if (string.IsNullOrWhiteSpace(handle))
-            {
-                throw new ArgumentNullException(nameof(handle));
-            }
+            Guard.IsNotNullOrWhiteSpace(handle);
 
             return new List<IItem>(this.Items.Where(x => x.Handle == handle));
         }
@@ -214,10 +176,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         /// <inheritdoc />
         public IItem? GetItem(Guid runtimeId)
         {
-            if (runtimeId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(runtimeId));
-            }
+            Guard.IsNotEqualTo(runtimeId, Guid.Empty);
 
             if (this.items.TryGetValue(runtimeId, out var item) == false)
             {
@@ -231,10 +190,7 @@ namespace Micky5991.Inventory.Entities.Inventory
         public T? GetItem<T>(Guid runtimeId)
             where T : class, IItem
         {
-            if (runtimeId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(runtimeId));
-            }
+            Guard.IsNotEqualTo(runtimeId, Guid.Empty);
 
             var item = this.GetItem(runtimeId);
 
